@@ -250,6 +250,16 @@ def _define():
         ref = REGISTRY[like]
         add(key, owner=o, color=ref.color, rough=ref.rough, metal=ref.metal, clearcoat=ref.clearcoat, preview=ref.preview,
             preview_tex=ref.preview_tex, write=False)
+    for key, rgb in (("green", (0.05, 0.9, 0.1)), ("amber", (1.0, 0.45, 0.02)), ("red", (1.0, 0.05, 0.03))):
+        add(f"s13_led_{key}", owner=o, color=tuple(c * 0.15 for c in rgb), rough=0.1, clearcoat=1.0)
+        add(f"s13_led_{key}_on", owner=o, color=rgb, rough=0.1, kind="emissive", emissive=rgb, nits=6000)
+    for i, key in enumerate(("green", "green", "amber", "amber", "red")):
+        ref = REGISTRY[f"s13_led_{key}"]
+        add(f"s13_shiftled_{i}", owner=o, color=ref.color, rough=0.1, write=False)
+    add("s13_racetach_face", owner=o, color=(1, 1, 1), base_map=tex(o, "s13_racetach_b.color.png"), rough=0.5,
+        preview_tex="vehicles/s13_240sx/textures/s13_racetach_b.color.png")
+    add("s13_glass_poly", owner=o, kind="glass", color=(0.06, 0.065, 0.07), rough=0.05, metal=0.5, opacity=0.16,
+        preview=(0.06, 0.07, 0.08, 0.2))
     add("s13_tail_garnish", owner=o, color=(0.22, 0.004, 0.004), rough=0.05, clearcoat=1.0,
         normal_map=tex(o, "s13_tail_nm.normal.png"))
 
@@ -321,6 +331,17 @@ def _define():
     add("s1x_steer_suede", color=(0.025, 0.025, 0.025), rough=0.95, detail_normal=BUILTIN["headliner"],
         detail_scale=(70, 70), detail_strength=1.5)
     add("s1x_steer_metal", color=(0.05, 0.05, 0.055), rough=0.25, metal=1.0)
+    add("s1x_cage_grey", color=(0.16, 0.165, 0.17), rough=0.35, metal=0.0, clearcoat=0.4)
+    add("s1x_aluminium_sheet", color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0, detail_normal=tex(o, "s1x_brushed_nm.normal.png"),
+        detail_scale=(8, 8), detail_strength=0.6)
+    add("s1x_polyurethane", color=(0.5, 0.25, 0.02), rough=0.5)
+    add("s1x_chute_red", color=(0.55, 0.02, 0.02), rough=0.8, detail_normal=BUILTIN["headliner"], detail_scale=(60, 60))
+    add("s1x_strap_black", color=(0.01, 0.01, 0.01), rough=0.8, detail_normal=BUILTIN["headliner"], detail_scale=(80, 80))
+    add("s1x_harness_red", color=(0.5, 0.02, 0.02), rough=0.75, detail_normal=BUILTIN["headliner"], detail_scale=(90, 90))
+    add("s1x_seat_fabric", color=(0.02, 0.02, 0.022), rough=0.95, detail_normal=BUILTIN["headliner"], detail_scale=(60, 60),
+        detail_strength=1.4)
+    add("s1x_frp_black", color=(0.015, 0.015, 0.016), rough=0.35, clearcoat=0.5)
+    add("s1x_fire_red", color=(0.6, 0.015, 0.01), rough=0.3, clearcoat=0.8)
     add("s1x_carbon", color=(0.32, 0.32, 0.32), rough=0.09, clearcoat=0.93, cc_rough=0.05,
         detail_map=BUILTIN["carbon_d"], detail_normal=BUILTIN["carbon_n"], detail_scale=(60, 60), detail_strength=0.77,
         preview=(0.03, 0.03, 0.03, 1))

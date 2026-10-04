@@ -184,6 +184,20 @@ class Part:
     def pw(self, *row):
         self.row("pressureWheels", PW_HEADER, list(row))
 
+    def scale_springs(self, factor, sections=("beams", "hydros")):
+        """Scale every numeric beamSpring/beamDamp modifier (and inline row values) in the given sections.
+        Used for lightweight panel variants: same frequency with lighter nodes."""
+        for sec in sections:
+            for row in self._tables.get(sec, []):
+                d = row if isinstance(row, dict) else (row[-1] if isinstance(row, list) and row and isinstance(row[-1], dict) else None)
+                if not d:
+                    continue
+                for k in ("beamSpring", "beamDamp"):
+                    v = d.get(k)
+                    if isinstance(v, (int, float)) and not isinstance(v, bool) and v > 0:
+                        d[k] = int(round(v * factor)) if k == "beamSpring" else round(v * factor, 2)
+        return self
+
     def build(self):
         out = OrderedDict((k, v) for k, v in self.d.items() if not k.startswith("_"))
         # keep a stable, vanilla-like section order

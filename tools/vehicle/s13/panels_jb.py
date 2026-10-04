@@ -47,6 +47,21 @@ def _nodes_lr(p, rows, weight):
             p.node(name + "r", -x, y, z, nodeWeight=weight)
 
 
+def flare_weight(y, z, axle="F"):
+    """0..1 weight of the wide-body flare at (y, z): full around the wheel arch, fading out ~0.25 m beyond it.
+    Shared with the mesh builder so wide fenders and their nodes move together."""
+    from .panel_spec import ARCH_F, ARCH_R, ARCH_RADIUS
+    cy, cz = ARCH_F if axle == "F" else ARCH_R
+    d = math.hypot(y - cy, z - cz)
+    if z < cz - 0.12:
+        return 0.0
+    t = (d - (ARCH_RADIUS + 0.06)) / 0.22
+    t = min(max(t, 0.0), 1.0)
+    w = 1.0 - t * t * (3 - 2 * t)
+    zf = min(max((z - (cz - 0.12)) / 0.10, 0.0), 1.0)
+    return w * zf
+
+
 def _std_beams(p, spring, damp, deform, strength="FLT_MAX"):
     p.beams_props(beamPrecompression=1, beamType="|NORMAL", beamLongBound=1.0, beamShortBound=1.0)
     p.beams_props(beamSpring=spring, beamDamp=damp, beamDeform=deform, beamStrength=strength)
@@ -120,7 +135,11 @@ def hood(name="s13_hood", title="Stock Steel Hood", mesh="s13_hood", value=380, 
 # --------------------------------------------------------------------------
 # pop-up headlight assemblies (hinged at the rear, raised by a hydro)
 # --------------------------------------------------------------------------
-POPUP_ANGLE = 45.0  # degrees of rotation when raised
+from .popup_geom import POPUP_ANGLE, lens_center_closed  # noqa: E402
+
+HEADLIGHT_PROPS = dict(lightInnerAngle=0, lightOuterAngle=110, lightColor={"r": 255, "g": 245, "b": 210, "a": 255},
+                       lightCastShadows=True, flareName="vehicleHeadLightFlare",
+                       cookieName="art/special/BNG_light_cookie_headlight.dds", texSize=512, shadowSoftness=0.5)
 
 
 def _rot_about(p, a, b, ang):
@@ -131,14 +150,17 @@ def _rot_about(p, a, b, ang):
     return a + v * math.cos(ang) + np.cross(k, v) * math.sin(ang) + k * np.dot(k, v) * (1 - math.cos(ang))
 
 
-def popup(side="L", name=None, mesh_lid="s13_popup_lid", mesh_lamp="s13_popup_lamp"):
+def popup(side="L", name=None, mesh_lid="s13_popup_lid", mesh_lamp="s13_popup_lamp", fixed=False,
+          title="Pop-up Headlight", value=260, mass=6.0):
+    """Pop-up headlamp unit; fixed=True gives the 'pop-up delete' (lid bolted shut, LED projectors in the bumper)."""
     s = 1 if side == "L" else -1
     sl = side.lower()
     name = name or f"s13_popup_{side}"
-    p = Part(name, f"Pop-up Headlight ({'Left' if side == 'L' else 'Right'})", f"s13_popup_{side}", value=260)
+    p = Part(name, f"{title} ({'Left' if side == 'L' else 'Right'})", f"s13_popup_{side}", value=value)
     grp = f"s13_popup_{side}"
     p.flexbody(f"{mesh_lid}_{side}", [grp])
-    p.flexbody(f"{mesh_lamp}_{side}", [grp])
+    if mesh_lamp:
+        p.flexbody(f"{mesh_lamp}_{side}", [grp])
     y_h, y_f = -1.875, -2.080
     x_i, x_o = 0.395, 0.675
     h1 = (s * x_i, y_h, tz(y_h, x_i, 0.006))
@@ -149,7 +171,7 @@ def popup(side="L", name=None, mesh_lid="s13_popup_lid", mesh_lamp="s13_popup_la
     b2 = (s * x_o, -2.010, f2[2] - 0.105)
     p.nodes_props(group=grp, **PANEL_NODE)
     for nm, q in (("puh1", h1), ("puh2", h2), ("puf1", f1), ("puf2", f2), ("pub1", b1), ("pub2", b2)):
-        p.node(nm + sl, *q, nodeWeight=1.0)
+        p.node(nm + sl, *q, nodeWeight=round(mass / 6, 3))
     p.nodes_props(group="")
     n = lambda k: k + sl  # noqa: E731
     ring = [n("puh1"), n("puh2"), n("puf2"), n("puf1")]
@@ -185,32 +207,46 @@ def popup(side="L", name=None, mesh_lid="s13_popup_lid", mesh_lamp="s13_popup_la
         b1_open = _rot_about(b1, h1, h2, ang if s > 0 else -ang)
     L0 = np.linalg.norm(np.asarray(b1) - act_body)
     L1 = np.linalg.norm(b1_open - act_body)
-    factor = (L1 - L0) / L0
-    p.hydros_props(beamPrecompression=1.0, beamType="|NORMAL", beamLongBound=1.0, beamShortBound=1.0)
-    p.hydros_props(beamSpring=601000, beamDamp=200, beamDeform=9000, beamStrength=14000)
-    # inputSource lowhighbeam is 0 (closed) or 1 (open); factor scales length change for input 1
-    p.hydro(n("pua"), n("pub1"), inputSource="lowhighbeam", inputFactor=1, inLimit=min(1.0, 1 + factor),
-            outLimit=max(1.0, 1 + factor), factor=round(factor, 4), inRate=1.6, outRate=1.6,
-            breakGroup=f"popup_hinge_{side}")
-    p.hydros_props(breakGroup="")
+    factor = 0.0 if fixed else (L1 - L0) / L0
+    if fixed:
+        p.beam_comment("bolted shut")
+        p.beams_props(beamSpring=1501000, beamDamp=60, beamDeform=12000, beamStrength=20000, breakGroup=f"popup_hinge_{side}")
+        for b in (n("pub1"), n("pub2"), n("puf1"), n("puf2")):
+            p.beam(n("pua"), b)
+        p.beams_props(breakGroup="")
+    else:
+        p.hydros_props(beamPrecompression=1.0, beamType="|NORMAL", beamLongBound=1.0, beamShortBound=1.0)
+        p.hydros_props(beamSpring=601000, beamDamp=200, beamDeform=9000, beamStrength=14000)
+        # inputSource lowhighbeam is 0 (closed) or 1 (open); factor scales length change for input 1
+        p.hydro(n("pua"), n("pub1"), inputSource="lowhighbeam", inputFactor=1, inLimit=min(1.0, 1 + factor),
+                outLimit=max(1.0, 1 + factor), factor=round(factor, 4), inRate=1.6, outRate=1.6,
+                breakGroup=f"popup_hinge_{side}")
+        p.hydros_props(breakGroup="")
     _reset_beams(p)
     p.tris_props(dragCoef=8, groundModel="metal", triangleType="NORMALTYPE")
     if s > 0:
         p.quad(ring[3], ring[2], ring[1], ring[0])
     else:
         p.quad(ring[0], ring[1], ring[2], ring[3])
-    # spot lights (low + high) carried by the moving unit
-    p.props_props(lightInnerAngle=0, lightOuterAngle=110, lightColor={"r": 255, "g": 245, "b": 210, "a": 255},
-                  lightCastShadows=True, flareName="vehicleHeadLightFlare",
-                  cookieName="art/special/BNG_light_cookie_headlight.dds", texSize=512, shadowSoftness=0.5)
-    p.prop("lowbeam", "SPOTLIGHT", n("pub1"), n("pub2"), n("puf1"), {"x": 0, "y": 0, "z": 0},
-           {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1,
-           baseTranslation={"x": 0.5, "y": 0.4, "z": -0.05}, lightRange=55, lightIntensityCd=9000,
-           flareScale=0.06, deformGroup=f"headlight_{side}_break")
-    p.prop("highbeam", "SPOTLIGHT", n("pub1"), n("pub2"), n("puf1"), {"x": 0, "y": 0, "z": 0},
-           {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1,
-           baseTranslation={"x": 0.5, "y": 0.4, "z": -0.05}, lightRange=95, lightIntensityCd=16000,
-           lightOuterAngle=80, flareScale=0.08, deformGroup=f"headlight_{side}_break")
+    p.props_props(**HEADLIGHT_PROPS)
+    if fixed:
+        # LED projectors in the bumper corners, fixed and aimed straight ahead
+        pos = {"x": s * 0.52, "y": -2.215, "z": 0.395}
+        rot = {"x": 0, "y": 0, "z": 0}
+        ref = (n("puh1"), n("puh2"), n("puf1"))
+    else:
+        # lights ride on the pod: defined in the closed (spawn) pose, lens aimed 45 deg down -> level when raised
+        lx, ly, lz = lens_center_closed()
+        pos = {"x": s * lx, "y": round(ly, 4), "z": round(lz, 4)}
+        rot = {"x": POPUP_ANGLE, "y": 0, "z": 0}
+        ref = (n("pub1"), n("pub2"), n("puf1"))
+    zero = {"x": 0, "y": 0, "z": 0}
+    p.prop("lowbeam", "SPOTLIGHT", *ref, zero, zero, zero, 0, 0, 0, 1, baseTranslationGlobal=pos, baseRotationGlobal=rot,
+           lightRange=55 if not fixed else 45, lightIntensityCd=9000 if not fixed else 7000, flareScale=0.06,
+           deformGroup=f"headlight_{side}_break")
+    p.prop("highbeam", "SPOTLIGHT", *ref, zero, zero, zero, 0, 0, 0, 1, baseTranslationGlobal=pos, baseRotationGlobal=rot,
+           lightRange=95 if not fixed else 80, lightIntensityCd=16000 if not fixed else 12000, lightOuterAngle=80,
+           flareScale=0.08, deformGroup=f"headlight_{side}_break")
     p.d["_popup_factor"] = round(factor, 4)
     return p
 
@@ -218,7 +254,7 @@ def popup(side="L", name=None, mesh_lid="s13_popup_lid", mesh_lamp="s13_popup_la
 # --------------------------------------------------------------------------
 # fenders
 # --------------------------------------------------------------------------
-def fender(side="L", mesh="s13_fender", title="Stock Front Fender", value=220, mass=5.0, slot=None):
+def fender(side="L", mesh="s13_fender", title="Stock Front Fender", value=220, mass=5.0, slot=None, flare=0.0):
     s = 1 if side == "L" else -1
     sl = side.lower()
     p = Part(f"{mesh}_{side}" if title == "Stock Front Fender" else f"{mesh}_{side}", f"{title} ({'Left' if s > 0 else 'Right'})",
@@ -237,6 +273,7 @@ def fender(side="L", mesh="s13_fender", title="Stock Front Fender", value=220, m
         if nm in ("fd1", "fd2", "fd3", "fd4"):
             x = 0.5 * (0.705 + side_x(SPEC, y, z)) if nm != "fd1" else 0.66
             z = tz(y, x, 0.010)
+        x += flare * flare_weight(y, z, "F")
         p.node(nm + sl, s * x, y, z, nodeWeight=w)
     p.nodes_props(group="")
     n = lambda k: k + sl  # noqa: E731

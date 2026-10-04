@@ -86,8 +86,21 @@ def tire_radius(res):
     return max(rs) if rs else 0.30
 
 
-def estimate(res, cda=0.72, crr=0.014, mu=1.0, drag_cda=None, downforce_cla=0.0):
+AERO_CDA = {"wing_gt": 0.20, "splitter": 0.03, "canards": 0.03, "diffuser": 0.02, "wing_wicker": 0.04,
+            "overfenders": 0.02, "fender_wide": 0.02, "parachute": 0.0}
+AERO_CLA = {"wing_gt": 0.55, "splitter": 0.25, "canards": 0.08, "diffuser": 0.20, "wing_wicker": 0.06}
+
+
+def estimate(res, cda=0.72, crr=0.014, mu=None, drag_cda=None, downforce_cla=None):
     out = {}
+    parts = [tn.part for tn in res.order]
+    cda += sum(v for k, v in AERO_CDA.items() for p in parts if k in p)
+    if downforce_cla is None:
+        downforce_cla = sum(v for k, v in AERO_CLA.items() for p in parts if k in p)
+    if mu is None:
+        fr = [float(r.get("frictionCoef", 1.0) or 1.0) for r in res.tables.get("pressureWheels", [])
+              if r.get("name") in ("RL", "RR")]
+        mu = max(fr) if fr else 1.0
     curve = engine_curve(res)
     nodes_mass, cog = PH.mass_props(res.nodes)
     wheels = 0.0
@@ -123,10 +136,12 @@ def estimate(res, cda=0.72, crr=0.014, mu=1.0, drag_cda=None, downforce_cla=0.0)
             v = 0.5 * v + 0.5 * p_max / f
         out["Top Speed"] = round(min(v, v_lim), 2)
         # 0-100 km/h sim (traction-limited RWD)
-        rear_share = 0.5
-        if res.nodes:
-            ys = [n["pos"][1] for n in res.nodes.values()]
-            rear_share = float(np.clip(0.45 + 0.0 * max(ys), 0.4, 0.6))
+        # static rear axle share from the CoG and the wheel centres
+        wy = [(res.nodes[r["node1:"]]["pos"][1]) for r in res.tables.get("pressureWheels", [])
+              if r.get("name") in ("FL", "FR", "RL", "RR") and r.get("node1:") in res.nodes]
+        yf = min(wy) if wy else -1.24
+        yr = max(wy) if wy else 1.24
+        rear_share = float(np.clip((cog[1] - yf) / (yr - yf), 0.35, 0.65))
         dt, t, vel, gear, acc_prev = 0.01, 0.0, 0.0, 0, 0.0
         times = {}
         shift_t = 0.0 if "sequential" in gtype else (0.35 if "manual" in gtype else 0.25)
@@ -141,7 +156,8 @@ def estimate(res, cda=0.72, crr=0.014, mu=1.0, drag_cda=None, downforce_cla=0.0)
                     gear += 1
                     pause = shift_t
                     continue
-                eng = max(wrpm, rpm.max() * 0.45 if vel < 8 else wrpm)   # launch rpm
+                launch = 0.62 if boost > 0 else 0.45                      # turbo cars launch on boost
+                eng = max(wrpm, rpm.max() * launch if vel < 8 else wrpm)
                 T = _interp(list(zip(rpm, tq)), min(eng, rpm.max()))
                 F = T * fwd[gear] * fd * eta / rr
                 Fmax = mu * (mass * G * rear_share + mass * max(acc_prev, 0.0) * 0.46 / 2.48

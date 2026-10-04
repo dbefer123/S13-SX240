@@ -11,6 +11,7 @@ from . import catalog as C
 from . import dims as D
 from . import panels_jb as PJ
 from . import structure as ST
+from . import race as RACE
 
 VEH = "s13_240sx"
 PFX = "s13"
@@ -29,6 +30,7 @@ def main_part():
     p.slot(f"{PFX}_fueltank", f"{PFX}_fueltank_stock", "Fuel Tank")
     p.slot(f"{PFX}_exhaust", f"{PFX}_exhaust_stock", "Exhaust")
     p.slot(f"{PFX}_radiator", f"{PFX}_radiator_stock", "Radiator")
+    p.slot(f"{PFX}_electronics", f"{PFX}_electronics_none", "Race Electronics")
     p.slot("paint_design", "", "Paint Design")
     p.slot("licenseplate_design_2_1", "", "License Plate Design")
     p.slot(f"{PFX}_mod", "", "Additional Modification")
@@ -92,12 +94,21 @@ def body_hatch():
             (f"{PFX}_hatch", f"{PFX}_hatch", "Hatch"),
             (f"{PFX}_bumper_F", f"{PFX}_bumper_F", "Front Bumper"), (f"{PFX}_bumper_R", f"{PFX}_bumper_R", "Rear Bumper"),
             (f"{PFX}_taillights", f"{PFX}_taillights", "Tail Lights"),
-            (f"{PFX}_interior", f"{PFX}_interior_stock", "Interior")):
+            (f"{PFX}_interior", f"{PFX}_interior_stock", "Interior"),
+            (f"{PFX}_rollcage", f"{PFX}_rollcage_none", "Roll Cage")):
         p.slot(slot, default, desc)
+    for slot, d_uni, d_tube, desc in RACE.AERO_SLOTS:
+        p.slot(f"{PFX}_{slot}", f"{PFX}_{d_uni}" if d_uni else "", desc)
     p.flexbody(f"{PFX}_body_hatch", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_underbody", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_wheelwells", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_enginebay", [f"{PFX}_body"])
+    body_common(p)
+    return p
+
+
+def body_common(p):
+    """Glass, reference nodes, cameras, glass-break triggers and collision skin shared by every body."""
     p.flex_props(deformGroup="windshield_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
     p.flexbody(f"{PFX}_windshield", [f"{PFX}_body"], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4", deformVolume=0.8)
     p.flex_props(deformGroup="")
@@ -262,11 +273,11 @@ def taillights():
         for func, rng, bright, col in (("lowhighbeam", 4, 0.25, None), ("brakelights", 8, 0.8, None)):
             p.prop(func, "POINTLIGHT", "tl3" + side, "tl3", "tl2" + side, {"x": 0, "y": 0, "z": 0},
                    {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1,
-                   baseTranslationGlobal={"x": s * 0.60, "y": 2.27, "z": 0.76}, lightRange=rng,
+                   baseTranslationGlobal={"x": s * 0.66, "y": 2.27, "z": 0.76}, lightRange=rng,
                    lightIntensityLm=400 * bright, flareScale=0.04, deformGroup="taillight_break")
         p.prop("reverse", "POINTLIGHT", "tl3" + side, "tl3", "tl2" + side, {"x": 0, "y": 0, "z": 0},
                {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1,
-               baseTranslationGlobal={"x": s * 0.25, "y": 2.27, "z": 0.76}, lightRange=6, lightIntensityLm=250,
+               baseTranslationGlobal={"x": s * 0.39, "y": 2.27, "z": 0.76}, lightRange=6, lightIntensityLm=250,
                lightColor={"r": 255, "g": 255, "b": 240, "a": 255}, flareName="vehicleReverseLightFlare",
                flareScale=0.03, deformGroup="taillight_break")
     p.beams_props(deformGroup="taillight_break", deformationTriggerRatio=0.02)
@@ -276,21 +287,37 @@ def taillights():
     return p
 
 
-def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats="s13_seats_cloth", mass_bias=1.0):
-    """Dash, seats, trim. Props use the 'left/down' node frame convention:
+RACE_TACH = (D.STEER_CENTER[0], -0.560, 1.030)   # race tach pod face centre
+SHIFT_LED_MATS = ["s13_led_green", "s13_led_green", "s13_led_amber", "s13_led_amber", "s13_led_red"]
+
+
+def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats="s13_seats_cloth", mass_bias=1.0,
+                   kind="stock", wheel=None):
+    """Dash, seats, trim.  kind: stock | stripped (stock dash, buckets, no trim) | race (carbon dash, race tach,
+    single race seat, extinguisher).  Props use the 'left/down' node frame convention:
     idX = node displaced +x (left) of idRef, idY = node displaced -z (down) -> baseRotation 0 = modelled pose."""
     p = Part(f"{PFX}_interior_{key}", title, f"{PFX}_interior", value=value)
-    p.slot(f"{PFX}_steering_wheel", f"{PFX}_steering_wheel_stock", "Steering Wheel")
-    p.flexbody(f"{PFX}_dash", [f"{PFX}_dash"])
-    p.flexbody(f"{PFX}_gauges", [f"{PFX}_dash"])
-    p.flexbody(f"{PFX}_console", [f"{PFX}_body"])
-    p.flexbody(f"{PFX}_carpet", [f"{PFX}_body"])
-    p.flexbody(f"{PFX}_headliner", [f"{PFX}_body"])
-    p.flexbody(f"{PFX}_doorcard_L", [f"{PFX}_door_L"])
-    p.flexbody(f"{PFX}_doorcard_R", [f"{PFX}_door_R"])
-    p.flexbody(seats, [f"{PFX}_body"])
-    p.flexbody(f"{PFX}_rearseat", [f"{PFX}_body"])
-    p.flexbody(f"{PFX}_pedals_static", [f"{PFX}_body"])
+    p.slot(f"{PFX}_steering_wheel", wheel or (f"{PFX}_steering_wheel_stock" if kind == "stock" else f"{PFX}_steering_wheel_race"),
+           "Steering Wheel")
+    if kind == "race":
+        for m, g in (("dash_race", "dash"), ("race_tach", "dash"), ("seat_race", "body"), ("extinguisher", "body"),
+                     ("race_switchpanel", "dash"), ("pedals_static", "body")):
+            p.flexbody(f"{PFX}_{m}", [f"{PFX}_{g}"])
+        p.set("glowMap", {f"s13_shiftled_{i}": {"simpleFunction": {f"s13sl{i}": 1}, "off": m, "on": m + "_on"}
+                          for i, m in enumerate(SHIFT_LED_MATS)})
+    else:
+        p.flexbody(f"{PFX}_dash", [f"{PFX}_dash"])
+        p.flexbody(f"{PFX}_gauges", [f"{PFX}_dash"])
+        p.flexbody(f"{PFX}_console", [f"{PFX}_body"])
+        p.flexbody(seats, [f"{PFX}_body"])
+        p.flexbody(f"{PFX}_pedals_static", [f"{PFX}_body"])
+        if kind == "stock":
+            p.flexbody(f"{PFX}_carpet", [f"{PFX}_body"])
+            p.flexbody(f"{PFX}_headliner", [f"{PFX}_body"])
+            p.flexbody(f"{PFX}_doorcard_L", [f"{PFX}_door_L"])
+            p.flexbody(f"{PFX}_doorcard_R", [f"{PFX}_door_R"])
+            p.flexbody(f"{PFX}_rearseat", [f"{PFX}_body"])
+    seat_scale = {"stock": 1.0, "stripped": 0.45, "race": 0.0}[kind]
     # dash nodes
     cx, cy, cz = D.STEER_CENTER
     gy, gz = D.GAUGE_Y, D.GAUGE_Z  # gauge pivot plane
@@ -304,7 +331,14 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
                            ("st1r", -0.37, -0.05, 0.30, 9.0), ("st2r", -0.37, 0.35, 0.33, 9.0), ("st3r", -0.37, 0.48, 0.80, 4.0),
                            ("rs1l", 0.40, 0.85, 0.38, 6.0), ("rs1r", -0.40, 0.85, 0.38, 6.0), ("hv1", 0.0, -0.55, 0.62, 12.0),
                            ("cs1", 0.0, -0.10, 0.50, 2.0)):
-        p.node(nm, x, y, z, nodeWeight=w * mass_bias)
+        if kind != "stock":
+            if nm.startswith("rs1"):
+                w = 0.4                                       # rear seat removed
+            elif nm.startswith("st"):
+                w = w * seat_scale if seat_scale else (3.2 if nm.endswith("l") else 0.4)   # race: driver seat only
+            elif nm == "hv1" and kind == "race":
+                w = 2.5                                       # HVAC deleted
+        p.node(nm, x, y, z, nodeWeight=round(w * mass_bias, 3))
     p.nodes_props(group="", collision=False)
     # prop frames: gauge cluster, steering column, pedals
     p.node("gref", cx, gy, gz, nodeWeight=0.5)
@@ -353,24 +387,30 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
     for n in ("pd1", "pd1x", "pd1d"):
         for b in ("fp2", "fp2l", "fp1l", "dsh2"):
             p.beam(n, b)
-    # gauge needles (pivot positions in world space; needles modelled pointing straight up at their zero)
     p.props_props()
     zero = {"x": 0, "y": 0, "z": 0}
-    # S13 cluster as seen by the driver: temp | tach | speedo | fuel  (driver's left is +x)
-    tach_c = (cx + D.GAUGE_TACH_DX, gy + 0.004, gz)
-    speedo_c = (cx - D.GAUGE_TACH_DX, gy + 0.004, gz)
-    temp_c = (cx + D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ)
-    fuel_c = (cx - D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ)
-    # tach: 0..8000 rpm over 240 deg, starting at -120 deg (clockwise seen by driver -> negative about +y)
-    p.prop("rpmTacho", f"{PFX}_needle_tach", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -0.03}, zero,
-           0, 8000, -4000, 1, baseTranslationGlobal=dict(x=tach_c[0], y=tach_c[1], z=tach_c[2]))
-    # speedo: 0..140 mph over 240 deg; wheelspeed is m/s -> 140 mph = 62.6 m/s
-    p.prop("wheelspeed", f"{PFX}_needle_speedo", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -240 / 62.6}, zero,
-           0, 62.6, -31.3, 1, baseTranslationGlobal=dict(x=speedo_c[0], y=speedo_c[1], z=speedo_c[2]))
-    p.prop("fuel", f"{PFX}_needle_small", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -90}, zero,
-           0, 1, -0.5, 1, baseTranslationGlobal=dict(x=fuel_c[0], y=fuel_c[1], z=fuel_c[2]))
-    p.prop("oiltemp", f"{PFX}_needle_small", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -1.5}, zero,
-           40, 130, -85, 1, baseTranslationGlobal=dict(x=temp_c[0], y=temp_c[1], z=temp_c[2]))
+    if kind == "race":
+        # race tach: 0..10000 rpm over 270 deg, zero at 135 deg CCW from straight up
+        tx, ty, tz_ = RACE_TACH
+        p.prop("rpmTacho", f"{PFX}_needle_race", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -0.027}, zero,
+               0, 10000, -5000, 1, baseTranslationGlobal=dict(x=tx, y=ty + 0.006, z=tz_))
+    else:
+        # gauge needles (pivot positions in world space; needles modelled pointing straight up at their zero)
+        # S13 cluster as seen by the driver: temp | tach | speedo | fuel  (driver's left is +x)
+        tach_c = (cx + D.GAUGE_TACH_DX, gy + 0.004, gz)
+        speedo_c = (cx - D.GAUGE_TACH_DX, gy + 0.004, gz)
+        temp_c = (cx + D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ)
+        fuel_c = (cx - D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ)
+        # tach: 0..8000 rpm over 240 deg, starting at -120 deg (clockwise seen by driver -> negative about +y)
+        p.prop("rpmTacho", f"{PFX}_needle_tach", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -0.03}, zero,
+               0, 8000, -4000, 1, baseTranslationGlobal=dict(x=tach_c[0], y=tach_c[1], z=tach_c[2]))
+        # speedo: 0..140 mph over 240 deg; wheelspeed is m/s -> 140 mph = 62.6 m/s
+        p.prop("wheelspeed", f"{PFX}_needle_speedo", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -240 / 62.6}, zero,
+               0, 62.6, -31.3, 1, baseTranslationGlobal=dict(x=speedo_c[0], y=speedo_c[1], z=speedo_c[2]))
+        p.prop("fuel", f"{PFX}_needle_small", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -90}, zero,
+               0, 1, -0.5, 1, baseTranslationGlobal=dict(x=fuel_c[0], y=fuel_c[1], z=fuel_c[2]))
+        p.prop("oiltemp", f"{PFX}_needle_small", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -1.5}, zero,
+               40, 130, -85, 1, baseTranslationGlobal=dict(x=temp_c[0], y=temp_c[1], z=temp_c[2]))
     # pedals (pivot at top, rotate about vehicle x)
     for func, mesh, dx in (("throttle", "pedal_gas", -0.07), ("brake", "pedal_brake", 0.02), ("clutch", "pedal_clutch", 0.12)):
         p.prop(func, f"{PFX}_{mesh}", "pd1", "pd1x", "pd1d", zero, {"x": -22, "y": 0, "z": 0}, zero, 0, 1, 0, 1,
@@ -416,11 +456,19 @@ def all_files():
     files[f"{PFX}_panels.jbeam"] = [PJ.hood(), PJ.popup("L"), PJ.popup("R"), PJ.fender("L"), PJ.fender("R"),
                                     PJ.door("L"), PJ.door("R"), PJ.hatch(), PJ.bumper_front(), PJ.bumper_rear(),
                                     taillights()]
-    files[f"{PFX}_interior.jbeam"] = [interior_stock()] + steering_wheels() + shifters()
+    files[f"{PFX}_interior.jbeam"] = ([interior_stock(),
+                                       interior_stock("stripped", "Stripped Interior (Bucket Seats)", 400,
+                                                      seats=f"{PFX}_seats_bucket", kind="stripped", wheel=f"{PFX}_steering_wheel_deepdish"),
+                                       interior_stock("race", "Race Interior (Carbon Dash, Single Seat)", 2600, kind="race")]
+                                      + steering_wheels() + shifters())
     files[f"{PFX}_suspension.jbeam"] = C.suspension_parts()
     files[f"{PFX}_wheels.jbeam"] = C.wheel_parts()
     files[f"{PFX}_powertrain.jbeam"] = C.powertrain_parts()
-    files[f"{PFX}_misc.jbeam"] = [fueltank(), exhaust(), radiator()]
+    files[f"{PFX}_misc.jbeam"] = [fueltank(), exhaust(),
+                                  exhaust("race", "Race Exhaust (3\" Straight Through)", 1400, muffling=0.12, gain=3,
+                                          afterfire=1.0, mesh=f"{PFX}_exhaust_race"),
+                                  radiator(), radiator("race", "Race Aluminium Radiator", 900, mesh=f"{PFX}_radiator")]
+    files[f"{PFX}_race.jbeam"] = RACE.race_parts(body_common)
     return files
 
 

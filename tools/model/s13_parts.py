@@ -101,35 +101,19 @@ def enginebay():
 
 
 def popup_lamps():
-    """Pop-up headlamp pods, modelled raised (lens vertical, lid on top, hinge at the rear) and rotated closed
-    about the hinge so they sit under the lid panels."""
+    """Pop-up headlamp pods (geometry from tools/vehicle/s13/popup_geom.py), modelled raised and rotated closed."""
+    from tools.vehicle.s13 import popup_geom as PG
     out = []
-    th = math.radians(PJ.POPUP_ANGLE)
-    x0, x1 = 0.395, 0.652
+    th = math.radians(PG.POPUP_ANGLE)
+    x0, x1 = PG.X0, PG.X1
     xm = (x0 + x1) / 2
-    hy = -1.857
-    hz = min(top_z(SPEC, hy, x) for x in (x0, xm, x1)) - 0.012
-    fy = -2.105                                          # lid front edge (closed)
-    fz = min(top_z(SPEC, fy, x) for x in (x0, xm, x1 + 0.02)) - 0.022
-    L = math.hypot(fy - hy, fz - hz)
-    a_closed = math.atan2(fz - hz, -(fy - hy))           # angle below horizontal (forward), radians (negative = down)
-    a_up = a_closed + th
-    Fy, Fz = hy - L * math.cos(a_up), hz + L * math.sin(a_up)   # raised front edge
-    lens_h = 0.115
-    prof = [(Fy, Fz), (Fy, Fz - lens_h), (hy - 0.03, Fz - lens_h), (hy, hz)]    # raised side profile (y, z)
-
-    def closed(y, z):
-        dy, dz = y - hy, z - hz
-        c, s_ = math.cos(-th), math.sin(-th)
-        # raise = rotate front edge up; closing rotates by -th in the (forward, up) sense
-        fwd, up = -dy, dz
-        fwd2, up2 = fwd * c - up * s_, fwd * s_ + up * c
-        return hy - fwd2, hz + up2
-
+    prof = PG.raised_profile()
+    Fy, Fz = prof[0]
+    closed = PG.closed
+    lens_n = (0, -math.cos(th), -math.sin(th))
     for side, s in (("L", 1), ("R", -1)):
         mb = MeshBuilder(f"s13_popup_lamp_{side}")
         xa, xb = s * x0, s * x1
-        # housing: extrude the side profile across x
         P = [closed(y, z) for y, z in prof]
         verts = [(xa, y, z) for y, z in P] + [(xb, y, z) for y, z in P]
         n = len(P)
@@ -138,22 +122,30 @@ def popup_lamps():
         if s < 0:
             faces = [f[::-1] for f in faces]
         mb.add_faces(verts, faces, "s13_popup_housing", smooth=False)
-        # lens + reflector rings on the front face (raised pose: plane y = Fy facing -y)
         inset = 0.010
-        lz0, lz1 = Fz - lens_h + inset, Fz - inset
+        lz0, lz1 = Fz - PG.LENS_H + inset, Fz - inset
         lens = [(xa + s * inset, Fy - 0.004, lz0), (xb - s * inset, Fy - 0.004, lz0), (xb - s * inset, Fy - 0.004, lz1),
                 (xa + s * inset, Fy - 0.004, lz1)]
-        lens = [(x, *closed(y, z)) for x, y, z in lens]
-        mb.polygon(lens, "s13_headlight", outward=(0, -math.cos(th), -math.sin(th)))
+        mb.polygon([(x, *closed(y, z)) for x, y, z in lens], "s13_headlight", outward=lens_n)
         for k in (-1, 1):
             cx_ = s * (xm + k * 0.065)
-            for r_, mat in ((0.045, "s13_headlight_chrome"), (0.012, "s1x_dark")):
-                ring = []
-                for j in range(20):
-                    t = 2 * math.pi * j / 20
-                    ring.append((cx_ + r_ * math.cos(t), *closed(Fy - 0.0055 + (0.0005 if mat == "s1x_dark" else 0),
-                                                            (lz0 + lz1) / 2 + r_ * math.sin(t))))
-                mb.polygon(ring, mat, outward=(0, -math.cos(th), -math.sin(th)))
+            for r_, mat, dy in ((0.045, "s13_headlight_chrome", 0.0055), (0.012, "s1x_dark", 0.006)):
+                ring = [(cx_ + r_ * math.cos(2 * math.pi * j / 20),
+                         *closed(Fy - dy, (lz0 + lz1) / 2 + r_ * math.sin(2 * math.pi * j / 20))) for j in range(20)]
+                mb.polygon(ring, mat, outward=lens_n)
+        out.append(mb)
+    return out
+
+
+def led_projectors():
+    """Small LED projector headlamps in the bumper corners (pop-up delete)."""
+    out = []
+    for side, s in (("L", 1), ("R", -1)):
+        mb = MeshBuilder(f"s13_led_projector_{side}")
+        c = Vector((s * 0.52, -2.205, 0.395))
+        mb.cylinder(tuple(c + Vector((0, 0.06, 0))), tuple(c), 0.042, "s1x_metal_black", segs=24)
+        mb.cylinder(tuple(c), tuple(c + Vector((0, -0.006, 0))), 0.036, "s13_headlight", segs=24)
+        mb.cylinder(tuple(c + Vector((0, -0.006, 0))), tuple(c + Vector((0, -0.010, 0))), 0.012, "s1x_dark", segs=12)
         out.append(mb)
     return out
 

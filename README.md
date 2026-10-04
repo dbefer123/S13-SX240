@@ -23,8 +23,8 @@ JBeam generator and an offline validator).
 |---|---|---|
 | 0–1 | Toolchain, JBeam library, validator, S13 hatch body shape | done |
 | 2 | Drivable S13 hatch: unibody, MacPherson/multilink suspension, steering, KA24E/KA24DE/SR20DET/K20A, 4AT/5MT/6MT/sequential, LSD options, wheels/tires/brakes, pop-up lights, gauges, interior, 15 configs | **done (first release)** |
-| 3 | K20 race builds: tube chassis, high- and low-downforce aero, drag gear (wheelie bar, transbrake, two-step, line lock) | next |
-| 4 | Full S13 catalogue: body kits, aero, detailed exterior/interior, liveries | planned |
+| 3 | K20 race builds: tube chassis, roll cages, high- and low-downforce aero, drag gear (wheelie bar, parachute, transbrake, two-step, line lock), race interior, 6 race configs | **done** |
+| 4 | Full S13 catalogue: body kits, aero bumpers, detailed exterior/interior, liveries | next |
 | 5 | S13 coupe and convertible | planned |
 | 6 | S14 zenki / kouki | planned |
 | 7 | Final polish, thumbnails, stats | planned |
@@ -49,9 +49,33 @@ JBeam generator and an offline validator).
 | Stance / Show | Custom | Slammed, camber, 18" wheels | ~170 hp |
 | Budget Drift Beater | Custom | Stock engine, welded diff, lowering springs | 155 hp |
 
-Coming in phase 3: Pro Drift, **K20 Track Spec (tube chassis, high downforce, ~700 hp)**,
-**K20 Drag Spec (tube chassis, low downforce, ~700 hp)**, K20 Time Attack, K20 Drag & Drive and the
-IMSA GTO tribute.
+### Race builds
+
+| Config | Chassis | Spec | Est. power / weight |
+|---|---|---|---|
+| Pro Drift | Unibody + full cage | K20A turbo 24 psi, 6-speed sequential, 2-way LSD, angle kit, wide body, GT wing | ~620 hp / 1140 kg |
+| **K20 Track Spec** | **Tube chassis** | **K20A turbo 29 psi, 6-speed sequential, slicks, splitter + dive planes + diffuser + swan-neck wing (high downforce), stripped race interior** | **~700 hp / ~960 kg** |
+| **K20 Drag Spec** | **Tube chassis** | **K20A turbo 29 psi, 4-speed sequential, spool, drag radials + front runners, wheelie bar, parachute, transbrake, two-step, line lock, wicker bill only (low downforce)** | **~700 hp / ~920 kg** |
+| K20 Time Attack | Unibody + full cage | K20A turbo 22 psi, full aero, carbon panels | ~590 hp / 1090 kg |
+| K20 Drag & Drive | Unibody + 6-point cage | K20A turbo 24 psi, 6MT, spool, drag radials, interior kept | ~620 hp / 1200 kg |
+| IMSA GTO Tribute | Tube chassis | Flares, tall wing, pop-up delete, K20A turbo | ~640 hp / 950 kg |
+
+Weights are estimates from the JBeam (nodes + wheels + fuel); power is the estimated crank peak.
+
+**Tube chassis.** This is a separate body part (`Tube Chassis (Race Spaceframe)`). It keeps every unibody
+attachment point, so all suspension, engine and panel parts still fit. It adds a welded cage, a lighter frame,
+an aluminium floor and tubs, and the visible tube-frame mesh is generated from the same nodes and beams.
+
+**Aero (Tuning > Aerodynamics).**
+- The swan-neck GT wing angle runs from 2° to 20°. It is set by beam precompression on the angle links, so the wing actually rotates.
+- The splitter, dive planes and diffuser are triangle aero surfaces angled for downforce.
+- The drag wicker bill is mostly drag with a small amount of downforce for high-speed stability.
+
+**Drag electronics (Race Electronics slot).**
+- **Transbrake:** Shift + Ctrl + Alt + Space by default.
+- **Line lock:** locks the front brakes for burnouts; bind it in Controls.
+- **Two-step:** comes with the race ECU (rev-limiter slider).
+- **Shift lights:** 5-LED strip on the race tach.
 
 ## Customisation (parts selector and Tuning menu)
 
@@ -69,7 +93,14 @@ IMSA GTO tribute.
   - Brake bias and brake strength sliders.
 - **Wheels:** 11 designs from 14" to 18", including drag beadlocks and front runners.
 - **Tires:** 18 sizes and compounds (all-season to drag slick), with tire pressure sliders.
-- **Interior:** stock, deep-dish and quick-release steering wheels; stock, short-throw, auto and sequential shifters.
+- **Interior:** stock cloth, stripped (bucket seats), or race (carbon dash, race tach with shift lights, single race seat with 6-point harness, extinguisher, switch panel).
+  - Steering wheels: stock, deep-dish, quick-release. Shifters: stock, short-throw, auto, sequential.
+- **Cages:** 4-point roll bar, 6-point cage, full weld-in cage (unibody cars).
+- **Race body parts:**
+  - Vented FRP or carbon hood, carbon hatch with polycarbonate window, FRP doors with polycarbonate windows.
+  - Wide-body front fenders (+50 mm), rear over-fenders, lightweight bumpers.
+  - Pop-up delete with LED projectors.
+- **Fuel:** stock 60 L tank, 40 L race cell, 10 L drag cell. **Exhaust:** stock or 3" race straight-through. **Radiator:** stock or race aluminium.
 
 ## In-game checklist (please report results)
 
@@ -78,7 +109,11 @@ I can't run BeamNG.drive in the build environment. The mod is checked by an offl
 1. **Spawn every configuration.** Check the console for JBeam or material errors.
 2. **Turbo** (KA-T, SR20DET, Sleeper). The `turbocharger` section is UNVERIFIED. Check that boost builds (the turbo/boost UI app) and that the wastegate slider changes power (torque curve app).
 3. **Automatic** (XE (A), SE (A)). Check the `automaticGearbox` and torque converter: P/R/N/D, kickdown, creep.
-4. **Sequential** gearboxes (phase 3 builds). Check `sequentialGearbox` shifting.
+4. **Sequential** gearboxes (race builds). Check `sequentialGearbox` shifting.
+   - The **transbrake** and **two-step** on the K20 Drag Spec: hold the transbrake, bring the revs up on the two-step, release.
+   - The **line lock** should hold the fronts during a burnout.
+   - The **wheelie bar** wheels should touch down on hard launches.
+5b. **Aero.** On the K20 Track Spec, the wing angle slider should visibly rotate the wing and change downforce (in-game aero debug).
 5. **Thermals.** Engines use the template's air-cooled model; check that the temperature gauge moves and nothing overheats at idle.
 6. **Lights.**
    - Low/high beam should raise the **pop-up headlights** (hydro on `lowhighbeam`).

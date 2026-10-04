@@ -170,5 +170,113 @@ def hatch_configs():
     return out
 
 
+def race_engine(boost, trans="6s_race"):
+    return merge(engine("k20a_race", intake="cai", ecu="race", internals="forged", trans=trans, flywheel="race"),
+                 {f"{P}_exhaust": f"{P}_exhaust_race", f"{P}_radiator": f"{P}_radiator_race",
+                  f"{P}_shifter": f"{P}_shifter_sequential" if "s_" in trans else f"{P}_shifter_short"}), \
+        {"$wastegateStart": boost}
+
+
+def aero(splitter=True, canards=True, wing="wing_gt", diffuser=True, overfenders=True):
+    return {f"{P}_splitter": f"{P}_splitter_race" if splitter else "", f"{P}_canards": f"{P}_canards_race" if canards else "",
+            f"{P}_wing": f"{P}_{wing}" if wing else "", f"{P}_diffuser": f"{P}_diffuser_race" if diffuser else "",
+            f"{P}_overfenders_R": f"{P}_overfenders_R" if overfenders else ""}
+
+
+WIDE = {f"{P}_fender_L": f"{P}_fender_wide_L", f"{P}_fender_R": f"{P}_fender_wide_R"}
+POPUP_DELETE = {f"{P}_popup_L": f"{P}_popup_delete_L", f"{P}_popup_R": f"{P}_popup_delete_R"}
+
+
+def race_configs():
+    out = []
+    eng, v = race_engine(24)
+    out.append(Cfg(
+        "pro_drift", "Pro Drift", "Race", (1991, 1994),
+        "Pro-level drift car: 600 hp turbo K20A, sequential box, wide body, full cage, angle kit and a 2-way LSD.",
+        merge(eng, WIDE, POPUP_DELETE, aero(splitter=False, canards=False, wing="wing_gt", diffuser=False),
+              {f"{P}_rollcage": f"{P}_rollcage_full", f"{P}_hood": f"{P}_hood_vented",
+               f"{P}_interior": f"{P}_interior_stripped", f"{P}_electronics": f"{P}_electronics_track",
+               f"{P}_steering_wheel": f"{P}_steering_wheel_race", f"{P}_fueltank": f"{P}_fueltank_racecell"},
+              chassis(springs="drift", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd2",
+                      steering="anglekit"),
+              wheels("split18", "235_40_18_drift", "split18", "265_35_18_drift")),
+        vars={**v, "$wing_angle": 6, "$trackoffset_F": 0.035, "$trackoffset_R": 0.045, "$camber_F": 0.975,
+              "$tirepressure_R": 38, "$springheight_F": -0.05, "$springheight_R": -0.05},
+        paint="Racing Orange", value=85000))
+    eng, v = race_engine(29)
+    out.append(Cfg(
+        "k20_track_spec", "K20 Track Spec (Tube Chassis, High Downforce)", "Race", (1994, 1994),
+        "Purpose-built time attack weapon on a chromoly spaceframe: built K20A turbo at about 700 hp, six-speed sequential, "
+        "slicks, full carbon aero with splitter, dive planes, flat floor diffuser and an adjustable swan-neck wing. "
+        "About 1000 kg.",
+        merge(eng, {f"{P}_body": f"{P}_body_tube", f"{P}_electronics": f"{P}_electronics_track",
+                    f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_canards": f"{P}_canards_race"},
+              chassis(springs="track", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd15",
+                      steering="quick"),
+              wheels("race18", "265_35_18_slick", "race18", "285_35_18_slick")),
+        vars={**v, "$wing_angle": 12, "$trackoffset_F": 0.040, "$trackoffset_R": 0.050, "$springheight_F": -0.065,
+              "$springheight_R": -0.06, "$camber_F": 0.972, "$camber_R": 0.975, "$brakebias": 0.62,
+              "$tirepressure_F": 27, "$tirepressure_R": 27, "$finaldrive_R": 4.1},
+        paint="Grand Prix Blue", paint2="Racing Yellow", value=165000))
+    eng, v = race_engine(29, trans="4s_drag")
+    out.append(Cfg(
+        "k20_drag_spec", "K20 Drag Spec (Tube Chassis, Low Downforce)", "Race", (1994, 1994),
+        "Tube-chassis drag car with the same 700 hp K20A turbo: four-speed sequential, spool, drag radials on beadlocks, "
+        "front runners, wheelie bar, transbrake, two-step, line lock and a parachute. Low-drag wicker bill only. "
+        "About 930 kg.",
+        merge(eng, {f"{P}_body": f"{P}_body_tube", f"{P}_electronics": f"{P}_electronics_drag",
+                    f"{P}_fueltank": f"{P}_fueltank_dragcell", f"{P}_wheeliebar": f"{P}_wheeliebar",
+                    f"{P}_parachute": f"{P}_parachute", f"{P}_steering_wheel": f"{P}_steering_wheel_race",
+                    f"{P}_hood": f"{P}_hood_carbon"},
+              aero(splitter=False, canards=False, wing="wing_wicker", diffuser=False, overfenders=True),
+              chassis(springs="drag", bars=("none", "race"), brakes="drag", pads="semi-race", diff="spool"),
+              wheels("runner15", "165_80_15_runner", "beadlock15", "275_60_15_dragradial")),
+        vars={**v, "$tirepressure_R": 14, "$tirepressure_F": 32, "$trackoffset_R": 0.030, "$revLimiterRPM": 9300,
+              "$brakebias": 0.45, "$finaldrive_R": 3.9},
+        paint="Super Black", paint2="Racing Orange", value=145000))
+    eng, v = race_engine(22)
+    out.append(Cfg(
+        "k20_time_attack", "K20 Time Attack (Unibody)", "Race", (1991, 1994),
+        "Street-chassis time attack car: 550 hp K20A turbo, seam-welded shell with a full cage, wide body and full aero.",
+        merge(eng, WIDE, POPUP_DELETE, aero(),
+              {f"{P}_rollcage": f"{P}_rollcage_full", f"{P}_hood": f"{P}_hood_carbon",
+               f"{P}_interior": f"{P}_interior_race", f"{P}_electronics": f"{P}_electronics_track",
+               f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_door_L": f"{P}_door_light_L",
+               f"{P}_door_R": f"{P}_door_light_R", f"{P}_hatch": f"{P}_hatch_light"},
+              chassis(springs="track", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd15",
+                      steering="quick"),
+              wheels("race18", "265_35_18_slick", "race18", "285_35_18_slick")),
+        vars={**v, "$wing_angle": 10, "$trackoffset_F": 0.040, "$trackoffset_R": 0.050, "$springheight_F": -0.06,
+              "$springheight_R": -0.055, "$camber_F": 0.972, "$brakebias": 0.63},
+        paint="Super Black", value=120000))
+    eng, v = race_engine(24, trans="6m_cd009")
+    out.append(Cfg(
+        "k20_drag_and_drive", "K20 Drag & Drive (Unibody)", "Race", (1991, 1994),
+        "Street-registered drag car: 600 hp turbo K20A, six-speed, spool, drag radials, a 6-point cage and the interior "
+        "still in place for the long drive home.",
+        merge(eng, {f"{P}_shifter": f"{P}_shifter_short", f"{P}_rollcage": f"{P}_rollcage_cage6",
+                    f"{P}_electronics": f"{P}_electronics_drag", f"{P}_interior": f"{P}_interior_stock",
+                    f"{P}_steering_wheel": f"{P}_steering_wheel_deepdish"},
+              chassis(springs="drag", bars=("none", "sport"), brakes="z32", pads="sport", diff="spool"),
+              wheels("oem15_se", "205_60_15_allseason", "beadlock15", "275_60_15_dragradial")),
+        vars={**v, "$tirepressure_R": 16, "$trackoffset_R": 0.020},
+        paint="Super Red", value=72000))
+    eng, v = race_engine(25)
+    out.append(Cfg(
+        "imsa_gto_tribute", "IMSA GTO Tribute", "Race", (1991, 1994),
+        "Homage to the early-90s IMSA GTO 240SX: tube chassis, huge flares, pop-up delete and a tall wing, with a "
+        "modern turbo K20A instead of the original V6.",
+        merge(eng, {f"{P}_body": f"{P}_body_tube", f"{P}_electronics": f"{P}_electronics_track",
+                    f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_hood": f"{P}_hood_vented"},
+              aero(canards=False),
+              chassis(springs="track", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd15",
+                      steering="quick"),
+              wheels("race17", "245_40_17_slick", "race18", "285_35_18_slick")),
+        vars={**v, "$wing_angle": 14, "$trackoffset_F": 0.045, "$trackoffset_R": 0.055, "$springheight_F": -0.07,
+              "$springheight_R": -0.065},
+        paint="Crystal White", paint2="Super Red", paint3="Grand Prix Blue", value=150000))
+    return out
+
+
 def write(mod):
-    return write_configs(mod, VEH, hatch_configs(), BASE_INFO, PAINTS)
+    return write_configs(mod, VEH, hatch_configs() + race_configs(), BASE_INFO, PAINTS)

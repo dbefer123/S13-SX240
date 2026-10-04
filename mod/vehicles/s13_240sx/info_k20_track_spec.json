@@ -1,0 +1,30 @@
+{
+  "Configuration": "K20 Track Spec (Tube Chassis, High Downforce)",
+  "Config Type": "Race",
+  "Description": "Purpose-built time attack weapon on a chromoly spaceframe: built K20A turbo at about 700 hp, six-speed sequential, slicks, full carbon aero with splitter, dive planes, flat floor diffuser and an adjustable swan-neck wing. About 1000 kg.",
+  "Years": {
+    "min": 1994,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 165000,
+  "Population": 0,
+  "defaultPaintName1": "Grand Prix Blue",
+  "defaultPaintName2": "Racing Yellow",
+  "defaultPaintName3": "Super Black",
+  "Weight": 959,
+  "Power": 700,
+  "Torque": 611,
+  "PowerPeakRPM": "8800",
+  "TorquePeakRPM": "7500",
+  "Weight/Power": 1.37,
+  "Induction Type": "Turbo",
+  "Top Speed": 81.31,
+  "0-60 mph": 4.4,
+  "0-100 km/h": 4.6,
+  "0-100 mph": 7.1,
+  "0-200 km/h": 8.8,
+  "Transmission": "Sequential"
+}

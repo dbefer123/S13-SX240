@@ -22,9 +22,9 @@
   "Weight/Power": 5.06,
   "Induction Type": "Turbo",
   "Top Speed": 68.32,
-  "0-60 mph": 6.8,
-  "0-100 km/h": 7.1,
-  "0-100 mph": 15.0,
-  "0-200 km/h": 23.5,
+  "0-60 mph": 6.6,
+  "0-100 km/h": 6.9,
+  "0-100 mph": 14.8,
+  "0-200 km/h": 23.3,
   "Transmission": "Manual"
 }

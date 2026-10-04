@@ -183,8 +183,26 @@ def build_s13(sc: Scene):
         ob.name = name
         sc.add_ob(ob, "s13_body")
     print(f"  exterior {time.time() - t0:.1f}s")
-    for mb in (SP.underbody(), SP.wheelwells(), SP.enginebay(), *SP.popup_lamps(), SP.radiator(), SP.fueltank()):
+    for mb in (SP.underbody(), SP.wheelwells(), SP.enginebay(), *SP.popup_lamps(), *SP.led_projectors(), SP.radiator(),
+               SP.fueltank()):
         sc.add_mb(mb, "s13_body")
+    # race body variants derived from the stock panels
+    from . import s13_race as RM
+    derived = {}
+    for side, sg in (("L", 1), ("R", -1)):
+        derived[f"s13_fender_wide_{side}"] = RM.widen_fender(ext[f"s13_fender_{side}"], f"s13_fender_wide_{side}", sg, 0.050)
+        derived[f"s13_doorglass_poly_{side}"] = RM.recolor_copy(ext[f"s13_doorglass_{side}"], f"s13_doorglass_poly_{side}",
+                                                                  "s13_glass_poly")
+    derived["s13_hood_carbon"] = RM.recolor_copy(ext["s13_hood"], "s13_hood_carbon", {"s13_paint": "s1x_carbon"})
+    derived["s13_hood_vented"] = RM.vented_hood(ext["s13_hood"])
+    derived["s13_hatch_carbon"] = RM.recolor_copy(ext["s13_hatch"], "s13_hatch_carbon", {"s13_paint": "s1x_carbon"})
+    derived["s13_hatchglass_poly"] = RM.recolor_copy(ext["s13_hatchglass"], "s13_hatchglass_poly", "s13_glass_poly")
+    for name, ob in derived.items():
+        sc.add_ob(ob, "s13_body")
+    for mb in RM.race_all():
+        dae = "s13_interior" if mb.name in ("s13_dash_race", "s13_race_tach", "s13_needle_race", "s13_seat_race",
+                                            "s13_seats_bucket", "s13_extinguisher", "s13_race_switchpanel") else "s13_race"
+        sc.add_mb(mb, dae)
     # interior
     for mb in SP.interior_all():
         sc.add_mb(mb, "s1x_interior" if mb.name.startswith("s1x_") else "s13_interior")
@@ -220,14 +238,18 @@ def build_s13(sc: Scene):
         "s13_steer_stock": D.STEER_CENTER,
         "s1x_steer_deepdish": D.STEER_CENTER,
         "s1x_steer_race": D.STEER_CENTER,
+        "s13_needle_race": None,
     }
-    livery = {n for n, (ob, dae) in sc.objs.items() if dae == "s13_body" and n in ext}
+    from tools.vehicle.s13.vehicle import RACE_TACH
+    pivots["s13_needle_race"] = (RACE_TACH[0], RACE_TACH[1] + 0.006, RACE_TACH[2])
+    livery = {n for n, (ob, dae) in sc.objs.items() if dae == "s13_body" and (n in ext or n in derived)}
+    livery.add("s13_overfenders_R")
     return pivots, livery
 
 
 DAE_FOLDER = {
     "s13_body": "vehicles/s13_240sx", "s13_interior": "vehicles/s13_240sx", "s13_mech": "vehicles/s13_240sx",
-    "s13_engine": "vehicles/s13_240sx",
+    "s13_engine": "vehicles/s13_240sx", "s13_race": "vehicles/s13_240sx",
     "s1x_wheels": "vehicles/common/s1x_240sx", "s1x_interior": "vehicles/common/s1x_240sx",
 }
 
@@ -272,7 +294,7 @@ def main(argv=None):
     used_mats = {m.name for ob, _ in sc.objs.values() for m in ob.data.materials if m}
     # glowMap swaps + damage materials are not on meshes but must be defined
     used_mats |= {n for n in MR.REGISTRY if any(n.startswith(b) for b in ("s13_lights", "s13_needle_", "s13_gauges",
-                                                                           "s13_glass"))}
+                                                                           "s13_glass", "s13_led_"))}
     tris = 0
     for ob, _ in sc.objs.values():
         tris += sum(len(p.vertices) - 2 for p in ob.data.polygons)

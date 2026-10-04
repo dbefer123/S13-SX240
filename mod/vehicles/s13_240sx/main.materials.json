@@ -1039,6 +1039,222 @@
     "materialTag1": "vehicle",
     "version": 1.5
   },
+  "s13_led_green": {
+    "name": "s13_led_green",
+    "mapTo": "s13_led_green",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.0075,
+          0.135,
+          0.015,
+          1
+        ],
+        "roughnessFactor": 0.1,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_led_green_on": {
+    "name": "s13_led_green_on",
+    "mapTo": "s13_led_green_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.05,
+          0.9,
+          0.1,
+          1
+        ],
+        "roughnessFactor": 0.1,
+        "metallicFactor": 0.0,
+        "emissiveFactor": [
+          0.05,
+          0.9,
+          0.1
+        ],
+        "emissiveIntensityNits": 6000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_led_amber": {
+    "name": "s13_led_amber",
+    "mapTo": "s13_led_amber",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.15,
+          0.0675,
+          0.003,
+          1
+        ],
+        "roughnessFactor": 0.1,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_led_amber_on": {
+    "name": "s13_led_amber_on",
+    "mapTo": "s13_led_amber_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          1.0,
+          0.45,
+          0.02,
+          1
+        ],
+        "roughnessFactor": 0.1,
+        "metallicFactor": 0.0,
+        "emissiveFactor": [
+          1.0,
+          0.45,
+          0.02
+        ],
+        "emissiveIntensityNits": 6000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_led_red": {
+    "name": "s13_led_red",
+    "mapTo": "s13_led_red",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.15,
+          0.0075,
+          0.0045,
+          1
+        ],
+        "roughnessFactor": 0.1,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_led_red_on": {
+    "name": "s13_led_red_on",
+    "mapTo": "s13_led_red_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          1.0,
+          0.05,
+          0.03,
+          1
+        ],
+        "roughnessFactor": 0.1,
+        "metallicFactor": 0.0,
+        "emissiveFactor": [
+          1.0,
+          0.05,
+          0.03
+        ],
+        "emissiveIntensityNits": 6000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_racetach_face": {
+    "name": "s13_racetach_face",
+    "mapTo": "s13_racetach_face",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_racetach_b.color.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_glass_poly": {
+    "name": "s13_glass_poly",
+    "mapTo": "s13_glass_poly",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.06,
+          0.065,
+          0.07,
+          1
+        ],
+        "roughnessFactor": 0.05,
+        "metallicFactor": 0.5,
+        "opacityFactor": 0.16
+      },
+      {},
+      {},
+      {}
+    ],
+    "castShadows": false,
+    "translucent": true,
+    "translucentBlendOp": "PreMulAlpha",
+    "translucentRecvShadows": true,
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
   "s13_tail_garnish": {
     "name": "s13_tail_garnish",
     "mapTo": "s13_tail_garnish",

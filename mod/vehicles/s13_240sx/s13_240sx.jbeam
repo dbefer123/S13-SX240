@@ -75,6 +75,7 @@
         ["s13_fueltank", "s13_fueltank_stock", "Fuel Tank"],
         ["s13_exhaust", "s13_exhaust_stock", "Exhaust"],
         ["s13_radiator", "s13_radiator_stock", "Radiator"],
+        ["s13_electronics", "s13_electronics_none", "Race Electronics"],
         ["paint_design", "", "Paint Design"],
         ["licenseplate_design_2_1", "", "License Plate Design"],
         ["s13_mod", "", "Additional Modification"],

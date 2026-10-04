@@ -198,6 +198,27 @@ def gauges_s13(out_dir):
     save(glow, os.path.join(out_dir, "s13_gauges_g.color.png"))
 
 
+def race_tach(out_dir, prefix="s13", n=1024):
+    """Round race tachometer face 0-10 x1000 rpm over 270 deg (zero at 135 deg CCW from up)."""
+    im = Image.new("RGB", (n, n), (6, 6, 7))
+    d = ImageDraw.Draw(im)
+    c = n / 2
+    d.ellipse([4, 4, n - 4, n - 4], fill=(10, 10, 11), outline=(70, 70, 72), width=6)
+    _dial(d, c, c, n * 0.46, 0, 10, 135, -135, list(range(0, 11)), 4, [str(i) for i in range(11)],
+          font("sans_bold", int(n * 0.085)), (240, 240, 235), red_from=8.5, tick_w=(int(n * 0.012), int(n * 0.006)),
+          label_r=0.72)
+    d.text((c, c + n * 0.20), "RPM x1000", font=font("sans_bold", int(n * 0.045)), fill=(200, 200, 200), anchor="mm")
+    d.text((c, c + n * 0.28), "RACE", font=font("free_bold_obl", int(n * 0.05)), fill=(220, 30, 20), anchor="mm")
+    save(im, os.path.join(out_dir, f"{prefix}_racetach_b.color.png"))
+
+
+def brushed_normal(out_dir, n=512):
+    rng = np.random.default_rng(51)
+    rows = rng.random((n, 1)) * 0.6 + tileable_noise(n, 2, 2, seed=52)[:, :1] * 0.4
+    h = np.repeat(rows, n, axis=1) + 0.15 * tileable_noise(n, 80, 2, seed=53)
+    save(normal_from_height(h, 1.5), os.path.join(out_dir, "s1x_brushed_nm.normal.png"))
+
+
 # ---------------------------------------------------------------------------
 # damaged glass (shared crack pattern for windows and lamp lenses)
 # ---------------------------------------------------------------------------
@@ -443,6 +464,8 @@ GENERATORS = {
     "cloth_s13": lambda m: seat_cloth(os.path.join(m, "vehicles/s13_240sx/textures"), "s13"),
     "radio_s13": lambda m: radio(os.path.join(m, "vehicles/s13_240sx/textures"), "s13"),
     "hvac_s13": lambda m: hvac(os.path.join(m, "vehicles/s13_240sx/textures"), "s13"),
+    "racetach_s13": lambda m: race_tach(os.path.join(m, "vehicles/s13_240sx/textures"), "s13"),
+    "brushed": lambda m: brushed_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "cast": lambda m: cast_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "crinkle": lambda m: crinkle_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "rotor": lambda m: rotor_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),

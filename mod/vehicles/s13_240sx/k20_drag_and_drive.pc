@@ -1,0 +1,39 @@
+{
+  "format": 2,
+  "model": "s13_240sx",
+  "parts": {
+    "s13_engine": "s13_engine_k20a_race",
+    "s13_k20a_race_intake": "s13_k20a_race_intake_cai",
+    "s13_k20a_race_ecu": "s13_k20a_race_ecu_race",
+    "s13_k20a_race_internals": "s13_k20a_race_internals_forged",
+    "s13_transmission": "s13_transmission_6m_cd009",
+    "s13_flywheel": "s13_flywheel_race",
+    "s13_exhaust": "s13_exhaust_race",
+    "s13_radiator": "s13_radiator_race",
+    "s13_shifter": "s13_shifter_short",
+    "s13_rollcage": "s13_rollcage_cage6",
+    "s13_electronics": "s13_electronics_drag",
+    "s13_interior": "s13_interior_stock",
+    "s13_steering_wheel": "s13_steering_wheel_deepdish",
+    "s13_spring_F": "s13_spring_F_drag",
+    "s13_spring_R": "s13_spring_R_drag",
+    "s13_swaybar_F": "s13_swaybar_F_none",
+    "s13_swaybar_R": "s13_swaybar_R_sport",
+    "s13_brake_F": "s13_brake_F_z32",
+    "s13_brake_R": "s13_brake_R_z32",
+    "s13_brakepad_F": "s13_brakepad_F_sport",
+    "s13_brakepad_R": "s13_brakepad_R_sport",
+    "s13_differential_R": "s13_differential_R_spool",
+    "s13_steering": "s13_steering_stock",
+    "s13_wheel_F": "s13_wheel_F_oem15_se",
+    "s13_tire_F_15": "s13_tire_F_205_60_15_allseason",
+    "s13_wheel_R": "s13_wheel_R_beadlock15",
+    "s13_tire_R_15": "s13_tire_R_275_60_15_dragradial"
+  },
+  "vars": {
+    "$wastegateStart": 24,
+    "$tirepressure_R": 16,
+    "$trackoffset_R": 0.02
+  },
+  "mainPartName": "s13_240sx"
+}
