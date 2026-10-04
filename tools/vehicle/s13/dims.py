@@ -47,9 +47,11 @@ EYE = (0.365, 0.21, 1.080)
 STEER_CENTER = (0.365, -0.385, 0.880)
 
 # instrument cluster (shared by the gauge mesh/texture and the needle props)
-GAUGE_Y = STEER_CENTER[1] - 0.21      # face plane
-GAUGE_Z = 0.955                       # face centre height
-GAUGE_W, GAUGE_H = 0.44, 0.15         # face size
+# The windshield is raked ~62 deg and passes eye height just above the wheel, so the cluster sits close
+# behind the wheel and low, under a thin hood that stays below the glass (see s13_parts.dash).
+GAUGE_Y = STEER_CENTER[1] - 0.10      # face plane
+GAUGE_Z = 0.918                       # face centre height
+GAUGE_W, GAUGE_H = 0.44, 0.125        # face size
 GAUGE_TACH_DX = 0.075                 # main dial centres at +-dx from the column (tach on the driver's left, +x)
 GAUGE_SMALL_DX = 0.175                # temp (left) / fuel (right) dial centres
 GAUGE_SMALL_DZ = -0.02

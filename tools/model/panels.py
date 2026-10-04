@@ -285,6 +285,21 @@ def split_by_side(ob):
     return parts
 
 
+def split_faces(ob, pred, name):
+    """Move the faces whose centre satisfies pred(Vector) into a new object `name` (returned)."""
+    import bmesh
+    new = duplicate(ob, name)
+    for target, keep in ((ob, False), (new, True)):
+        bm = bmesh.new()
+        bm.from_mesh(target.data)
+        dead = [f for f in bm.faces if bool(pred(f.calc_center_median())) != keep]
+        bmesh.ops.delete(bm, geom=dead, context="FACES")
+        bm.to_mesh(target.data)
+        bm.free()
+        target.data.update()
+    return new
+
+
 def join(objs, name):
     objs = [o for o in objs if o is not None]
     if not objs:

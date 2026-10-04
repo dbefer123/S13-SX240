@@ -24,6 +24,8 @@ WHEELS = [
     WH.WheelDef("race18", "18x10.5 Six-Spoke Race Wheel", 18, 10.5, 8.6, 2800, 5, "race"),
     WH.WheelDef("beadlock15", "15x10 Drag Beadlock", 15, 10.0, 8.2, 1400, 5, "beadlock"),
     WH.WheelDef("runner15", "15x3.5 Drag Front Runner", 15, 3.5, 3.6, 900, 5, "runner"),
+    WH.WheelDef("oem15_s14", "15x6 OEM S14 Alloy (Zenki 5-Spoke)", 15, 6.0, 8.0, 260, 5, "alloy"),
+    WH.WheelDef("oem16_s14", "16x6.5 OEM S14 Alloy (Kouki SE 5-Spoke)", 16, 6.5, 8.6, 320, 5, "alloy"),
 ]
 
 TIRES = [
@@ -33,6 +35,7 @@ TIRES = [
     WH.TireDef("205_55_15_sport", "205/55R15 Summer Sport", 205, 55, 15, "sport", 8.8, 140, 32),
     WH.TireDef("205_50_15_semislick", "205/50R15 Semi-Slick", 205, 50, 15, "semislick", 8.5, 260, 30),
     WH.TireDef("215_45_16_sport", "215/45R16 Summer Sport", 215, 45, 16, "sport", 9.0, 170, 32),
+    WH.TireDef("205_55_16_sport", "205/55R16 Summer Sport", 205, 55, 16, "sport", 9.0, 150, 32),
     WH.TireDef("225_45_16_semislick", "225/45R16 Semi-Slick", 225, 45, 16, "semislick", 9.4, 290, 30),
     WH.TireDef("215_45_17_sport", "215/45R17 Summer Sport", 215, 45, 17, "sport", 9.2, 180, 32),
     WH.TireDef("235_40_17_semislick", "235/40R17 Semi-Slick", 235, 40, 17, "semislick", 9.8, 310, 30),
@@ -53,7 +56,7 @@ DEFAULT_TIRE = {14: "195_60_14_allseason", 15: "205_60_15_allseason", 16: "215_4
                 18: "265_35_18_slick"}
 WHEEL_DEFAULT_TIRE = {"runner15": "165_80_15_runner", "beadlock15": "275_60_15_dragradial",
                       "split18": "265_35_18_drift", "race17": "245_40_17_slick", "race18": "265_35_18_slick",
-                      "deepdish17": "255_40_17_drift"}
+                      "deepdish17": "255_40_17_drift", "oem16_s14": "205_55_16_sport"}
 
 BRAKES = [
     WH.BrakeDef("stock", "Stock Disc Brakes", 1600, 820, 0.257, 0.258, 5.5, 4.8, 1.0, 0.7, "disc", "basic", 1100, 300),
@@ -97,8 +100,12 @@ STEERING = [("stock", "Stock Power Steering Rack", 470, 36, 200), ("quick", "Qui
 
 GEARBOX_DEFAULT_FINAL = {"5m": 4.083, "5m_sr": 4.111, "4a": 4.083, "6m_cd009": 4.300, "6s_race": 4.300, "4s_drag": 3.700}
 
-ENGINE_LAYOUT = dict(front_y=D.ENGINE_FRONT_Y + 0.04, rear_y=D.ENGINE_REAR_Y - 0.02, bottom_z=0.215, top_z=0.735,
-                     half_w=0.205, mount=(0.300, -1.300, 0.360))
+def engine_layout(dims):
+    return dict(front_y=dims.ENGINE_FRONT_Y + 0.04, rear_y=dims.ENGINE_REAR_Y - 0.02, bottom_z=0.215, top_z=0.735,
+                half_w=0.205, mount=(0.300, dims.AXLE_F_Y - 0.060, 0.360))
+
+
+ENGINE_LAYOUT = engine_layout(D)
 ENGINE_BODY_MOUNTS = ["fc1", "fr3", "fr2", "fa3"]
 TRANS_LAYOUT = dict(front_y=D.ENGINE_REAR_Y, rear_y=D.TRANS_REAR_Y, z=0.300)
 TRANS_BODY_LINKS = ["fl1", "fl1l", "fl1r", "fp1"]
@@ -122,65 +129,67 @@ REAR_SUSP_LINKS = {
 }
 
 
-def wheel_parts():
+def wheel_parts(pfx=PFX, dims=D):
     parts = []
     for axle in ("F", "R"):
-        cx = f"{(D.TRACK_F if axle == 'F' else D.TRACK_R) / 2:.4f}+$trackoffset_{axle}"
-        yz = (D.AXLE_F_Y if axle == "F" else D.AXLE_R_Y, D.AXLE_Z)
+        cx = f"{(dims.TRACK_F if axle == 'F' else dims.TRACK_R) / 2:.4f}+$trackoffset_{axle}"
+        yz = (dims.AXLE_F_Y if axle == "F" else dims.AXLE_R_Y, dims.AXLE_Z)
         for w in WHEELS:
             tkey = WHEEL_DEFAULT_TIRE.get(w.key, DEFAULT_TIRE[w.dia])
-            parts.append(WH.wheel_part(PFX, w, axle, cx, f"{PFX}_tire_{axle}_{tkey}", yz))
+            parts.append(WH.wheel_part(pfx, w, axle, cx, f"{pfx}_tire_{axle}_{tkey}", yz))
         for t in TIRES:
-            parts.append(WH.tire_part(PFX, t, axle, cx, yz))
-        parts.append(WH.hubcap_part(PFX, axle, 14, cx, yz))
+            parts.append(WH.tire_part(pfx, t, axle, cx, yz))
+        parts.append(WH.hubcap_part(pfx, axle, 14, cx, yz))
     for b in BRAKES:
-        parts.append(WH.brake_part(PFX, b, "F", f"{PFX}_hub_F"))
-        parts.append(WH.brake_part(PFX, b, "R", f"{PFX}_hub_R"))
-    parts += WH.pad_parts(PFX)
+        parts.append(WH.brake_part(pfx, b, "F", f"{pfx}_hub_F"))
+        parts.append(WH.brake_part(pfx, b, "R", f"{pfx}_hub_R"))
+    parts += WH.pad_parts(pfx)
     return parts
 
 
-def suspension_parts():
+def suspension_parts(pfx=PFX, dims=D, default_wheel="oem15_se"):
     parts = [
-        SU.front_suspension(PFX, D, FRONT_SUSP_LINKS, default_wheel=f"{PFX}_wheel_F_oem15_se"),
-        SU.wheeldata_front(PFX, D),
-        SU.rear_suspension(PFX, D, REAR_SUSP_LINKS, default_wheel=f"{PFX}_wheel_R_oem15_se"),
-        SU.wheeldata_rear(PFX),
+        SU.front_suspension(pfx, dims, FRONT_SUSP_LINKS, default_wheel=f"{pfx}_wheel_F_{default_wheel}"),
+        SU.wheeldata_front(pfx, dims),
+        SU.rear_suspension(pfx, dims, REAR_SUSP_LINKS, default_wheel=f"{pfx}_wheel_R_{default_wheel}"),
+        SU.wheeldata_rear(pfx),
     ]
     for key, title, k, b, r, hd, hmin, hmax, value, adj, tc, td in SPRINGS_F:
-        parts.append(SU.struts_front(PFX, key, title, k, b, r, hd, hmin, hmax, value, STATIC_LOAD_F,
+        parts.append(SU.struts_front(pfx, key, title, k, b, r, hd, hmin, hmax, value, STATIC_LOAD_F,
                                      travel_c=tc, travel_d=td, adjustable=adj))
     for key, title, k, b, r, hd, hmin, hmax, value, adj, tc, td in SPRINGS_R:
-        parts.append(SU.shocks_rear(PFX, key, title, k, b, r, hd, hmin, hmax, value, STATIC_LOAD_R,
+        parts.append(SU.shocks_rear(pfx, key, title, k, b, r, hd, hmin, hmax, value, STATIC_LOAD_R,
                                     travel_c=tc, travel_d=td, adjustable=adj))
     for key, title, rate, value, adj in SWAYBARS_F:
-        p = SU.swaybar_front(PFX, key, title, rate, value, adjustable=adj)
+        p = SU.swaybar_front(pfx, key, title, rate, value, adjustable=adj)
         if rate == 0:
             p._tables.pop("torsionbars", None)
             p._tables.pop("flexbodies", None)
         parts.append(p)
     for key, title, rate, value, adj in SWAYBARS_R:
-        p = SU.swaybar_rear(PFX, key, title, rate, value, adjustable=adj)
+        p = SU.swaybar_rear(pfx, key, title, rate, value, adjustable=adj)
         if rate == 0:
             p._tables.pop("torsionbars", None)
             p._tables.pop("flexbodies", None)
         parts.append(p)
     for key, title, lock, angle, value in STEERING:
-        parts.append(SU.steering(PFX, D, key, title, lock, angle, value, RACK_LINKS))
+        parts.append(SU.steering(pfx, dims, key, title, lock, angle, value, RACK_LINKS))
     return parts
 
 
-def powertrain_parts(engines=("ka24e", "ka24de", "sr20det", "k20a", "k20a_race")):
+def powertrain_parts(engines=("ka24e", "ka24de", "sr20det", "k20a", "k20a_race"), pfx=PFX, dims=D):
     parts = []
+    trans_layout = dict(front_y=dims.ENGINE_REAR_Y, rear_y=dims.TRANS_REAR_Y, z=0.300)
+    diff_layout = dict(y=dims.DIFF_Y, z=dims.DIFF_Z)
     for k in engines:
         e = PT.ENGINES[k]
         default_trans = {"ka24e": "5m", "ka24de": "5m", "sr20det": "5m_sr", "k20a": "6m_cd009", "k20a_race": "6s_race"}[k]
-        parts.append(PT.engine_part(PFX, e, ENGINE_LAYOUT, ENGINE_BODY_MOUNTS, f"{PFX}_transmission_{default_trans}"))
-        parts += PT.engine_subparts(PFX, e)
+        parts.append(PT.engine_part(pfx, e, engine_layout(dims), ENGINE_BODY_MOUNTS, f"{pfx}_transmission_{default_trans}"))
+        parts += PT.engine_subparts(pfx, e)
     for g in PT.GEARBOXES.values():
-        parts.append(PT.gearbox_part(PFX, g, TRANS_LAYOUT, TRANS_BODY_LINKS))
-    parts += PT.flywheels(PFX)
-    parts.append(PT.driveshaft_part(PFX, D.TRANS_REAR_Y, D.DIFF_Y - 0.24, 0.30, 0.31, ["fl3", "fl3l", "fl3r"]))
+        parts.append(PT.gearbox_part(pfx, g, trans_layout, TRANS_BODY_LINKS))
+    parts += PT.flywheels(pfx)
+    parts.append(PT.driveshaft_part(pfx, dims.TRANS_REAR_Y, dims.DIFF_Y - 0.24, 0.30, 0.31, ["fl3", "fl3l", "fl3r"]))
     for key in PT.DIFFS:
-        parts.append(PT.diff_part(PFX, key, 4.083, DIFF_LAYOUT, DIFF_BODY_LINKS))
+        parts.append(PT.diff_part(pfx, key, 4.083, diff_layout, DIFF_BODY_LINKS))
     return parts

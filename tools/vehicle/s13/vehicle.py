@@ -267,7 +267,8 @@ def fueltank(key="stock", title="Stock 60L Fuel Tank", capacity=60, value=180, y
 def exhaust(key="stock", title="Stock Exhaust", value=420, muffling=0.6, gain=-4, afterfire=0.2, mesh="s13_exhaust_stock"):
     p = Part(f"{PFX}_exhaust_{key}", title, f"{PFX}_exhaust", value=value)
     p.flexbody(mesh, ["exhaust"])
-    pts = [("exa1", -0.24, -1.05, 0.30), ("exa2", -0.14, -0.55, 0.205), ("exa3", -0.14, 0.40, 0.205),
+    pts = [("exa1", -0.24, -1.05, 0.30), ("exa2", -0.14, -0.55, 0.205), ("exa2b", -0.14, -0.08, 0.205),
+           ("exa3", -0.14, 0.40, 0.205),
            ("exa4", -0.30, 1.00, 0.230), ("exa5", -0.45, 1.70, 0.270), ("exa6", -0.50, 2.27, 0.250)]
     p.nodes_props(selfCollision=False, collision=True, nodeMaterial="|NM_METAL", frictionCoef=0.5, group="exhaust")
     for nm, x, y, z in pts[:-1]:
@@ -285,7 +286,8 @@ def exhaust(key="stock", title="Stock Exhaust", value=420, muffling=0.6, gain=-4
         p.beam(a, b, isExhaust="mainEngine")
     p.beam_comment("hangers")
     p.beams_props(beamSpring=201000, beamDamp=200, beamDeform=4000, beamStrength=9000)
-    for a, bs in (("exa1", ("e3r", "e4r", "e1r")), ("exa2", ("fl1", "fl1r", "fp1")), ("exa3", ("fl3", "fl3r", "fl2")),
+    for a, bs in (("exa1", ("e3r", "e4r", "e1r")), ("exa2", ("fl1", "fl1r", "fp1")), ("exa2b", ("fl2", "fl2r", "fl1")),
+                  ("exa3", ("fl3", "fl3r", "fl2")),
                   ("exa4", ("fl5r", "fl5", "rm1r")), ("exa5", ("rr2r", "fl7", "si6r")), ("exa6", ("tl1r", "rr3r", "tl1"))):
         for b in bs:
             p.beam(a, b)
@@ -372,7 +374,7 @@ def headliners():
     return out
 
 
-RACE_TACH = (D.STEER_CENTER[0], -0.560, 1.030)   # race tach pod face centre
+RACE_TACH = (D.STEER_CENTER[0], D.GAUGE_Y, 0.920)   # race tach pod face centre (on the column, under the glass)
 SHIFT_LED_MATS = ["s13_led_green", "s13_led_green", "s13_led_amber", "s13_led_amber", "s13_led_red"]
 
 

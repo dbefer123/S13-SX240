@@ -1,0 +1,31 @@
+{
+  "Configuration": "Base Zenki (M)",
+  "Config Type": "Factory",
+  "Body Style": "Coupe",
+  "Description": "The early S14: 155 hp KA24DE, five-speed, open differential and 15\" five-spoke alloys.",
+  "Years": {
+    "min": 1995,
+    "max": 1996
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 17900,
+  "Population": 3,
+  "defaultPaintName1": "Cherry Red Pearl",
+  "defaultPaintName2": "Cherry Red Pearl",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1248,
+  "Power": 155,
+  "Torque": 217,
+  "PowerPeakRPM": "5600",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 8.05,
+  "Induction Type": "NA",
+  "Top Speed": 58.86,
+  "0-60 mph": 8.3,
+  "0-100 km/h": 8.8,
+  "0-100 mph": 22.4,
+  "0-200 km/h": 51.6,
+  "Transmission": "Manual"
+}

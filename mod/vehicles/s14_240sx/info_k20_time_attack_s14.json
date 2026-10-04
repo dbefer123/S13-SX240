@@ -1,0 +1,31 @@
+{
+  "Configuration": "K20 Time Attack",
+  "Config Type": "Race",
+  "Body Style": "Coupe",
+  "Description": "High-downforce time attack S14: 640 hp turbo K20A, sequential, splitter, dive planes, flat-floor diffuser and an adjustable swan-neck wing, carbon panels, full cage, slicks.",
+  "Years": {
+    "min": 1997,
+    "max": 1998
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 135000,
+  "Population": 0,
+  "defaultPaintName1": "Racing Yellow",
+  "defaultPaintName2": "Super Black",
+  "defaultPaintName3": "Grand Prix Blue",
+  "Weight": 1148,
+  "Power": 653,
+  "Torque": 570,
+  "PowerPeakRPM": "8800",
+  "TorquePeakRPM": "7500",
+  "Weight/Power": 1.76,
+  "Induction Type": "Turbo",
+  "Top Speed": 81.65,
+  "0-60 mph": 4.3,
+  "0-100 km/h": 4.5,
+  "0-100 mph": 6.9,
+  "0-200 km/h": 9.1,
+  "Transmission": "Sequential"
+}

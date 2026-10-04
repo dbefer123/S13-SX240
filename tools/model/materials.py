@@ -280,6 +280,24 @@ def _define():
     add("s13_tail_garnish", owner=o, color=(0.22, 0.004, 0.004), rough=0.05, clearcoat=1.0,
         normal_map=tex(o, "s13_tail_nm.normal.png"))
 
+    # ===================== S14: copies of the S13 set (own folder/textures) + S14 specifics ===============
+    _s14_copies()
+    o = "s14"
+    lights(o, "s14_lights_red_smoked", (0.10, 0.002, 0.003), tex(o, "s14_tail_nm.normal.png"), 2500, 12000,
+           emissive=(1.0, 0.04, 0.02), preview=(0.13, 0.004, 0.006, 1))
+    lights(o, "s14_lights_clear_amber", (0.62, 0.62, 0.64), tex(o, "s14_tail_nm.normal.png"), 12000, 14000,
+           emissive=(1.0, 0.45, 0.02), preview=(0.66, 0.66, 0.68, 1))
+    add("s14_glass_lens", owner=o, kind="glass", color=(0.80, 0.82, 0.85), rough=0.0, metal=0.2, opacity=0.10,
+        normal_map=tex(o, "s14_lens_nm.normal.png"), preview=(0.85, 0.87, 0.9, 0.12))
+    add("s14_headlight_housing", owner=o, color=(0.03, 0.03, 0.035), rough=0.5)
+    add("s14_foglight", owner=o, color=(0.72, 0.72, 0.68), rough=0.04, metal=0.2, clearcoat=1.0,
+        normal_map=tex(o, "s14_lens_nm.normal.png"))
+    for key, like in (("s14_taillight_k", "s14_lights_red_smoked"), ("s14_signal_L_k", "s14_lights_clear_amber"),
+                      ("s14_signal_R_k", "s14_lights_clear_amber")):
+        ref = REGISTRY[like]
+        add(key, owner=o, color=ref.color, rough=ref.rough, metal=ref.metal, clearcoat=ref.clearcoat, preview=ref.preview,
+            write=False)
+
     # ===================== shared (s1x) =====================
     o = "s1x"
     add("s1x_metal_black", color=(0.018, 0.018, 0.019), rough=0.48, metal=0.0, clearcoat=0.2,
@@ -370,6 +388,27 @@ def _define():
     add("s1x_carbon", color=(0.32, 0.32, 0.32), rough=0.09, clearcoat=0.93, cc_rough=0.05,
         detail_map=BUILTIN["carbon_d"], detail_normal=BUILTIN["carbon_n"], detail_scale=(60, 60), detail_strength=0.77,
         preview=(0.03, 0.03, 0.03, 1))
+
+
+def _s14_copies():
+    """Every S13 material gets an S14 twin with the same look; texture paths point at the S14 folder."""
+    import dataclasses
+    a, b = "/vehicles/s13_240sx/textures/s13_", "/vehicles/s14_240sx/textures/s14_"
+    pa, pb = "vehicles/s13_240sx/textures/s13_", "vehicles/s14_240sx/textures/s14_"
+    for name, m in list(REGISTRY.items()):
+        if m.owner != "s13" or not name.startswith("s13"):
+            continue
+        new = "s14" + name[3:]
+        if new in REGISTRY:
+            continue
+        kw = {}
+        for f in dataclasses.fields(m):
+            v = getattr(m, f.name)
+            if isinstance(v, str):
+                v = v.replace(a, b).replace(pa, pb)
+            kw[f.name] = v
+        kw.update(name=new, owner="s14")
+        REGISTRY[new] = Mat(**kw)
 
 
 _define()

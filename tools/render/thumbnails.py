@@ -44,11 +44,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--mod", default="mod")
     ap.add_argument("--veh", default="s13_240sx")
-    ap.add_argument("--blend", default=".cache/build/s13_meshes.blend")
+    ap.add_argument("--blend", default="", help="mesh library (default .cache/build/<s13|s14>_meshes.blend)")
     ap.add_argument("--only", default="")
     ap.add_argument("--res", default="640x360")
     ap.add_argument("--samples", type=int, default=20)
     a = ap.parse_args(argv)
+    a.blend = a.blend or f".cache/build/{a.veh.split('_')[0]}_meshes.blend"
     vdir = os.path.join(a.mod, "vehicles", a.veh)
     with open(os.path.join(vdir, "info.json")) as f:
         info = json.load(f)

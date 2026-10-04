@@ -327,7 +327,8 @@ def canards():
 
 
 # --- swan-neck GT wing ------------------------------------------------------------
-WING = dict(span=0.80, chord=0.30, x_mount=0.40, y_le=2.090, z_le=1.175, default_angle=10.0, min_angle=2.0, max_angle=20.0)
+WING = dict(span=0.80, chord=0.30, x_mount=0.40, y_le=2.090, z_le=1.175, default_angle=10.0, min_angle=2.0, max_angle=20.0,
+            foot=(2.185, 0.905))
 
 
 def wing_points(angle_deg):
@@ -368,7 +369,7 @@ def wing_gt():
     p.nodes_props(group=f"{PFX}_wingmount")
     for s, sx in (("l", 1), ("r", -1)):
         p.node("wu1" + s, sx * xm, float(up[0]), float(up[1]), nodeWeight=1.0)          # upright knee
-        p.node("wu0" + s, sx * xm, 2.185, 0.905, nodeWeight=1.2)                         # deck foot
+        p.node("wu0" + s, sx * xm, WING["foot"][0], WING["foot"][1], nodeWeight=1.2)      # deck foot
     p.nodes_props(group="")
     L = ["wg1er", "wg1mr", "wg1", "wg1ml", "wg1el"]
     T = ["wg2er", "wg2mr", "wg2", "wg2ml", "wg2el"]

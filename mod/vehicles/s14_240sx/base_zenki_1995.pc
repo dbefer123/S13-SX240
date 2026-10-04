@@ -1,0 +1,28 @@
+{
+  "format": 2,
+  "model": "s14_240sx",
+  "parts": {
+    "s14_engine": "s14_engine_ka24de",
+    "s14_ka24de_intake": "s14_ka24de_intake_stock",
+    "s14_ka24de_ecu": "s14_ka24de_ecu_stock",
+    "s14_ka24de_internals": "s14_ka24de_internals_stock",
+    "s14_transmission": "s14_transmission_5m",
+    "s14_flywheel": "s14_flywheel_stock",
+    "s14_spring_F": "s14_spring_F_stock",
+    "s14_spring_R": "s14_spring_R_stock",
+    "s14_swaybar_F": "s14_swaybar_F_stock",
+    "s14_swaybar_R": "s14_swaybar_R_stock",
+    "s14_brake_F": "s14_brake_F_stock",
+    "s14_brake_R": "s14_brake_R_stock",
+    "s14_brakepad_F": "s14_brakepad_F_basic",
+    "s14_brakepad_R": "s14_brakepad_R_basic",
+    "s14_differential_R": "s14_differential_R_open",
+    "s14_steering": "s14_steering_stock",
+    "s14_wheel_F": "s14_wheel_F_oem15_s14",
+    "s14_tire_F_15": "s14_tire_F_205_60_15_allseason",
+    "s14_wheel_R": "s14_wheel_R_oem15_s14",
+    "s14_tire_R_15": "s14_tire_R_205_60_15_allseason"
+  },
+  "vars": {},
+  "mainPartName": "s14_240sx"
+}

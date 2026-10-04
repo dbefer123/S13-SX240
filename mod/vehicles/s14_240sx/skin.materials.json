@@ -1,0 +1,152 @@
+{
+  "s14_paint.skin.twotone": {
+    "name": "s14_paint.skin.twotone",
+    "mapTo": "s14_paint.skin.twotone",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/s14_240sx/textures/s14_livery_twotone.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s14_paint.skin.stripes": {
+    "name": "s14_paint.skin.stripes",
+    "mapTo": "s14_paint.skin.stripes",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/s14_240sx/textures/s14_livery_stripes.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s14_paint.skin.imsa": {
+    "name": "s14_paint.skin.imsa",
+    "mapTo": "s14_paint.skin.imsa",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/s14_240sx/textures/s14_livery_imsa.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s14_paint.skin.track": {
+    "name": "s14_paint.skin.track",
+    "mapTo": "s14_paint.skin.track",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/s14_240sx/textures/s14_livery_track.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s14_paint.skin.drift": {
+    "name": "s14_paint.skin.drift",
+    "mapTo": "s14_paint.skin.drift",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/s14_240sx/textures/s14_livery_drift.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  }
+}

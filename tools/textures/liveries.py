@@ -147,7 +147,7 @@ LIVERIES = {
 }
 
 
-def generate(out_dir):
+def generate(out_dir, prefix="s13"):
     os.makedirs(out_dir, exist_ok=True)
     region, X, Y, Z = _coords()
     paths = {}
@@ -167,7 +167,7 @@ def generate(out_dir):
             cx, cy = ((-1.45 + 2.6) * S) * N, (1 - (0.146 + 0.9 * S)) * N
             rgb = _roundel(rgb, [(cx, cy, False)], int(0.15 * S * N), num, 0, text_ch)
         img = Image.fromarray((np.clip(rgb, 0, 1) * 255 + 0.5).astype(np.uint8))
-        p = os.path.join(out_dir, f"s13_livery_{key}.color.png")
+        p = os.path.join(out_dir, f"{prefix}_livery_{key}.color.png")
         img.save(p, optimize=True)
         paths[key] = p
     return paths

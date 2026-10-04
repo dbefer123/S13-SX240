@@ -111,8 +111,18 @@ def pre_solidify(out):
 # ---------------------------------------------------------------------------
 # inserts (after solidify)
 # ---------------------------------------------------------------------------
-def _assign_by(ob, mat_name, pred):
+def _assign_by(ob, mat_name, pred, split_z=None):
+    """Give the faces matching pred(centre, normal) another material.  With split_z the mesh is first cut along
+    that height, so a horizontal colour break is a straight line instead of following the triangles."""
     from . import materials as MR
+    if split_z is not None:
+        import bmesh
+        bm = bmesh.new()
+        bm.from_mesh(ob.data)
+        bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], dist=1e-6,
+                               plane_co=(0.0, 0.0, split_z), plane_no=(0.0, 0.0, 1.0))
+        bm.to_mesh(ob.data)
+        bm.free()
     me = ob.data
     mat = MR.blender_material(mat_name)
     if mat.name not in [m.name for m in me.materials if m]:
@@ -269,7 +279,7 @@ def post_solidify(out):
     for key, (opens, lamps, lip) in FRONT_VARIANTS.items():
         name = f"s13_bumper_F_{key}"
         add(name, _front_inserts(key, out[name], _openings(opens), lamps, lip, intercooler=key in ("race", "drift")))
-        _assign_by(out[name], "s13_trim_black", lambda c, n: c.z < F_LIP_Z)
+        _assign_by(out[name], "s13_trim_black", lambda c, n: c.z < F_LIP_Z, split_z=F_LIP_Z)
     for key, kind in REAR_VARIANTS.items():
         name = f"s13_bumper_R_{key}"
         mb = MeshBuilder(f"__rv_{key}")
@@ -287,7 +297,7 @@ def post_solidify(out):
             n = len(row_a)
             mb.add_faces(row_a + row_b, [(i, i + 1, n + i + 1, n + i) for i in range(n - 1)], "s13_trim_black", smooth=False)
         add(name, mb.to_object())
-        _assign_by(out[name], "s13_trim_black", lambda c, n: c.z < 0.262)
+        _assign_by(out[name], "s13_trim_black", lambda c, n: c.z < 0.262, split_z=0.262)
 
     # ---- front bumper ---------------------------------------------------------
     bf = out["s13_bumper_F"]
@@ -319,7 +329,7 @@ def post_solidify(out):
         mb.box((0.0, ye - 0.0045, 0.468), (0.066, 0.002, 0.009), "s13_badge_blue")
     sm = mb.to_object()
     add("s13_bumper_F", sm)
-    _assign_by(bf, "s13_trim_black", lambda c, n: c.z < F_LIP_Z)
+    _assign_by(bf, "s13_trim_black", lambda c, n: c.z < F_LIP_Z, split_z=F_LIP_Z)
 
     # ---- side rub strips + door handles ---------------------------------------
     for s, side in ((1, "L"), (-1, "R")):
@@ -366,7 +376,7 @@ def post_solidify(out):
     # plate recess back wall
     mb.box((0.0, R_PLATE["wall_y"], R_PLATE["cz"]), (R_PLATE["w"] + 0.01, 0.004, R_PLATE["h"] + 0.01), "s13_paint")
     add("s13_bumper_R", mb.to_object())
-    _assign_by(br, "s13_trim_black", lambda c, n: c.z < 0.262)
+    _assign_by(br, "s13_trim_black", lambda c, n: c.z < 0.262, split_z=0.262)
 
     # NISSAN letters on the tail garnish, 240SX on the hatch
     body = out["s13_body_hatch"]

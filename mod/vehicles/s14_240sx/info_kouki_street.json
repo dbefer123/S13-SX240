@@ -1,0 +1,31 @@
+{
+  "Configuration": "Kouki Street",
+  "Config Type": "Custom",
+  "Body Style": "Coupe",
+  "Description": "Clean street build: aero lip, valance and side skirts, intake and header, street coilovers, Z32 brakes, 17\" deep-dish wheels and a 1.5-way LSD.",
+  "Years": {
+    "min": 1997,
+    "max": 1998
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 27500,
+  "Population": 0,
+  "defaultPaintName1": "Midnight Purple Pearl",
+  "defaultPaintName2": "Midnight Purple Pearl",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1258,
+  "Power": 168,
+  "Torque": 228,
+  "PowerPeakRPM": "5900",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.49,
+  "Induction Type": "NA",
+  "Top Speed": 60.53,
+  "0-60 mph": 7.5,
+  "0-100 km/h": 7.9,
+  "0-100 mph": 20.4,
+  "0-200 km/h": 42.6,
+  "Transmission": "Manual"
+}

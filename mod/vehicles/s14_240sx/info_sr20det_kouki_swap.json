@@ -1,0 +1,31 @@
+{
+  "Configuration": "SR20DET Black Top Swap (Kouki Conversion)",
+  "Config Type": "Custom",
+  "Body Style": "Coupe",
+  "Description": "The classic recipe: a zenki shell with a kouki front-end conversion and a black-top SR20DET on a bigger turbo.",
+  "Years": {
+    "min": 1995,
+    "max": 1998
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 29800,
+  "Population": 0,
+  "defaultPaintName1": "Super Black",
+  "defaultPaintName2": "Super Black",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1247,
+  "Power": 262,
+  "Torque": 314,
+  "PowerPeakRPM": "6500",
+  "TorquePeakRPM": "4500",
+  "Weight/Power": 4.76,
+  "Induction Type": "Turbo",
+  "Top Speed": 70.94,
+  "0-60 mph": 6.7,
+  "0-100 km/h": 6.9,
+  "0-100 mph": 13.7,
+  "0-200 km/h": 21.6,
+  "Transmission": "Manual"
+}

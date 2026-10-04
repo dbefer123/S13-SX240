@@ -10,7 +10,8 @@ from mathutils import Matrix, Vector
 
 from . import bl, panels as P
 from .prims import MeshBuilder, rounded_rect
-from .s13_parts import SPEC, grid_faces
+from . import s13_parts as SP
+from .s13_parts import SPEC, grid_faces, under_glass
 from .shape import top_z, side_x
 from tools.vehicle.s13 import dims as D, race as R, panels_jb as PJ, panel_spec as S
 
@@ -113,9 +114,14 @@ def tube_floor():
             z = cz + r * math.sin(a)
             verts += [(s * 0.46, y, z), (s * 0.80, y, z)]
         faces = [(2 * i, 2 * i + 1, 2 * i + 3, 2 * i + 2) if s < 0 else (2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1) for i in range(n)]
-        mb.add_faces(verts, faces, M_ALU, smooth=True)
+        mb.add_faces(verts, faces, M_ALU, smooth=True)                                     # faces the wheel
+        k = (r + 0.002) / r                                                                # cabin side, own vertices
+        mb.add_faces([(x, cy + (y - cy) * k, cz + (z - cz) * k) for x, y, z in verts], [f[::-1] for f in faces], M_ALU,
+                     smooth=True)
         mb.lathe([(0.0, 0.0), (r, 0.0)], M_ALU, segs=20, axis="x", center=(s * 0.46, cy, cz),
                  angle=(math.pi - 0.15, 0.15) if s > 0 else (0.15, math.pi - 0.15))      # faces the wheel
+        mb.lathe([(0.0, 0.0), (r, 0.0)], M_ALU, segs=20, axis="x", center=(s * 0.458, cy, cz),
+                 angle=(0.15, math.pi - 0.15) if s > 0 else (math.pi - 0.15, 0.15))      # faces the cabin
     return mb
 
 
@@ -215,7 +221,8 @@ def wing_gt_mounts():
     (yl, zl), (yt, zt) = R.wing_points(R.WING["default_angle"])
     xm = R.WING["x_mount"]
     for s in (1, -1):
-        path = [(2.185, 0.905), (2.17, 1.00), (up[0], up[1] + 0.06), (yl + 0.05, zl + 0.075), (yl + 0.10, zl + 0.045)]
+        fy, fz = R.WING["foot"]
+        path = [(fy, fz), (fy - 0.015, fz + 0.095), (up[0], up[1] + 0.06), (yl + 0.05, zl + 0.075), (yl + 0.10, zl + 0.045)]
         # flat plate upright: offset the path +-6 mm in x, extrude a 70 mm wide band
         verts, faces = [], []
         prof = []
@@ -233,7 +240,7 @@ def wing_gt_mounts():
                 f = (o + i, o + i + 1, o + m + i + 1, o + m + i)
                 faces.append(f if side == 0 else f[::-1])              # -x sheet faces -x, +x sheet faces +x
         mb.add_faces(verts, faces, "s1x_aluminium", smooth=False)
-        mb.cylinder((s * xm, 2.185, 0.895), (s * xm, 2.185, 0.912), 0.035, "s1x_aluminium", segs=16)
+        mb.cylinder((s * xm, fy, fz - 0.010), (s * xm, fy, fz + 0.007), 0.035, "s1x_aluminium", segs=16)
     return mb
 
 
@@ -413,9 +420,9 @@ def dash_race():
     xs = np.linspace(-0.72, 0.72, 25)
     verts = []
     for x in xs:
-        for y, z in ((-0.80, 0.86), (-0.64, 0.905), (-0.50, 0.90), (-0.47, 0.86), (-0.47, 0.70)):
-            verts.append((float(x), y, z))
-    mb.add_faces(verts, grid_faces(len(xs), 5, flip=False), M_CARBON, smooth=False)   # faces up / toward the driver
+        for y, z in ((-0.90, 0.836), (-0.80, 0.85), (-0.66, 0.895), (-0.565, 0.90), (-0.535, 0.875), (-0.535, 0.70)):
+            verts.append((float(x), y, under_glass(float(x), y, z) if y > -0.85 else SP.COWL_TOP(float(x), y) - 0.012))
+    mb.add_faces(verts, grid_faces(len(xs), 6, flip=False), M_CARBON, smooth=False)   # faces up / toward the driver
     # column shroud + pod stalk
     sc = Vector(D.STEER_CENTER)
     a = math.radians(23)
@@ -428,10 +435,10 @@ def race_tach():
     from tools.vehicle.s13.vehicle import RACE_TACH
     mb = MeshBuilder("s13_race_tach")
     tx, ty, tz = RACE_TACH
-    R0 = 0.066
-    # cup (opens toward +y, the driver)
-    mb.lathe([(0.0, -0.06), (R0 + 0.006, -0.055), (R0 + 0.010, 0.0), (R0 + 0.010, 0.012), (R0 - 0.002, 0.012)],
-             "s1x_metal_black", segs=40, axis="y", center=(tx, ty, tz))
+    R0 = 0.060
+    # cup (opens toward +y, the driver), tapered at the back to clear the raked windshield
+    mb.lathe([(0.0, -0.045), (R0 * 0.55, -0.042), (R0 + 0.004, -0.022), (R0 + 0.010, 0.0), (R0 + 0.010, 0.012),
+              (R0 - 0.002, 0.012)], "s1x_metal_black", segs=40, axis="y", center=(tx, ty, tz))
     # face (textured disc, 0..1 UVs)
     n = 40
     verts = [(tx, ty + 0.001, tz)] + [(tx - R0 * math.cos(2 * math.pi * k / n), ty + 0.001, tz + R0 * math.sin(2 * math.pi * k / n))
@@ -445,10 +452,10 @@ def race_tach():
     # shift light strip above the pod
     for i in range(5):
         x = tx + 0.048 - i * 0.024
-        mb.cylinder((x, ty - 0.004, tz + R0 + 0.022), (x, ty + 0.006, tz + R0 + 0.022), 0.007, f"s13_shiftled_{i}", segs=12)
-    mb.rbox((tx, ty - 0.01, tz + R0 + 0.022), (0.14, 0.02, 0.022), 0.006, "s1x_metal_black")
-    # stalk to the dash
-    mb.tube([(tx, ty - 0.05, tz - 0.02), (tx, ty - 0.11, tz - 0.12)], 0.012, "s1x_metal_black", segs=10)
+        mb.cylinder((x, ty - 0.004, tz + R0 + 0.016), (x, ty + 0.006, tz + R0 + 0.016), 0.006, f"s13_shiftled_{i}", segs=12)
+    mb.rbox((tx, ty - 0.01, tz + R0 + 0.016), (0.14, 0.02, 0.018), 0.006, "s1x_metal_black")
+    # clamp bracket down to the column
+    mb.tube([(tx, ty - 0.03, tz - 0.03), (tx, ty - 0.05, tz - 0.08)], 0.012, "s1x_metal_black", segs=10)
     return mb
 
 

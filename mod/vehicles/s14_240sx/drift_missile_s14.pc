@@ -1,0 +1,39 @@
+{
+  "format": 2,
+  "model": "s14_240sx",
+  "parts": {
+    "s14_engine": "s14_engine_sr20det",
+    "s14_sr20det_intake": "s14_sr20det_intake_cai",
+    "s14_sr20det_ecu": "s14_sr20det_ecu_stock",
+    "s14_sr20det_internals": "s14_sr20det_internals_stock",
+    "s14_transmission": "s14_transmission_5m_sr",
+    "s14_flywheel": "s14_flywheel_light",
+    "s14_sr20det_induction": "s14_sr20det_induction_t25_stock",
+    "s14_steering_wheel": "s14_steering_wheel_deepdish",
+    "paint_design": "s14_skin_drift",
+    "s14_handbrake": "s14_handbrake_hydro",
+    "s14_interior": "s14_interior_stripped",
+    "s14_headliner": "",
+    "s14_rollcage": "s14_rollcage_rollbar",
+    "s14_spring_F": "s14_spring_F_drift",
+    "s14_spring_R": "s14_spring_R_drift",
+    "s14_swaybar_F": "s14_swaybar_F_race",
+    "s14_swaybar_R": "s14_swaybar_R_sport",
+    "s14_brake_F": "s14_brake_F_z32",
+    "s14_brake_R": "s14_brake_R_z32",
+    "s14_brakepad_F": "s14_brakepad_F_sport",
+    "s14_brakepad_R": "s14_brakepad_R_sport",
+    "s14_differential_R": "s14_differential_R_welded",
+    "s14_steering": "s14_steering_anglekit",
+    "s14_wheel_F": "s14_wheel_F_split18",
+    "s14_tire_F_18": "s14_tire_F_235_40_18_drift",
+    "s14_wheel_R": "s14_wheel_R_deepdish17",
+    "s14_tire_R_17": "s14_tire_R_255_40_17_drift"
+  },
+  "vars": {
+    "$wastegateStart": 12,
+    "$tirepressure_R": 40,
+    "$camber_F": 0.975
+  },
+  "mainPartName": "s14_240sx"
+}

@@ -44,7 +44,9 @@ def underbody():
             if abs(xx) < 0.15 and -0.90 < y < 0.75:      # transmission tunnel
                 z += 0.10 * (1 - (abs(xx) / 0.15) ** 2)
             verts.append((xx, float(y), z))
-    mb.add_faces(verts, grid_faces(len(ys), len(xs), flip=False), M_UNDER, smooth=True)
+    mb.add_faces(verts, grid_faces(len(ys), len(xs), flip=False), M_UNDER, smooth=True)       # faces the road
+    # upper side (seen from the cabin, the cargo area and the open engine bay): own vertices, 1.5 mm up
+    mb.add_faces([(x, y, z + 0.0015) for x, y, z in verts], grid_faces(len(ys), len(xs), flip=True), M_UNDER, smooth=True)
     return mb
 
 
@@ -63,11 +65,17 @@ def wheelwells():
                 verts.append((s * x_in, y, z))
                 verts.append((s * x_out, y, z))
             faces = [(2 * i, 2 * i + 1, 2 * i + 3, 2 * i + 2) if s < 0 else (2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1) for i in range(n)]
-            mb.add_faces(verts, faces, M_UNDER, smooth=True)
-            # inner wall disc
+            mb.add_faces(verts, faces, M_UNDER, smooth=True)                 # faces the wheel
+            # back of the arch (seen from the engine bay and the cabin): own vertices, 2 mm further out
+            k = (r + 0.002) / r
+            back = [(x, cy + (y - cy) * k, cz + (z - cz) * k) for x, y, z in verts]
+            mb.add_faces(back, [f[::-1] for f in faces], M_UNDER, smooth=True)
+            # inner wall disc, both sides
             prof = [(0.0, 0.0), (r, 0.0)]
             mb.lathe(prof, M_UNDER, segs=24, axis="x", center=(s * x_in, cy, cz),
                      angle=(math.pi, 0) if s > 0 else (0, math.pi))          # faces the wheel
+            mb.lathe(prof, M_UNDER, segs=24, axis="x", center=(s * (x_in - 0.002), cy, cz),
+                     angle=(0, math.pi) if s > 0 else (math.pi, 0))          # faces the cabin / engine bay
     return mb
 
 
@@ -96,6 +104,8 @@ def enginebay():
             zz = z if z is not None else min(0.84, top_z(SPEC, -0.90, abs(float(x))) - 0.03)
             verts.append((float(x), -0.885 + (0.02 if z is None else 0.0), zz))
     mb.add_faces(verts, grid_faces(4, len(xs), flip=True), "s13_enginebay_paint", smooth=False)   # faces forward
+    # cabin side (seen under race / stripped dashes): own vertices, 2 mm rearward, sound-deadening black
+    mb.add_faces([(x, y + 0.002, z) for x, y, z in verts], grid_faces(4, len(xs), flip=False), M_UNDER, smooth=False)
     # radiator core support (upper bar)
     mb.rbox((0.0, -2.06, min(0.555, top_z(SPEC, -2.06, 0.0) - 0.05)), (0.95, 0.05, 0.04), 0.008, "s13_enginebay_paint")
     return mb
@@ -192,56 +202,94 @@ def _plateau(x, c, half, ramp):
     return 1.0 - t * t * (3 - 2 * t)
 
 
+GLASS_CLEAR = 0.014        # dash / binnacle clearance under the windshield's outer surface
+DASH_UNDER_COWL = 0.10     # how far the dash top continues forward under the cowl (past the glass base)
+
+
+def _cowl_top_s13(x, y):
+    return top_z(SPEC, y, min(abs(x), 0.66))
+
+
+# top of the windshield / cowl skin at (x, y) in these (S13) coordinates; build_s14 swaps in the S14 skin seen
+# through the S13 -> S14 warp while it generates the (warped) S14 dash and race dash
+COWL_TOP = _cowl_top_s13
+
+
+def under_glass(x, y, z, clear=GLASS_CLEAR):
+    """Clamp a dash point below the windshield / cowl (top surface) ahead of the A-pillar base."""
+    if y < -0.40:
+        z = min(z, COWL_TOP(x, y) - clear)
+    return z
+
+
+def dash_loft(mb, normal, cluster, mat=None, x_lo=-0.74, x_hi=0.74, ramp=0.035):
+    """Loft the dash along x: the `normal` profile blends into the `cluster` (binnacle) profile around the
+    column.  Both are [(y, z)] lists of equal length running from the windshield base, over the top, down the
+    face and back along the underside; every point is kept under the glass."""
+    cx = D.STEER_CENTER[0]
+
+    def prof(x):
+        k = _plateau(x, cx, D.GAUGE_W / 2 + 0.025, ramp)
+        pts = [(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k) for a, b in zip(normal(x), cluster(x))]
+        # front lip carried on under the cowl: the driver's sight line over the dash top must end on the dash,
+        # not pass under the windshield's lower edge into the engine bay
+        out = [(pts[0][0] - DASH_UNDER_COWL, COWL_TOP(x, pts[0][0] - DASH_UNDER_COWL) - 0.012)]
+        return out + [(y, under_glass(x, y, z)) for y, z in pts]
+
+    xs = np.concatenate([np.linspace(x_lo, cx - 0.32, 26), np.linspace(cx - 0.31, min(cx + 0.31, x_hi), 40)])
+    xs = np.unique(np.round(xs, 4))
+    _loft_x(mb, xs, prof, mat or M_INT)          # faces up / toward the cabin
+    # side caps of the dash ends
+    for x in (xs[0], xs[-1]):
+        pts = prof(float(x))
+        mb.polygon([(float(x), y, z) for y, z in pts], mat or M_INT, (1 if x > 0 else -1, 0, 0))
+    return prof
+
+
+def column_shroud(mb, r=0.05, mat=None):
+    """Steering column shroud from the wheel into the lower cluster bezel, with the combination switch stalks."""
+    sc = Vector(D.STEER_CENTER)
+    a = math.radians(23)
+    d = Vector((0, -math.cos(a), -math.sin(a)))
+    # ends at the lower cluster bezel: further in it would show inside the gauge recess
+    mb.tube([tuple(sc + d * 0.05), tuple(sc + d * 0.078)], r, mat or M_INT, segs=14)
+    for s_ in (1, -1):
+        b = sc + d * 0.075
+        mb.tube([tuple(b), tuple(b + Vector((s_ * 0.13, 0.02, 0.01)))], 0.006, "s1x_dark", segs=8)
+
+
 def dash():
     """Dash top/face loft with the S13's raised cluster binnacle and gauge recess on the driver side."""
     mb = MeshBuilder("s13_dash")
-    cx = D.STEER_CENTER[0]
     gy, gz, gh = D.GAUGE_Y, D.GAUGE_Z, D.GAUGE_H
 
     def normal(x):
         wall = 0.73 - 0.04 * math.cos(x * 2.0)
-        return [(-0.80, 0.86), (-0.66, 0.895), (-0.60, 0.905), (-0.52, 0.906), (-0.49, 0.902), (-0.48, 0.897),
-                (-0.474, 0.890), (-0.468, 0.878), (-0.462, 0.864), (-0.452, 0.842), (-0.44, wall), (-0.48, 0.61),
-                (-0.62, 0.56), (-0.80, 0.55)]
+        return [(-0.80, 0.86), (-0.72, 0.880), (-0.64, 0.898), (-0.57, 0.906), (-0.51, 0.905), (-0.488, 0.899),
+                (-0.474, 0.889), (-0.465, 0.874), (-0.457, 0.856), (-0.450, 0.835), (-0.444, 0.810), (-0.440, 0.780),
+                (-0.44, wall), (-0.48, 0.61), (-0.62, 0.56), (-0.80, 0.55)]
 
     def cluster(x):
         wall = 0.73 - 0.04 * math.cos(x * 2.0)
-        return [(-0.80, 0.86), (-0.68, 0.975), (-0.62, 1.030), (-0.53, 1.048), (-0.495, 1.040), (-0.505, 1.025),
-                (gy - 0.002, gz + gh / 2 + 0.012), (gy - 0.002, gz - gh / 2 - 0.012), (-0.48, 0.858), (-0.455, 0.835),
-                (-0.44, wall), (-0.48, 0.61), (-0.62, 0.56), (-0.80, 0.55)]
+        return [(-0.80, 0.86), (-0.72, 0.888), (-0.64, 0.925), (-0.57, 0.958), (-0.51, 0.990), (-0.468, 1.006),
+                (-0.446, 1.008), (-0.436, 1.002), (-0.442, 0.995), (gy - 0.002, gz + gh / 2 + 0.008),
+                (gy - 0.002, gz - gh / 2 - 0.008), (-0.452, 0.842), (-0.44, wall), (-0.48, 0.61), (-0.62, 0.56),
+                (-0.80, 0.55)]
 
-    def prof(x):
-        k = _plateau(x, cx, D.GAUGE_W / 2 + 0.025, 0.035)
-        return [(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k) for a, b in zip(normal(x), cluster(x))]
-
-    xs = np.concatenate([np.linspace(-0.74, cx - 0.32, 26), np.linspace(cx - 0.31, min(cx + 0.31, 0.74), 40)])
-    xs = np.unique(np.round(xs, 4))
-    _loft_x(mb, xs, prof, M_INT, flip=True)
-    # side caps of the dash ends
-    for x in (xs[0], xs[-1]):
-        pts = prof(float(x))
-        mb.polygon([(float(x), y, z) for y, z in pts], M_INT, (1 if x > 0 else -1, 0, 0))
+    dash_loft(mb, normal, cluster)
     # centre stack
     mb.rbox((0.0, -0.50, 0.66), (0.28, 0.10, 0.20), 0.02, M_INT)
     textured_quad(mb, (0.0, -0.449, 0.70), 0.21, 0.065, "s13_radio")
     textured_quad(mb, (0.0, -0.449, 0.612), 0.21, 0.060, "s13_hvac")
     # vents
     for x in (-0.55, -0.12, 0.12, 0.62):
-        z = 0.84 if abs(x) > 0.3 else 0.79
+        z = 0.80 if abs(x) > 0.3 else 0.79
         mb.rbox((x, -0.45, z), (0.10, 0.012, 0.045), 0.006, "s1x_dark")
         for k in range(4):
             mb.box((x, -0.443, z - 0.015 + k * 0.01), (0.092, 0.004, 0.003), "s13_interior_plastic_light")
     # glovebox outline
     mb.rbox((-0.42, -0.432, 0.70), (0.34, 0.006, 0.13), 0.01, M_INT2)
-    # steering column shroud
-    sc = Vector(D.STEER_CENTER)
-    a = math.radians(23)
-    d = Vector((0, -math.cos(a), -math.sin(a)))
-    mb.tube([tuple(sc + d * 0.06), tuple(sc + d * 0.30)], 0.05, M_INT, segs=14)
-    # combination switch stalks
-    for s_ in (1, -1):
-        b = sc + d * 0.09
-        mb.tube([tuple(b), tuple(b + Vector((s_ * 0.13, 0.02, 0.01)))], 0.006, "s1x_dark", segs=8)
+    column_shroud(mb)
     return mb
 
 
@@ -269,9 +317,8 @@ def gauges():
         for loop in f.loops:
             x, z = loop.vert.co.x, loop.vert.co.z
             loop[mb.uv].uv = ((cx + w / 2 - x) / w, (z - (gz - h / 2)) / h)
-    # surround / bezel and hood lip
-    mb.rbox((cx, gy - 0.006, gz), (w + 0.03, 0.01, h + 0.03), 0.006, "s1x_dark")
-    mb.rbox((cx, gy + 0.03, gz + h / 2 + 0.018), (w + 0.05, 0.08, 0.012), 0.005, M_INT)
+    # surround / bezel (the binnacle hood is part of the dash)
+    mb.rbox((cx, gy - 0.006, gz), (w + 0.03, 0.01, h + 0.016), 0.006, "s1x_dark")
     # clear lens (slightly tinted) in front of the face
     lv = [(cx + w / 2, gy + 0.012, gz - h / 2), (cx - w / 2, gy + 0.012, gz - h / 2), (cx - w / 2, gy + 0.016, gz + h / 2),
           (cx + w / 2, gy + 0.016, gz + h / 2)]

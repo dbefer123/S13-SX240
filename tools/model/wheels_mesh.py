@@ -27,10 +27,13 @@ WHEEL_STYLE = {
     "race18":    (6, "spoke", 0.045, 0.070, 0.042, 0.034, 0.024, 0.026, "s1x_wheel_gunmetal", "s1x_wheel_gunmetal"),
     "beadlock15": (5, "hole", 0.045, 0.070, 0.060, 0.045, 0.020, 0.010, "s1x_wheel_black", "s1x_wheel_polished"),
     "runner15":  (8, "spoke", 0.030, 0.060, 0.016, 0.012, 0.010, 0.006, "s1x_wheel_polished", "s1x_wheel_polished"),
+    "oem15_s14": (5, "spoke", 0.032, 0.078, 0.052, 0.040, 0.024, 0.014, "s1x_wheel_silver", "s1x_wheel_silver"),
+    "oem16_s14": (5, "spoke", 0.036, 0.078, 0.060, 0.030, 0.024, 0.018, "s1x_wheel_silver", "s1x_wheel_polished"),
 }
 STYLE_FOR_KEY = {"steel14": "steel", "oem15_le": "oem15_le", "oem15_se": "oem15_se", "mesh15": "mesh15",
                  "sixspoke16": "sixspoke16", "deepdish17": "deepdish17", "split18": "split18", "race17": "race17",
-                 "race18": "race18", "beadlock15": "beadlock15", "runner15": "runner15"}
+                 "race18": "race18", "beadlock15": "beadlock15", "runner15": "runner15", "oem15_s14": "oem15_s14",
+                 "oem16_s14": "oem16_s14"}
 
 
 def _barrel(mb, rb, w, lip_mat, barrel_mat, segs=64, lip=0.016):
@@ -47,7 +50,8 @@ def _barrel(mb, rb, w, lip_mat, barrel_mat, segs=64, lip=0.016):
     closed = prof + inner
     mb.lathe(closed, barrel_mat, segs=segs, axis="x", closed=True)
     # polished/painted lip face ring on the outside
-    mb.lathe([(rb - 0.006, hw - 0.001), (rb + lip + 0.001, hw + 0.011)], lip_mat, segs=segs, axis="x")
+    # (open x-axis lathes face +x, outboard, when the profile runs from the rim in toward the axis)
+    mb.lathe([(rb + lip + 0.001, hw + 0.011), (rb - 0.006, hw - 0.001)], lip_mat, segs=segs, axis="x")
 
 
 def _spoke(mb, theta, r0, r1, w0, w1, x_face, thick, dish, mat, twist=0.0, nr=6):
@@ -71,7 +75,7 @@ def _spoke(mb, theta, r0, r1, w0, w1, x_face, thick, dish, mat, twist=0.0, nr=6)
     stride = 6
     for i in range(nr):
         b0, b1 = i * stride, (i + 1) * stride
-        # front face (x high): indices 0..2 front, 3..5 back
+        # ring layout: indices 0..2 back face (x - thick, normal -x), 3..5 front face (x, normal +x)
         faces += [(b0 + 0, b0 + 1, b1 + 1, b1 + 0), (b0 + 1, b0 + 2, b1 + 2, b1 + 1)]
         faces += [(b0 + 4, b0 + 3, b1 + 3, b1 + 4), (b0 + 5, b0 + 4, b1 + 4, b1 + 5)]
         faces += [(b0 + 3, b0 + 0, b1 + 0, b1 + 3), (b0 + 2, b0 + 5, b1 + 5, b1 + 2)]
@@ -91,7 +95,7 @@ def wheel_mesh(key, dia, width, lugs, name=None):
         # pressed steel disc with vent holes
         prof = [(0.0, x_face + 0.012), (hub_r, x_face + 0.012), (hub_r + 0.02, x_face + 0.004), (r_in * 0.62, x_face - 0.004),
                 (r_in * 0.75, x_face - 0.010), (r_in, x_face - 0.030)]
-        mb.lathe(prof, cmat, segs=48, axis="x")
+        mb.lathe(prof[::-1], cmat, segs=48, axis="x")
         for k in range(8):
             a = 2 * math.pi * k / 8
             yc, zc = math.cos(a) * r_in * 0.82, math.sin(a) * r_in * 0.82
@@ -131,7 +135,7 @@ def wheel_mesh(key, dia, width, lugs, name=None):
         a = 2 * math.pi * k / lugs + math.pi / lugs
         yc, zc = PCD * math.cos(a), PCD * math.sin(a)
         mb.cylinder((x_face + 0.008, yc, zc), (x_face + 0.024, yc, zc), 0.0095, "s1x_lugnut", segs=6)
-    mb.lathe([(0.0, x_face + 0.026), (0.028, x_face + 0.024), (0.034, x_face + 0.012), (0.036, x_face + 0.006)],
+    mb.lathe([(0.036, x_face + 0.006), (0.034, x_face + 0.012), (0.028, x_face + 0.024), (0.0, x_face + 0.026)],
              "s1x_wheel_cap" if style != "steel" else "s1x_wheel_steel", segs=24, axis="x")
     return mb
 
@@ -228,7 +232,7 @@ def hubcap_mesh(dia, name):
     x0 = 3.0 * IN - 0.040
     prof = [(0.0, x0 + 0.050), (0.04, x0 + 0.048), (0.09, x0 + 0.040), (0.13, x0 + 0.026), (rb - 0.015, x0 + 0.008),
             (rb - 0.004, x0 - 0.004)]
-    mb.lathe(prof, "s1x_hubcap", segs=48, axis="x")
+    mb.lathe(prof[::-1], "s1x_hubcap", segs=48, axis="x")
     for k in range(10):
         a = 2 * math.pi * k / 10
         yc, zc = math.cos(a) * 0.115, math.sin(a) * 0.115
@@ -240,6 +244,8 @@ def hubcap_mesh(dia, name):
 def steering_wheel_mesh(kind, name):
     """Upright wheel: rim in the local XZ plane, column axis along local +Y (toward the driver), origin at hub."""
     mb = MeshBuilder(name)
+    if kind == "stock_s14":
+        return _steering_wheel_s14(mb)
     if kind == "stock":
         R, rr, dish, spokes, mat = 0.185, 0.016, 0.03, 3, "s1x_steer_leather"
     elif kind == "deepdish":
@@ -263,4 +269,18 @@ def steering_wheel_mesh(kind, name):
             a = [-math.pi / 2, math.pi * 0.1, math.pi * 0.9][k]
         mb.tube([(0, dish * 0.5, 0), (R * 0.92 * math.cos(a), dish, R * 0.92 * math.sin(a))], 0.011,
                 hub_mat if kind != "stock" else "s13_interior_plastic", segs=8)
+    return mb
+
+
+def _steering_wheel_s14(mb):
+    """S14 (1995+) wheel: four spokes (two near-horizontal, two low) and a large airbag pad."""
+    R, rr, dish = 0.183, 0.017, 0.035
+    pts = [(R * math.cos(2 * math.pi * k / 48), dish, R * math.sin(2 * math.pi * k / 48)) for k in range(48)]
+    pts.append(pts[0])
+    mb.tube(pts, rr, "s1x_steer_leather", segs=10, caps=False)
+    for a in (-0.05 * math.pi, math.pi * 1.05, -0.40 * math.pi, -0.60 * math.pi):
+        mb.tube([(0.0, dish * 0.4, 0.0), (R * 0.93 * math.cos(a), dish, R * 0.93 * math.sin(a))], 0.012,
+                "s13_interior_plastic", segs=8)
+    mb.rbox((0.0, dish * 0.5 + 0.012, -0.004), (0.150, 0.055, 0.118), 0.03, "s13_interior_plastic")   # airbag pad
+    mb.cylinder((0.0, -0.03, 0.0), (0.0, dish * 0.4, 0.0), 0.05, "s13_interior_plastic", segs=20)    # hub boss
     return mb

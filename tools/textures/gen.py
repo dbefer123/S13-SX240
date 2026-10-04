@@ -124,7 +124,9 @@ def _dial(dr, cx, cy, r, vmin, vmax, a0, a1, majors, minors_per, labels, lab_fon
                 dr.line([pt(ang(vv), r * 0.98), pt(ang(vv), r * ln)], fill=col2, width=tick_w[1])
 
 
-def gauges_s13(out_dir):
+def gauges_s13(out_dir, prefix="s13", style="s13"):
+    """Instrument cluster face (+ glow mask).  style "s14": rounder 90s cluster with chrome rings, 150 mph speedo."""
+    s14 = style == "s14"
     W_m, H_m = D13.GAUGE_W, D13.GAUGE_H
     PX = 7000                                   # pixels per metre while drawing
     W, H = int(W_m * PX), int(H_m * PX)
@@ -147,21 +149,29 @@ def gauges_s13(out_dir):
             d.rounded_rectangle([8, 8, W - 8, H - 8], radius=int(0.012 * PX), outline=(30, 30, 32), width=6)
         # --- tach (driver's left of centre) ---
         cx, cy, r = u2x(D13.GAUGE_TACH_DX), v2y(0.0), D13.GAUGE_R_MAIN * PX
-        _dial(d, cx, cy, r, 0, 8, 120, -120, list(range(0, 9)), 2, [str(i) for i in range(9)], font("sans_bold", int(r * 0.22)),
-              col, red_from=6.8, tick_w=(int(r * 0.035), int(r * 0.02)), label_r=0.62)
-        d.text((cx, cy + r * 0.38), "x1000r/min", font=font("sans", int(r * 0.10)), fill=col, anchor="mm")
+        if s14 and d is db:
+            for cxx in (cx, u2x(-D13.GAUGE_TACH_DX)):
+                d.ellipse([cxx - r * 1.04, cy - r * 1.04, cxx + r * 1.04, cy + r * 1.04], outline=(150, 150, 155),
+                          width=int(r * 0.035))
+        nfont = font("lib", int(r * 0.24)) if s14 else font("sans_bold", int(r * 0.22))
+        _dial(d, cx, cy, r, 0, 8, 120, -120, list(range(0, 9)), 2, [str(i) for i in range(9)], nfont,
+              col, red_from=6.5 if s14 else 6.8, tick_w=(int(r * 0.035), int(r * 0.02)), label_r=0.62)
+        d.text((cx, cy + r * 0.38), "x1000 RPM" if s14 else "x1000r/min", font=font("sans", int(r * 0.10)), fill=col,
+               anchor="mm")
         # --- speedo ---
         cx, cy = u2x(-D13.GAUGE_TACH_DX), v2y(0.0)
-        majors = list(range(0, 141, 10))
+        top = 150 if s14 else 140
+        majors = list(range(0, top + 1, 10))
         labels = [str(v) if v % 20 == 0 else None for v in majors]
-        _dial(d, cx, cy, r, 0, 140, 120, -120, majors, 2, labels, font("sans_bold", int(r * 0.17)), col,
+        _dial(d, cx, cy, r, 0, top, 120, -120, majors, 2, labels,
+              font("lib", int(r * 0.18)) if s14 else font("sans_bold", int(r * 0.17)), col,
               tick_w=(int(r * 0.03), int(r * 0.018)), label_r=0.66)
         d.text((cx, cy + r * 0.36), "MPH", font=font("sans_bold", int(r * 0.13)), fill=col, anchor="mm")
         # inner km/h ring (small)
-        kmh = list(range(0, 221, 20))
+        kmh = list(range(0, 241, 20))
         for v in kmh:
-            a = 120 - 240 * (v / 1.609) / 140
-            if (v / 1.609) > 140:
+            a = 120 - 240 * (v / 1.609) / top
+            if (v / 1.609) > top:
                 break
             t = math.radians(a)
             x, y = cx - r * 0.42 * math.sin(t), cy - r * 0.42 * math.cos(t)
@@ -191,11 +201,12 @@ def gauges_s13(out_dir):
         x = W / 2 + (k - 1.5) * 0.012 * PX
         y = v2y(-0.058)
         db.text((x, y), lbl, font=font("sans_bold", int(0.0028 * PX)), fill=tuple(int(v * 0.35) for v in c), anchor="mm")
-    db.text((W / 2, v2y(0.062)), "NISSAN", font=font("sans_bold", int(0.0045 * PX)), fill=(120, 120, 120), anchor="mm")
+    if not s14:
+        db.text((W / 2, v2y(0.062)), "NISSAN", font=font("sans_bold", int(0.0045 * PX)), fill=(120, 120, 120), anchor="mm")
     base = base.resize((2048, 1024), Image.LANCZOS)
     glow = glow.filter(ImageFilter.GaussianBlur(3)).resize((2048, 1024), Image.LANCZOS)
-    save(base, os.path.join(out_dir, "s13_gauges_b.color.png"))
-    save(glow, os.path.join(out_dir, "s13_gauges_g.color.png"))
+    save(base, os.path.join(out_dir, f"{prefix}_gauges_b.color.png"))
+    save(glow, os.path.join(out_dir, f"{prefix}_gauges_g.color.png"))
 
 
 def race_tach(out_dir, prefix="s13", n=1024):
@@ -328,6 +339,44 @@ def radio(out_dir, prefix="s13"):
         d.text((x + 29, 283), str(k + 1), font=font("sans_bold", 20), fill=(170, 170, 170), anchor="mm")
     d.text((510, 35), "NISSAN", font=font("sans_bold", 30), fill=(140, 140, 140), anchor="mm")
     save(im.resize((1024, 256), Image.LANCZOS), os.path.join(out_dir, f"{prefix}_radio_b.color.png"))
+
+
+def hvac_s14(out_dir, prefix="s14"):
+    """S14 climate panel: fan, temperature and mode dials (the knob meshes sit on the dial centres at
+    u = 0.18 / 0.5 / 0.82 of a 0.22 m wide panel), A/C and recirculation buttons between them."""
+    W, H = 1024, 320
+    im = Image.new("RGB", (W, H), (16, 16, 17))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([6, 6, W - 6, H - 6], radius=16, outline=(45, 45, 48), width=4)
+    px_per_m = W / 0.22
+    r_ring = 0.026 * px_per_m
+    lab = font("sans_bold", 22)
+    for u, kind in ((0.18, "fan"), (0.5, "temp"), (0.82, "mode")):
+        cx, cy = u * W, H / 2
+        d.ellipse([cx - r_ring, cy - r_ring, cx + r_ring, cy + r_ring], outline=(70, 70, 74), width=3)
+        a0, a1 = math.radians(225), math.radians(-45)
+        if kind == "temp":
+            n = 40
+            for k in range(n):
+                t = k / (n - 1)
+                a = a0 + (a1 - a0) * t
+                col = (int(60 + 160 * t), int(110 - 60 * t), int(220 - 190 * t))
+                x0, y0 = cx + (r_ring + 8) * math.cos(a), cy - (r_ring + 8) * math.sin(a)
+                x1, y1 = cx + (r_ring + 22) * math.cos(a), cy - (r_ring + 22) * math.sin(a)
+                d.line([x0, y0, x1, y1], fill=col, width=6)
+            continue
+        labels = ("OFF", "1", "2", "3", "4") if kind == "fan" else ("VENT", "B/L", "FOOT", "F/D", "DEF")
+        for k, t in enumerate(labels):
+            a = a0 + (a1 - a0) * k / (len(labels) - 1)
+            x, y = cx + (r_ring + 34) * math.cos(a), cy - (r_ring + 30) * math.sin(a)
+            d.text((x, y), t, font=lab, fill=(165, 165, 165), anchor="mm")
+    for u, t, col in ((0.34, "A/C", (80, 170, 95)), (0.66, "REC", (200, 150, 60))):
+        cx = u * W
+        d.rounded_rectangle([cx - 44, H / 2 - 26, cx + 44, H / 2 + 26], radius=8, fill=(34, 34, 36), outline=(90, 90, 92),
+                            width=2)
+        d.text((cx, H / 2), t, font=font("sans_bold", 26), fill=(175, 175, 175), anchor="mm")
+        d.ellipse([cx - 5, H / 2 - 40, cx + 5, H / 2 - 30], fill=col)
+    save(im.resize((1024, 256), Image.LANCZOS), os.path.join(out_dir, f"{prefix}_hvac_b.color.png"))
 
 
 def hvac(out_dir, prefix="s13"):
@@ -479,6 +528,15 @@ GENERATORS = {
     "ivtec": lambda m: ivtec_plaque(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "liveries_s13": lambda m: __import__("tools.textures.liveries", fromlist=["generate"]).generate(
         os.path.join(m, "vehicles/s13_240sx/textures")),
+    "gauges_s14": lambda m: gauges_s13(os.path.join(m, "vehicles/s14_240sx/textures"), "s14", style="s14"),
+    "glass_dmg_s14": lambda m: glass_dmg(os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
+    "lens_s14": lambda m: lens_normals(os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
+    "cloth_s14": lambda m: seat_cloth(os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
+    "radio_s14": lambda m: radio(os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
+    "hvac_s14": lambda m: hvac_s14(os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
+    "racetach_s14": lambda m: race_tach(os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
+    "liveries_s14": lambda m: __import__("tools.textures.liveries", fromlist=["generate"]).generate(
+        os.path.join(m, "vehicles/s14_240sx/textures"), "s14"),
     "cast": lambda m: cast_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "crinkle": lambda m: crinkle_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "rotor": lambda m: rotor_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),

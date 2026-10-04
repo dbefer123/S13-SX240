@@ -284,6 +284,12 @@ DAE_FOLDER = {
     "s13_interior": "vehicles/s13_240sx", "s13_mech": "vehicles/s13_240sx",
     "s13_engine": "vehicles/s13_240sx", "s13_race": "vehicles/s13_240sx",
     "s1x_wheels": "vehicles/common/s1x_240sx", "s1x_interior": "vehicles/common/s1x_240sx",
+    "s14_body": "vehicles/s14_240sx", "s14_interior": "vehicles/s14_240sx", "s14_mech": "vehicles/s14_240sx",
+    "s14_engine": "vehicles/s14_240sx", "s14_race": "vehicles/s14_240sx",
+}
+VEHICLES = {  # --vehicle: (vehicle folder, builder, material owners written, default blend)
+    "s13": ("vehicles/s13_240sx", "build_s13", ("s13", "s1x"), ".cache/build/s13_meshes.blend"),
+    "s14": ("vehicles/s14_240sx", "build_s14", ("s14",), ".cache/build/s14_meshes.blend"),
 }
 
 
@@ -291,22 +297,29 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--vehicle", default="s13")
     ap.add_argument("--mod", default="mod")
-    ap.add_argument("--blend", default=".cache/build/s13_meshes.blend")
+    ap.add_argument("--blend", default="")
     ap.add_argument("--no-export", action="store_true")
     a = ap.parse_args(argv)
     mod = os.path.abspath(a.mod)
+    veh_dir, builder, owners, blend_default = VEHICLES[a.vehicle]
+    a.blend = a.blend or blend_default
 
     bl.reset()
     make_materials(mod)
     sc = Scene(mod)
     t0 = time.time()
-    pivots, livery = build_s13(sc)
+    if builder == "build_s13":
+        pivots, livery = build_s13(sc)
+    else:
+        from .build_s14 import build_s14
+        pivots, livery = build_s14(sc)
     print(f"built {len(sc.objs)} meshes in {time.time() - t0:.1f}s")
 
-    flex, props = referenced_meshes(os.path.join(mod, "vehicles/s13_240sx"))
+    flex, props = referenced_meshes(os.path.join(mod, veh_dir))
     wanted = flex | props
     from tools.validate.run import VANILLA_MESHES
-    missing = sorted(wanted - set(sc.objs) - VANILLA_MESHES)
+    shared = {n for n in wanted if n.startswith("s1x_")} if a.vehicle != "s13" else set()   # built with the S13
+    missing = sorted(wanted - set(sc.objs) - VANILLA_MESHES - shared)
     unused = sorted(set(sc.objs) - wanted)
     for n in unused:
         ob, _ = sc.objs.pop(n)
@@ -331,8 +344,8 @@ def main(argv=None):
 
     used_mats = {m.name for ob, _ in sc.objs.values() for m in ob.data.materials if m}
     # glowMap swaps + damage materials are not on meshes but must be defined
-    used_mats |= {n for n in MR.REGISTRY if any(n.startswith(b) for b in ("s13_lights", "s13_needle_", "s13_gauges",
-                                                                           "s13_glass", "s13_led_"))}
+    used_mats |= {n for n in MR.REGISTRY if any(n.startswith(f"{o}{b}") for o in ("s13", "s14")
+                                                for b in ("_lights", "_needle_", "_gauges", "_glass", "_led_"))}
     tris = 0
     for ob, _ in sc.objs.values():
         tris += sum(len(p.vertices) - 2 for p in ob.data.polygons)
@@ -348,13 +361,15 @@ def main(argv=None):
     for n, (ob, dae) in sc.objs.items():
         groups.setdefault(dae, []).append(ob)
     for dae, objs in sorted(groups.items()):
+        if a.vehicle != "s13" and dae.startswith("s1x_"):
+            continue                                   # shared DAEs are written by the S13 build
         path = os.path.join(mod, DAE_FOLDER[dae], f"{dae}.dae")
         for m in bpy.data.materials:
             m.use_nodes = False
         export_dae(objs, path)
         strip_dae_images(path)
         print(f"  {dae}.dae: {len(objs)} meshes, {os.path.getsize(path) / 1e6:.1f} MB")
-    for owner in ("s13", "s1x"):
+    for owner in owners:
         p = MR.write_json(mod, owner, used_mats)
         print("  wrote", os.path.relpath(p, mod))
     return 1 if (missing or bad) else 0

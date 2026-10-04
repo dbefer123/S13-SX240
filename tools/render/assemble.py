@@ -112,7 +112,7 @@ def assemble(mod, veh, config, blend, paint=None, hide_props=False):
     else:
         paints = config.get("paints") or ([paint] if paint else None)
     if skin and paints:
-        _livery_preview(skin, paints, mod)
+        _livery_preview(skin, paints, mod, veh)
         return res, shown
     if paints:
         p = paints[0] if isinstance(paints, list) else paints
@@ -128,10 +128,11 @@ def assemble(mod, veh, config, blend, paint=None, hide_props=False):
     return res, shown
 
 
-def _livery_preview(skin, paints, mod):
-    """Replace the s13 paint preview with palette * paint colours (UV1)."""
-    path = os.path.join(mod, "vehicles", "s13_240sx", "textures", f"s13_livery_{skin}.color.png")
-    m = bpy.data.materials.get("s13_paint")
+def _livery_preview(skin, paints, mod, veh="s13_240sx"):
+    """Replace the body paint preview with palette * paint colours (UV1)."""
+    pfx = veh.split("_")[0]
+    path = os.path.join(mod, "vehicles", veh, "textures", f"{pfx}_livery_{skin}.color.png")
+    m = bpy.data.materials.get(f"{pfx}_paint")
     if m is None or not os.path.exists(path):
         return
     cols = []

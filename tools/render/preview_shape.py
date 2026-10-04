@@ -23,6 +23,8 @@ BLUEPRINTS = {
     "s13_hatch": (".cache/blueprints/s13_hatch_go.gif", (220, 225, 653, 360), 3, (297, 292), 2.475 / 678),
     # Silvia coupe: drawn ~35 mm lower above the beltline -> shifted up by dz for comparison
     "s13_coupe": (".cache/blueprints/s13_coupe_tb.png", (0, 360, 785, 610), 2, (358, 350.6), 2.475 / 836, 0.035),
+    # dimensioned S14 drawing: front axle crosshair at (216, 661), rear (708.5, 663)
+    "s14_s14": (".cache/blueprints/s14_dim_tb.gif", (0, 420, 950, 730), 2, (432, 482), 2.525 / 985, 0.0),
 }
 
 
@@ -30,6 +32,9 @@ def get_spec(name):
     if name.startswith("s13_"):
         from tools.vehicle.s13 import body_spec as m
         return getattr(m, name.split("_", 1)[1] + "_spec")(), m
+    if name.startswith("s14_"):
+        from tools.vehicle.s14 import body_spec as m
+        return m.s14_spec(), m
     raise SystemExit("unknown spec " + name)
 
 
@@ -60,7 +65,7 @@ def overlay(name, render_path, out_path):
     bp = bp.resize((bp.width * zoom, bp.height * zoom), Image.LANCZOS)
     W, H = RES
     # render px (u,v) -> world (y,z): y=(u-W/2)/PX, z=TZ-(v-H/2)/PX ; blueprint px = (ax+(y-AXLE)/s, ay-(z-AXLE_Z)/s)
-    from tools.vehicle.s13 import body_spec as m
+    _, m = get_spec(name)
     a = 1 / (PX_PER_M * s)
     c = ax + (-W / 2 / PX_PER_M - m.AXLE_F_Y) / s
     e = -a
