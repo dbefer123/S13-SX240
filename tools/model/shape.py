@@ -223,3 +223,25 @@ class BodySpec:
         t = u * s[-1]
         x = np.interp(t, s, seg_pts[:, 0]); z = np.interp(t, s, seg_pts[:, 1])
         return x, z
+
+
+def _monotone_interp(xq, xs, ys):
+    order = np.argsort(xs)
+    return float(np.interp(xq, np.asarray(xs)[order], np.asarray(ys)[order]))
+
+
+def top_z(spec: BodySpec, y: float, x: float) -> float:
+    """Height of the outer top surface (hood/roof/deck, incl. glass) at (|x|, y)."""
+    p, tags = spec.section(float(y))
+    sel = [i for i, t in enumerate(tags) if t in ("edge", "ledge", "glass", "top")]
+    pts = p[sel]
+    # keep the upper envelope: for each x the max z
+    return _monotone_interp(abs(x), pts[:, 0], pts[:, 1]) if len(pts) else float("nan")
+
+
+def side_x(spec: BodySpec, y: float, z: float) -> float:
+    """Half width of the outer body side at height z (lower+upper+edge segments)."""
+    p, tags = spec.section(float(y))
+    sel = [i for i, t in enumerate(tags) if t in ("corner", "lower", "upper", "edge")]
+    pts = p[sel]
+    return _monotone_interp(z, pts[:, 1], pts[:, 0])

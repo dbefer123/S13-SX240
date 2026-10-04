@@ -127,3 +127,18 @@ def rigidity_modes(res, names, beams=None, tol=1e-6):
     w = np.linalg.eigvalsh(Kd / scale)
     nz = int(np.sum(w < tol))
     return nz, w[:12]
+
+
+def top_modes(res, k=3, top=8):
+    """Highest-frequency modes (stability culprits): list of (omega*dt, [(node, share)])."""
+    beams = beam_list(res)
+    names, K, C, m = stiffness_matrices(res, beams)
+    Minv_sqrt = sp.diags(1.0 / np.sqrt(m))
+    A = Minv_sqrt @ K @ Minv_sqrt
+    vals, vecs = spla.eigsh(A, k=k, which="LA", tol=1e-4, maxiter=10000)
+    out = []
+    for i in np.argsort(-vals):
+        v = (vecs[:, i] ** 2).reshape(-1, 3).sum(1)
+        idx = np.argsort(-v)[:top]
+        out.append((math.sqrt(max(vals[i], 0)) * DT, [(names[j], round(float(v[j]), 3)) for j in idx]))
+    return out

@@ -185,7 +185,7 @@ class Part:
         self.row("pressureWheels", PW_HEADER, list(row))
 
     def build(self):
-        out = OrderedDict(self.d)
+        out = OrderedDict((k, v) for k, v in self.d.items() if not k.startswith("_"))
         # keep a stable, vanilla-like section order
         order = ["slots", "variables", "controller", "powertrain", "flexbodies", "props", "nodes", "beams",
                  "hydros", "torsionbars", "triangles", "pressureWheels"]

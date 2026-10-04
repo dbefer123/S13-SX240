@@ -21,12 +21,14 @@ FRONT = [
     ("fr2l", 0.420, -1.500, 0.250, 2.8), ("fa2l", 0.650, -1.500, 0.470, 2.0), ("ft2l", 0.740, -1.500, 0.700, 1.8),
     ("fr3l", 0.420, -1.180, 0.240, 3.2), ("fa3l", 0.620, -1.180, 0.500, 2.4), ("ft3l", 0.745, -1.180, 0.755, 2.0),
     ("fs1l", D.FS1[0], D.FS1[1], D.FS1[2], 3.2),
+    # battery (right front of the engine bay is mirrored too; the left one acts as washer tank/fuse box mass)
+    ("bt1l", 0.560, -1.820, 0.460, 6.5),
     # front crossmember (suspension + engine mounts)
     ("fc1l", 0.300, -1.240, 0.200, 3.0), ("fc2l", 0.390, -1.600, 0.215, 2.4), ("fc1", 0.0, -1.240, 0.205, 2.4),
     # firewall / cowl
-    ("fw1l", 0.420, -0.880, 0.215, 3.0), ("fw1", 0.0, -0.880, 0.240, 2.4),
-    ("fw2l", 0.600, -0.880, 0.500, 2.4), ("fw2", 0.0, -0.900, 0.540, 2.2),
-    ("fw3l", 0.700, -0.860, 0.800, 2.0), ("fw4l", 0.360, -0.860, 0.820, 1.8), ("fw3", 0.0, -0.850, 0.825, 1.8),
+    ("fp1l", 0.420, -0.880, 0.215, 3.0), ("fp1", 0.0, -0.880, 0.240, 2.4),
+    ("fp2l", 0.600, -0.880, 0.500, 2.4), ("fp2", 0.0, -0.900, 0.540, 2.2),
+    ("fp3l", 0.700, -0.860, 0.800, 2.0), ("fp4l", 0.360, -0.860, 0.820, 1.8), ("fp3", 0.0, -0.850, 0.825, 1.8),
     # hinge pillar (A-pillar base) + front sill end
     ("si0l", 0.780, -0.860, 0.180, 2.6), ("hp1l", 0.805, -0.860, 0.340, 2.4),
     ("hp2l", 0.815, -0.800, 0.620, 2.2), ("hp3l", 0.770, -0.760, 0.840, 2.0),
@@ -64,7 +66,9 @@ REAR = [
     ("rm1l", 0.420, 1.050, 0.250, 2.4), ("rm2l", 0.420, 1.420, 0.300, 2.4),
 ]
 
-HARDPOINTS = ["fs1l", "fc1l", "fc2l", "fc1", "fw1", "fw1l", "fr3l", "rt1l", "rm1l", "rm2l", "fl4", "fl5",
+BODY_MASS_SCALE = 1.40  # body-in-white + sealer + glass + wiring distributed on the shell
+
+HARDPOINTS = ["fs1l", "fc1l", "fc2l", "fc1", "fp1", "fp1l", "fr3l", "rt1l", "rm1l", "rm2l", "fl4", "fl5",
               "rr1l", "fe1l", "fe2l", "fe2", "tl1l", "tl2l", "tl2", "tl3l", "tl3", "rf4l", "rf4"]
 
 
@@ -108,44 +112,45 @@ def _lr(pairs):
 
 
 # --- beam groups (written for the left side + centre) ------------------------------
-FRONT_RAILS = [("fe1l", "fr1l"), ("fr1l", "fr2l"), ("fr2l", "fr3l"), ("fr3l", "fw1l"),
+FRONT_RAILS = [("fe1l", "fr1l"), ("fr1l", "fr2l"), ("fr2l", "fr3l"), ("fr3l", "fp1l"),
                ("fe1l", "fe1"), ("fe1l", "fe2l"), ("fe2l", "fe2"), ("fe1", "fe2"), ("fe1l", "fe2"), ("fe2l", "fe1"),
                ("fe1l", "fr1r"), ("fe1l", "fr1l")]
 FRONT_APRON = [("fe2l", "fa1l"), ("fe2l", "ft1l"), ("fe1l", "fa1l"),
-               ("fa1l", "fa2l"), ("fa2l", "fa3l"), ("fa3l", "fw2l"),
-               ("ft1l", "ft2l"), ("ft2l", "ft3l"), ("ft3l", "fw3l"), ("ft3l", "hp3l"),
+               ("fa1l", "fa2l"), ("fa2l", "fa3l"), ("fa3l", "fp2l"),
+               ("ft1l", "ft2l"), ("ft2l", "ft3l"), ("ft3l", "fp3l"), ("ft3l", "hp3l"),
                ("fr1l", "fa1l"), ("fr2l", "fa2l"), ("fr3l", "fa3l"),
                ("fa1l", "ft1l"), ("fa2l", "ft2l"), ("fa3l", "ft3l"),
                ("fr1l", "fa2l"), ("fr2l", "fa1l"), ("fr2l", "fa3l"), ("fr3l", "fa2l"),
                ("fa1l", "ft2l"), ("fa2l", "ft1l"), ("fa2l", "ft3l"), ("fa3l", "ft2l"),
                ("fr1l", "ft1l"), ("fr2l", "ft2l"), ("fr3l", "ft3l"),
-               ("fa3l", "fw3l"), ("ft3l", "fw2l"), ("fr3l", "fw2l"), ("fa3l", "fw1l"),
+               ("fa3l", "fp3l"), ("ft3l", "fp2l"), ("fr3l", "fp2l"), ("fa3l", "fp1l"),
                ("fe2l", "ft2l"), ("fe1l", "fa2l")]
-STRUT_TOWER = [("fs1l", "fa3l"), ("fs1l", "ft3l"), ("fs1l", "ft2l"), ("fs1l", "fa2l"), ("fs1l", "fw2l"),
-               ("fs1l", "fw3l"), ("fs1l", "fw4l"), ("fs1l", "fr3l"), ("fs1l", "fw1l")]
+BATTERY = [("bt1l", "fa1l"), ("bt1l", "ft1l"), ("bt1l", "fr1l"), ("bt1l", "fa2l"), ("bt1l", "fe2l"), ("bt1l", "ft2l")]
+STRUT_TOWER = [("fs1l", "fa3l"), ("fs1l", "ft3l"), ("fs1l", "ft2l"), ("fs1l", "fa2l"), ("fs1l", "fp2l"),
+               ("fs1l", "fp3l"), ("fs1l", "fp4l"), ("fs1l", "fr3l"), ("fs1l", "fp1l")]
 CROSSMEMBER = [("fc1l", "fc1"), ("fc1l", "fr3l"), ("fc1l", "fr2l"), ("fc1l", "fa3l"), ("fc1", "fr3l"),
                ("fc1", "fr2l"), ("fc2l", "fr1l"), ("fc2l", "fr2l"), ("fc2l", "fa1l"), ("fc2l", "fc1l"),
-               ("fc2l", "fc1"), ("fc1l", "fw1l"), ("fc1", "fw1"), ("fc2l", "fe1l"), ("fc1", "fc1r")]
-FIREWALL = [("fw1l", "fw1"), ("fw2l", "fw2"), ("fw3l", "fw4l"), ("fw4l", "fw3"),
-            ("fw1l", "fw2l"), ("fw2l", "fw3l"), ("fw1", "fw2"), ("fw2", "fw3"), ("fw2l", "fw4l"),
-            ("fw1l", "fw2"), ("fw1", "fw2l"), ("fw2", "fw4l"), ("fw2l", "fw3"), ("fw2l", "fw4l"),
-            ("fw3l", "hp3l"), ("fw2l", "hp2l"), ("fw1l", "si0l"), ("fw1l", "hp1l"), ("fw2l", "hp1l"),
-            ("fw3l", "hp2l"), ("fw2l", "hp3l"), ("fw4l", "hp3l"), ("fw3l", "fw2"),
+               ("fc2l", "fc1"), ("fc1l", "fp1l"), ("fc1", "fp1"), ("fc2l", "fe1l"), ("fc1", "fc1r")]
+FIREWALL = [("fp1l", "fp1"), ("fp2l", "fp2"), ("fp3l", "fp4l"), ("fp4l", "fp3"),
+            ("fp1l", "fp2l"), ("fp2l", "fp3l"), ("fp1", "fp2"), ("fp2", "fp3"), ("fp2l", "fp4l"),
+            ("fp1l", "fp2"), ("fp1", "fp2l"), ("fp2", "fp4l"), ("fp2l", "fp3"), ("fp2l", "fp4l"),
+            ("fp3l", "hp3l"), ("fp2l", "hp2l"), ("fp1l", "si0l"), ("fp1l", "hp1l"), ("fp2l", "hp1l"),
+            ("fp3l", "hp2l"), ("fp2l", "hp3l"), ("fp4l", "hp3l"), ("fp3l", "fp2"),
             ("si0l", "hp1l"), ("hp1l", "hp2l"), ("hp2l", "hp3l"), ("si0l", "hp2l"), ("hp1l", "hp3l"),
-            ("fw3", "fw4l"), ("fr3l", "fw1"), ("fw1l", "fw1")]
-FLOOR = [("fw1l", "fl1l"), ("fl1l", "fl2l"), ("fl2l", "fl3l"), ("fl3l", "fl4l"), ("fl4l", "fl5l"),
-         ("fw1", "fl1"), ("fl1", "fl2"), ("fl2", "fl3"), ("fl3", "fl4"), ("fl4", "fl5"),
+            ("fp3", "fp4l"), ("fr3l", "fp1"), ("fp1l", "fp1")]
+FLOOR = [("fp1l", "fl1l"), ("fl1l", "fl2l"), ("fl2l", "fl3l"), ("fl3l", "fl4l"), ("fl4l", "fl5l"),
+         ("fp1", "fl1"), ("fl1", "fl2"), ("fl2", "fl3"), ("fl3", "fl4"), ("fl4", "fl5"),
          ("si0l", "si1l"), ("si1l", "si2l"), ("si2l", "si3l"), ("si3l", "si4l"), ("si4l", "si5l"),
          ("fl1", "fl1l"), ("fl2", "fl2l"), ("fl3", "fl3l"), ("fl4", "fl4l"), ("fl5", "fl5l"),
          ("fl1l", "si1l"), ("fl2l", "si2l"), ("fl3l", "si3l"), ("fl4l", "si4l"), ("fl5l", "si5l"),
-         ("fw1l", "si0l"),
+         ("fp1l", "si0l"),
          # shear diagonals
-         ("fw1l", "fl1"), ("fw1", "fl1l"), ("fl1l", "fl2"), ("fl1", "fl2l"), ("fl2l", "fl3"), ("fl2", "fl3l"),
+         ("fp1l", "fl1"), ("fp1", "fl1l"), ("fl1l", "fl2"), ("fl1", "fl2l"), ("fl2l", "fl3"), ("fl2", "fl3l"),
          ("fl3l", "fl4"), ("fl3", "fl4l"), ("fl4l", "fl5"), ("fl4", "fl5l"),
-         ("fw1l", "si1l"), ("si0l", "fl1l"), ("fl1l", "si2l"), ("si1l", "fl2l"), ("fl2l", "si3l"), ("si2l", "fl3l"),
+         ("fp1l", "si1l"), ("si0l", "fl1l"), ("fl1l", "si2l"), ("si1l", "fl2l"), ("fl2l", "si3l"), ("si2l", "fl3l"),
          ("fl3l", "si4l"), ("si3l", "fl4l"), ("fl4l", "si5l"), ("si4l", "fl5l")]
 PILLARS = [  # A pillar, B pillar, roof
-    ("hp3l", "ap1l"), ("ap1l", "rf1l"), ("hp2l", "ap1l"), ("fw3l", "ap1l"), ("fw4l", "ap1l"),
+    ("hp3l", "ap1l"), ("ap1l", "rf1l"), ("hp2l", "ap1l"), ("fp3l", "ap1l"), ("fp4l", "ap1l"),
     ("rf1l", "rf2l"), ("rf2l", "rf3l"), ("rf3l", "rf4l"),
     ("rf1", "rf2"), ("rf2", "rf3"), ("rf3", "rf4"),
     ("rf1l", "rf1"), ("rf2l", "rf2"), ("rf3l", "rf3"), ("rf4l", "rf4"),
@@ -154,8 +159,8 @@ PILLARS = [  # A pillar, B pillar, roof
     ("si4l", "bp2l"), ("bp1l", "bp3l"), ("fl4l", "bp1l"), ("fl4l", "bp2l"), ("si3l", "bp1l"), ("si5l", "bp1l"),
     ("bp3l", "rf2l"), ("bp3l", "rf4l"),
     # cabin box: floor <-> roof diagonals through the pillars (rigidity)
-    ("hp3l", "rf1l"), ("hp2l", "rf1l"), ("fw3l", "rf1l"), ("fw3l", "rf1"), ("ap1l", "rf1"),
-    ("fw4l", "rf1l"),
+    ("hp3l", "rf1l"), ("hp2l", "rf1l"), ("fp3l", "rf1l"), ("fp3l", "rf1"), ("ap1l", "rf1"),
+    ("fp4l", "rf1l"),
     ("bp2l", "rf3"), ("fl4l", "rf3l"), ("bp3l", "fl4"),
 ]
 REAR_BODY = [
@@ -195,13 +200,13 @@ EXTRA_BRACES = [
     ("si1l", "fl2"), ("si2l", "fl1"), ("si2l", "fl3"), ("si3l", "fl2"), ("si3l", "fl4"),
     ("fl1l", "fl2r"), ("fl2l", "fl3r"), ("fl3l", "fl4r"),
     # windshield frame / A-pillars
-    ("rf1l", "fw4r"), ("rf1", "fw3"), ("ap1l", "fw2l"), ("ap1l", "rf2l"), ("rf1l", "hp3r"),
+    ("rf1l", "fp4r"), ("rf1", "fp3"), ("ap1l", "fp2l"), ("ap1l", "rf2l"), ("rf1l", "hp3r"),
     ("rf2l", "ap1l"), ("rf1l", "rf2r"), ("rf2l", "rf3r"), ("rf3l", "rf4r"),
     ("fc1", "fa3l"), ("fc1", "fa2l"), ("tl2", "tp1l"), ("tl2", "rr3l"), ("tl3", "tp2l"), ("fl8", "tp1l"),
     ("ap1l", "hp1l"), ("ap1l", "rf1r"),
 ]
 CABIN_X = [  # left-right ties across the cabin (written once, both directions present)
-    ("hp3l", "hp3r"), ("fw3l", "fw4l"), ("bp3l", "bp3r"), ("bp2l", "bp2r"),
+    ("hp3l", "hp3r"), ("fp3l", "fp4l"), ("bp3l", "bp3r"), ("bp2l", "bp2r"),
     ("ap1l", "ap1r"), ("si4l", "fl4"), ("bp1l", "fl4"), ("qp3l", "qp3r"),
     ("rf1l", "rf1"),
 ]
@@ -231,8 +236,13 @@ def unibody_hatch() -> Part:
     nodes = all_nodes()
     p.nodes_props(selfCollision=True, collision=True, nodeMaterial="|NM_METAL", frictionCoef=0.5, group="s13_body")
     # emit nodes grouped by weight to keep the file readable
+    extra_groups = {"fs1": "s13_shocktop_F", "rt1": "s13_shocktop_R"}
     for name, (pos, w) in nodes.items():
-        p.node(name, *pos, nodeWeight=w)
+        inline = {}
+        for base, g in extra_groups.items():
+            if name in (base + "l", base + "r"):
+                inline["group"] = ["s13_body", g]
+        p.node(name, *pos, nodeWeight=round(w * BODY_MASS_SCALE, 3), **inline)
     p.nodes_props(group="")
 
     p.beams_props(deformLimitExpansion=1.2)
@@ -244,7 +254,7 @@ def unibody_hatch() -> Part:
         p.beam(a, b)
     p.beam_comment("strut towers, crossmember")
     p.beams_props(beamSpring=2001000, beamDamp=150, beamDeform=70000, beamStrength="FLT_MAX")
-    for a, b in _beam_set([STRUT_TOWER, CROSSMEMBER]):
+    for a, b in _beam_set([STRUT_TOWER, CROSSMEMBER, BATTERY]):
         p.beam(a, b)
     p.beam_comment("firewall, floor, sills")
     p.beams_props(beamSpring=2501000, beamDamp=150, beamDeform=95000, beamStrength="FLT_MAX")
