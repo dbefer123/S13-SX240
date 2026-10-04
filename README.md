@@ -28,38 +28,38 @@ JBeam generator and an offline validator).
 | 4 | Full S13 catalogue: exterior detail (lamps, grilles, rub strips, badges, mirrors, wipers, plates), body kits, liveries, engine detail, interior trim, leather, hydraulic handbrake | **done** |
 | 5 | S13 coupe and convertible: notchback body with trunk, convertible with power soft top (raised / folded) and reinforced floor, frameless doors, 8 configs; mod-wide fix for inside-out parts | **done** |
 | 6 | S14: its own body shape, zenki and kouki front ends and tail lamps, frameless doors, S14 dash, gauges and steering wheel, body kits, 5-lug wheels, 9 configs. Fixes for both cars: dash binnacle and race tach moved under the windshield, dash sealed under the cowl, double-sided floor pan / wheel wells / firewall / race tubs, outward-facing hubcaps and wheel centre caps | **done** |
-| 7 | Final polish, thumbnails, stats | planned |
+| 7 | Thumbnails for all 38 configs, performance estimates in every config's info, full validation (JBeam, physics, normals, windshield clearance, see-through surfaces), packaging | **done** |
 
 ## Configurations (S13 hatch)
 
-| Config | Type | Spec | Est. power |
+| Config | Type | Spec | Est. power / weight |
 |---|---|---|---|
-| Base (M) 1989 | Factory | KA24E SOHC, 5MT, open diff, 14" steel wheels with hubcaps | 140 hp |
-| XE (A) 1989 | Factory | KA24E, 4-speed automatic, 15" alloys | 140 hp |
-| **SE (M) 1991** (default) | Factory | KA24DE DOHC, 5MT, viscous LSD | 155 hp |
-| SE (A) 1993 | Factory | KA24DE, 4AT | 155 hp |
-| SE Sport Package 1992 | Factory | Sport suspension, thicker bars, ABS, summer tires | 155 hp |
-| Street Tuned | Custom | Intake, header, coilovers, Z32 brakes, 16" forged wheels, 1.5-way LSD | ~170 hp |
-| KA-T Street | Custom | Turbo KA24DE at 14 psi, forged internals | ~300 hp |
-| SR20DET Swap | Custom | SR20DET, SR-ratio 5MT, coilovers, LSD | ~235 hp |
-| Drift Missile | Custom | SR20DET, welded diff, angle kit, drift coilovers | ~250 hp |
-| K20 N/A Track Day | Custom | K20A on ITBs, 6MT, track coilovers, big brakes, R-compound tires | ~255 hp |
-| Autocross / Street Touring | Custom | Breathing mods, adjustable bars, 16" R-compounds | ~170 hp |
-| Gravel Rally | Race | Long-travel rally struts, 2-way LSD | ~170 hp |
-| Sleeper | Custom | Stock look, K20A turbo, 6MT | ~450 hp |
-| Stance / Show | Custom | Slammed, camber, 18" wheels | ~170 hp |
-| Budget Drift Beater | Custom | Stock engine, welded diff, lowering springs | 155 hp |
+| Base (M) 1989 | Factory | KA24E SOHC, 5MT, open diff, 14" steel wheels with hubcaps | 140 hp / 1200 kg |
+| XE (A) 1989 | Factory | KA24E, 4-speed automatic, 15" alloys | 140 hp / 1215 kg |
+| **SE (M) 1991** (default) | Factory | KA24DE DOHC, 5MT, viscous LSD | 155 hp / 1205 kg |
+| SE (A) 1993 | Factory | KA24DE, 4AT | 155 hp / 1225 kg |
+| SE Sport Package 1992 | Factory | Sport suspension, thicker bars, ABS, summer tires | 155 hp / 1205 kg |
+| Street Tuned | Custom | Intake, header, coilovers, Z32 brakes, 16" forged wheels, 1.5-way LSD | ~170 hp / 1200 kg |
+| KA-T Street | Custom | Turbo KA24DE at 14 psi, forged internals | ~300 hp / 1200 kg |
+| SR20DET Swap | Custom | SR20DET, SR-ratio 5MT, coilovers, LSD | ~235 hp / 1195 kg |
+| Drift Missile | Custom | SR20DET, welded diff, angle kit, drift coilovers | ~250 hp / 1200 kg |
+| K20 N/A Track Day | Custom | K20A on ITBs, 6MT, track coilovers, big brakes, R-compound tires | ~255 hp / 1180 kg |
+| Autocross / Street Touring | Custom | Breathing mods, adjustable bars, 16" R-compounds | ~170 hp / 1200 kg |
+| Gravel Rally | Race | Long-travel rally struts, 2-way LSD | ~170 hp / 1200 kg |
+| Sleeper | Custom | Stock look, K20A turbo, 6MT | ~450 hp / 1180 kg |
+| Stance / Show | Custom | Slammed, camber, 18" wheels | ~170 hp / 1215 kg |
+| Budget Drift Beater | Custom | Stock engine, welded diff, lowering springs | 155 hp / 1200 kg |
 
 ### Race builds
 
 | Config | Chassis | Spec | Est. power / weight |
 |---|---|---|---|
-| Pro Drift | Unibody + full cage | K20A turbo 24 psi, 6-speed sequential, 2-way LSD, angle kit, wide body, GT wing | ~620 hp / 1140 kg |
-| **K20 Track Spec** | **Tube chassis** | **K20A turbo 29 psi, 6-speed sequential, slicks, splitter + dive planes + diffuser + swan-neck wing (high downforce), stripped race interior** | **~700 hp / ~960 kg** |
-| **K20 Drag Spec** | **Tube chassis** | **K20A turbo 29 psi, 4-speed sequential, spool, drag radials + front runners, wheelie bar, parachute, transbrake, two-step, line lock, wicker bill only (low downforce)** | **~700 hp / ~920 kg** |
-| K20 Time Attack | Unibody + full cage | K20A turbo 22 psi, full aero, carbon panels | ~590 hp / 1090 kg |
-| K20 Drag & Drive | Unibody + 6-point cage | K20A turbo 24 psi, 6MT, spool, drag radials, interior kept | ~620 hp / 1200 kg |
-| IMSA GTO Tribute | Tube chassis | Flares, tall wing, pop-up delete, K20A turbo | ~640 hp / 950 kg |
+| Pro Drift | Unibody + full cage | K20A turbo 24 psi, 6-speed sequential, 2-way LSD, angle kit, wide body, GT wing | ~620 hp / 1150 kg |
+| **K20 Track Spec** | **Tube chassis** | **K20A turbo 29 psi, 6-speed sequential, slicks, splitter + dive planes + diffuser + swan-neck wing (high downforce), stripped race interior** | **~700 hp / ~965 kg** |
+| **K20 Drag Spec** | **Tube chassis** | **K20A turbo 29 psi, 4-speed sequential, spool, drag radials + front runners, wheelie bar, parachute, transbrake, two-step, line lock, wicker bill only (low downforce)** | **~700 hp / ~925 kg** |
+| K20 Time Attack | Unibody + full cage | K20A turbo 22 psi, full aero, carbon panels | ~590 hp / 1095 kg |
+| K20 Drag & Drive | Unibody + 6-point cage | K20A turbo 24 psi, 6MT, spool, drag radials, interior kept | ~620 hp / 1210 kg |
+| IMSA GTO Tribute | Tube chassis | Flares, tall wing, pop-up delete, K20A turbo | ~640 hp / 960 kg |
 
 Weights are estimates from the JBeam (nodes + wheels + fuel); power is the estimated crank peak.
 
@@ -67,14 +67,14 @@ Weights are estimates from the JBeam (nodes + wheels + fuel); power is the estim
 
 | Config | Body | Type | Spec | Est. power / weight |
 |---|---|---|---|---|
-| Base Coupe (M) 1990 | Coupe | Factory | KA24E, 5MT, open diff, 14" steel wheels | 140 hp / 1190 kg |
-| LE Coupe (A) 1992 | Coupe | Factory | KA24DE, 4AT, leather, rear wing with third brake light, 15" alloys | 155 hp / 1210 kg |
-| SE Coupe (M) 1992 | Coupe | Factory | KA24DE, 5MT, viscous LSD, sport suspension, rear wing | 155 hp / 1195 kg |
+| Base Coupe (M) 1990 | Coupe | Factory | KA24E, 5MT, open diff, 14" steel wheels | 140 hp / 1195 kg |
+| LE Coupe (A) 1992 | Coupe | Factory | KA24DE, 4AT, leather, rear wing with third brake light, 15" alloys | 155 hp / 1220 kg |
+| SE Coupe (M) 1992 | Coupe | Factory | KA24DE, 5MT, viscous LSD, sport suspension, rear wing | 155 hp / 1200 kg |
 | Coupe SR20 Drift | Coupe | Custom | SR20DET, 2-way LSD, angle kit, hydro handbrake, drift bumper, carbon trunk, ducktail, roll bar | ~270 hp / 1160 kg |
-| Coupe K20 Street | Coupe | Custom | K20A turbo at 13 psi, 6MT, coilovers, big brakes | ~420 hp / 1180 kg |
-| Convertible (A) 1992 | Convertible | Factory | Power soft top (raised), KA24DE, 4AT only (as in 1992), leather | 155 hp / 1310 kg |
-| Convertible SE (M) 1994 | Convertible | Factory | Soft top raised, 5MT, viscous LSD | 155 hp / 1290 kg |
-| Convertible Cruiser | Convertible | Custom | Top folded under the tonneau, windows down, intake/header, lowered, 16" wheels | ~170 hp / 1270 kg |
+| Coupe K20 Street | Coupe | Custom | K20A turbo at 13 psi, 6MT, coilovers, big brakes | ~420 hp / 1185 kg |
+| Convertible (A) 1992 | Convertible | Factory | Power soft top (raised), KA24DE, 4AT only (as in 1992), leather | 155 hp / 1315 kg |
+| Convertible SE (M) 1994 | Convertible | Factory | Soft top raised, 5MT, viscous LSD | 155 hp / 1295 kg |
+| Convertible Cruiser | Convertible | Custom | Top folded under the tonneau, windows down, intake/header, lowered, 16" wheels | ~170 hp / 1275 kg |
 
 **Coupe and convertible bodies.** Both share every panel ahead of the B-pillar with the hatch, so all front
 bumpers, hoods, fenders, pop-ups and doors fit every body. The coupe has its own roof, quarter windows, rear
@@ -102,15 +102,15 @@ an aluminium floor and tubs, and the visible tube-frame mesh is generated from t
 
 | Config | Type | Spec | Est. power / weight |
 |---|---|---|---|
-| Base Zenki (M) 1995 | Factory | KA24DE, 5MT, open diff, 15" five-spoke alloys | 155 hp / 1245 kg |
+| Base Zenki (M) 1995 | Factory | KA24DE, 5MT, open diff, 15" five-spoke alloys | 155 hp / 1250 kg |
 | SE Zenki (A) 1996 | Factory | 4AT, viscous LSD, 16" alloys, three-post rear wing | 155 hp / 1270 kg |
-| LE Kouki (A) 1997 | Factory | Facelift front and smoked tail lamps, leather, 4AT | 155 hp / 1265 kg |
+| LE Kouki (A) 1997 | Factory | Facelift front and smoked tail lamps, leather, 4AT | 155 hp / 1270 kg |
 | **SE Kouki (M) 1998** (default) | Factory | 5MT, viscous LSD, sport suspension, ABS, 16" alloys, rear wing | 155 hp / 1250 kg |
-| Kouki Street | Custom | Aero lip, valance and side skirts, intake + header, coilovers, Z32 brakes, 17" deep-dish | ~170 hp / 1255 kg |
+| Kouki Street | Custom | Aero lip, valance and side skirts, intake + header, coilovers, Z32 brakes, 17" deep-dish | ~170 hp / 1260 kg |
 | SR20DET Black Top Swap (Kouki Conversion) | Custom | Zenki shell with a kouki front, SR20DET, carbon lip, coilovers, 18" split-spokes | ~260 hp / 1245 kg |
 | Drift Missile | Custom | SR20DET, welded diff, angle kit, hydro handbrake, stripped, roll bar, mismatched wheels | ~250 hp / 1225 kg |
 | Pro Drift | Race | K20A turbo 24 psi, 6-speed sequential, 2-way LSD, angle kit, wide fenders, carbon lip, GT wing, full cage | ~620 hp / 1200 kg |
-| K20 Time Attack | Race | K20A turbo 26 psi, sequential, splitter, dive planes, diffuser, swan-neck wing, carbon panels, slicks | ~650 hp / 1145 kg |
+| K20 Time Attack | Race | K20A turbo 26 psi, sequential, splitter, dive planes, diffuser, swan-neck wing, carbon panels, slicks | ~650 hp / 1150 kg |
 
 **S14 body.** The S14 has its own body shape, traced from the S14 drawings: 2,525 mm wheelbase,
 1,730 mm wide, longer and rounder than the S13. Physically it reuses the S13 coupe's structure, warped onto
