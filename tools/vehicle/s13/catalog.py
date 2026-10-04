@@ -126,12 +126,13 @@ def wheel_parts():
     parts = []
     for axle in ("F", "R"):
         cx = f"{(D.TRACK_F if axle == 'F' else D.TRACK_R) / 2:.4f}+$trackoffset_{axle}"
+        yz = (D.AXLE_F_Y if axle == "F" else D.AXLE_R_Y, D.AXLE_Z)
         for w in WHEELS:
             tkey = WHEEL_DEFAULT_TIRE.get(w.key, DEFAULT_TIRE[w.dia])
-            parts.append(WH.wheel_part(PFX, w, axle, cx, f"{PFX}_tire_{axle}_{tkey}"))
+            parts.append(WH.wheel_part(PFX, w, axle, cx, f"{PFX}_tire_{axle}_{tkey}", yz))
         for t in TIRES:
-            parts.append(WH.tire_part(PFX, t, axle, cx))
-        parts.append(WH.hubcap_part(PFX, axle, 14, cx))
+            parts.append(WH.tire_part(PFX, t, axle, cx, yz))
+        parts.append(WH.hubcap_part(PFX, axle, 14, cx, yz))
     for b in BRAKES:
         parts.append(WH.brake_part(PFX, b, "F", f"{PFX}_hub_F"))
         parts.append(WH.brake_part(PFX, b, "R", f"{PFX}_hub_R"))

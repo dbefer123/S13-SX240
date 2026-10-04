@@ -1,0 +1,29 @@
+{
+  "format": 2,
+  "model": "s13_240sx",
+  "parts": {
+    "s13_engine": "s13_engine_ka24e",
+    "s13_ka24e_intake": "s13_ka24e_intake_stock",
+    "s13_ka24e_ecu": "s13_ka24e_ecu_stock",
+    "s13_ka24e_internals": "s13_ka24e_internals_stock",
+    "s13_transmission": "s13_transmission_4a",
+    "s13_flywheel": "s13_flywheel_stock",
+    "s13_shifter": "s13_shifter_auto",
+    "s13_spring_F": "s13_spring_F_stock",
+    "s13_spring_R": "s13_spring_R_stock",
+    "s13_swaybar_F": "s13_swaybar_F_stock",
+    "s13_swaybar_R": "s13_swaybar_R_stock",
+    "s13_brake_F": "s13_brake_F_stock",
+    "s13_brake_R": "s13_brake_R_stock",
+    "s13_brakepad_F": "s13_brakepad_F_basic",
+    "s13_brakepad_R": "s13_brakepad_R_basic",
+    "s13_differential_R": "s13_differential_R_open",
+    "s13_steering": "s13_steering_stock",
+    "s13_wheel_F": "s13_wheel_F_oem15_le",
+    "s13_tire_F_15": "s13_tire_F_195_60_15_allseason",
+    "s13_wheel_R": "s13_wheel_R_oem15_le",
+    "s13_tire_R_15": "s13_tire_R_195_60_15_allseason"
+  },
+  "vars": {},
+  "mainPartName": "s13_240sx"
+}

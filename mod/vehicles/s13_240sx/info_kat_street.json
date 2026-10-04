@@ -1,0 +1,30 @@
+{
+  "Configuration": "KA-T Street",
+  "Config Type": "Custom",
+  "Description": "Turbocharged KA24DE on 14 psi: around 300 hp of torque-rich boost, coilovers and big brakes.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 26800,
+  "Population": 0,
+  "defaultPaintName1": "Dark Gray Metallic",
+  "defaultPaintName2": "Dark Gray Metallic",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1192,
+  "Power": 303,
+  "Torque": 412,
+  "PowerPeakRPM": "5800",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 3.93,
+  "Induction Type": "Turbo",
+  "Top Speed": 69.95,
+  "0-60 mph": 6.4,
+  "0-100 km/h": 7.0,
+  "0-100 mph": 12.4,
+  "0-200 km/h": 18.7,
+  "Transmission": "Manual"
+}

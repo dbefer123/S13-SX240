@@ -11,6 +11,7 @@ from .prims import MeshBuilder
 
 IN = 0.0254
 PCD = 0.1143 / 2
+HUB_FACE = 0.045        # wheel mounting face, outboard of the wheel centre plane (all wheels; brakes match it)
 
 
 WHEEL_STYLE = {
@@ -84,7 +85,7 @@ def wheel_mesh(key, dia, width, lugs, name=None):
     rb = dia * IN / 2
     w = width * IN
     _barrel(mb, rb, w, lmat, cmat if style not in ("deepdish17", "beadlock15", "mesh15") else "s1x_wheel_barrel")
-    x_face = w / 2 - depth
+    x_face = min(HUB_FACE, w / 2 - 0.004)   # constant hub face; deep styles get their dish from the barrel
     r_in = rb - 0.012
     if kind == "steel":
         # pressed steel disc with vent holes
@@ -170,8 +171,55 @@ def tire_mesh(name, radius, width_mm, aspect, dia, kind, rim_w=None, segs=72):
     prof = [(r, -x) for r, x in half] + tread[::-1] and None
     prof = [(r, -x) for r, x in half] + sorted(tread, key=lambda q: q[1]) + [(r, x) for r, x in half[::-1]]
     mb = MeshBuilder(name)
-    mb.lathe(prof, "s1x_tire" if kind not in ("slick", "dragslick") else "s1x_tire_slick", segs=segs, axis="x")
+    faces = mb.lathe(prof, tire_material(kind), segs=segs, axis="x")
+    n_side = len(half)
+    tire_uvs(mb, faces, prof, n_side, len(prof) - 2 * n_side)
     return mb
+
+
+def tire_material(kind):
+    if kind in ("slick", "dragslick"):
+        return "s1x_tire_slick"
+    if kind in ("semislick", "dragradial"):
+        return "s1x_tire_semi"
+    return "s1x_tire_street"
+
+
+def tire_uvs(mb, faces, prof, n_side, n_tread, repeats=2):
+    """Sidewall/tread UV layout used by tools/textures/gen.tire:
+    v 0-0.3 inner sidewall (bead->shoulder), 0.3-0.7 tread, 0.7-1.0 outer sidewall (shoulder->bead); u wraps `repeats`x."""
+    def arc(pts):
+        d = [0.0]
+        for a, b in zip(pts[:-1], pts[1:]):
+            d.append(d[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
+        return [x / d[-1] if d[-1] > 0 else 0.0 for x in d]
+    inner = prof[:n_side]
+    tread = prof[n_side - 1:n_side + n_tread + 1]
+    outer = prof[n_side + n_tread:]
+    vmap = {}
+    for (r, x), t in zip(inner, arc(inner)):
+        vmap[(round(r, 5), round(x, 5))] = 0.30 * t
+    for (r, x), t in zip(tread, arc(tread)):
+        vmap.setdefault((round(r, 5), round(x, 5)), 0.30 + 0.40 * t)
+    for (r, x), t in zip(outer, arc(outer)):
+        vmap.setdefault((round(r, 5), round(x, 5)), 0.70 + 0.30 * t)
+    uv = mb.uv
+    for f in faces:
+        us = []
+        for loop in f.loops:
+            co = loop.vert.co
+            r = math.hypot(co.y, co.z)
+            key = (round(r, 5), round(co.x, 5))
+            v = vmap.get(key)
+            if v is None:  # nearest profile point (rounding mismatch)
+                v = min(vmap.items(), key=lambda kv: (kv[0][0] - r) ** 2 + (kv[0][1] - co.x) ** 2)[1]
+            u = (math.atan2(co.z, co.y) / (2 * math.pi) + 0.5) * repeats
+            us.append(u)
+            loop[uv].uv = (u, v)
+        if max(us) - min(us) > repeats / 2:
+            for loop in f.loops:
+                if loop[uv].uv[0] < repeats / 2:
+                    loop[uv].uv = (loop[uv].uv[0] + repeats, loop[uv].uv[1])
 
 
 def hubcap_mesh(dia, name):

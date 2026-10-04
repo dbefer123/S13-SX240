@@ -1,0 +1,30 @@
+{
+  "Configuration": "SE (A)",
+  "Config Type": "Factory",
+  "Description": "SE with the electronically controlled four-speed automatic.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 16600,
+  "Population": 3,
+  "defaultPaintName1": "Cool Silver Metallic",
+  "defaultPaintName2": "Cool Silver Metallic",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1215,
+  "Power": 155,
+  "Torque": 217,
+  "PowerPeakRPM": "5600",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.84,
+  "Induction Type": "NA",
+  "Top Speed": 58.92,
+  "0-60 mph": 8.2,
+  "0-100 km/h": 8.6,
+  "0-100 mph": 21.6,
+  "0-200 km/h": 55.3,
+  "Transmission": "Automatic"
+}

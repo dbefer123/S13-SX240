@@ -227,7 +227,8 @@ def engine_subparts(prefix, e: EngineDef):
             top = e.torque[-1][0]
             p.set("mainEngine", {"torqueModIntake": [["rpm", "torque"]] + [[r, round(gain * min(1.0, r / (top * 0.8)) ** 2, 1)] for r, _ in e.torque]})
             p.set("soundConfig", {"$+intakeMuffling": muff, "$+mainGain": 1.5})
-        p.flexbody(f"{prefix}_intake_{k.split('_')[0]}_{key}", ["engine"])
+        # the cold-air intake runs forward to the bumper: also map to the radiator support
+        p.flexbody(f"{prefix}_intake_{k.split('_')[0]}_{key}", ["engine", "radiator"] if key == "cai" else ["engine"])
         out.append(p)
     # induction: N/A manifolds or turbo kits
     if not e.turbo:
@@ -281,7 +282,7 @@ def turbo_part(prefix, engine_key, kit):
     p = Part(f"{prefix}_{engine_key}_induction_{kit}", t["title"], f"{prefix}_{engine_key}_induction", value=t["value"])
     p.variable("$wastegateStart", "psi", "Engine", t["wg"], 3, t["wg_max"], "Wastegate Pressure",
                "Boost pressure where the wastegate starts to open", stepDis=0.5)
-    p.flexbody(f"{prefix}_{t['mesh']}", ["engine"])
+    p.flexbody(f"{prefix}_{t['mesh']}", ["engine", "radiator"])   # turbo + front-mount intercooler piping
     p.flexbody(f"{prefix}_manifold_{engine_key.split('_')[0]}_turbo", ["engine"])
     # UNVERIFIED: turbocharger section layout written from vanilla content knowledge
     p.set("turbocharger", {

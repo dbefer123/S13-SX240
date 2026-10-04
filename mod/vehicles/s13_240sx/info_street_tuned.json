@@ -1,0 +1,30 @@
+{
+  "Configuration": "Street Tuned",
+  "Config Type": "Custom",
+  "Description": "Tasteful street build: intake and header, street coilovers, Z32 brakes, 16\" forged wheels and a 1.5-way LSD.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 21500,
+  "Population": 0,
+  "defaultPaintName1": "Blue Black Pearl",
+  "defaultPaintName2": "Blue Black Pearl",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1191,
+  "Power": 168,
+  "Torque": 228,
+  "PowerPeakRPM": "5900",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.09,
+  "Induction Type": "NA",
+  "Top Speed": 60.65,
+  "0-60 mph": 8.0,
+  "0-100 km/h": 8.5,
+  "0-100 mph": 19.6,
+  "0-200 km/h": 39.8,
+  "Transmission": "Manual"
+}

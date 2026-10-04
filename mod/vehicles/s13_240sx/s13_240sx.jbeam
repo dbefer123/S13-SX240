@@ -44,9 +44,9 @@
         },
         "s13_reverselight":{
             "simpleFunction":{"reverse_filament":0.49},
-            "off":"s13_lights",
-            "on":"s13_lights_on",
-            "on_intense":"s13_lights_on_intense",
+            "off":"s13_lights_reverse",
+            "on":"s13_lights_reverse_on",
+            "on_intense":"s13_lights_reverse_on_intense",
             "materialEmissiveScaling":{"on_max":0.49},
         },
         "s13_signal_L":{
@@ -63,7 +63,8 @@
             "on_intense":"s13_lights_amber_on_intense",
             "materialEmissiveScaling":{"on_max":0.49},
         },
-        "s13_gauges":{"simpleFunction":{"lowhighbeam":0.6}, "off":"s13_gauges", "on":"s13_gauges_on"},
+        "s13_gaugeface":{"simpleFunction":{"lowhighbeam":0.6}, "off":"s13_gauges", "on":"s13_gauges_on"},
+        "s13_needle":{"simpleFunction":{"lowhighbeam":0.6}, "off":"s13_needle_off", "on":"s13_needle_on"},
     },
     "slots":[
         ["type", "default", "description"],

@@ -120,7 +120,7 @@ def hood(name="s13_hood", title="Stock Steel Hood", mesh="s13_hood", value=380, 
 # --------------------------------------------------------------------------
 # pop-up headlight assemblies (hinged at the rear, raised by a hydro)
 # --------------------------------------------------------------------------
-POPUP_ANGLE = 58.0  # degrees of rotation when raised
+POPUP_ANGLE = 45.0  # degrees of rotation when raised
 
 
 def _rot_about(p, a, b, ang):

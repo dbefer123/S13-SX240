@@ -4,3 +4,7 @@ __pycache__/
 *.blend1
 /build/
 .pytest_cache/
+# generated binary assets live in dist/*.zip (rebuild with: python -m tools.build_all)
+mod/**/*.dae
+mod/**/*.png
+mod/**/*.jpg

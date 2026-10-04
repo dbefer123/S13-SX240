@@ -123,16 +123,67 @@ def _bool(ob, cutter, op):
     bl.apply_all(ob)
 
 
+def _from3(view, x, y, z):
+    """Inverse of _to3: (a, b) polygon coordinates and the extrusion coordinate c."""
+    if view == "side":
+        return y, z, x
+    if view == "plan":
+        return x, y, z
+    return x, z, y
+
+
+def strip_cutter_faces(ob, view, pts, lo, hi, tol=3e-5):
+    """Delete faces lying entirely on a cutter prism wall or cap (the hole-tolerant EXACT boolean on an
+    open skin can keep pieces of the cutter, which show up as flat fins)."""
+    p = np.asarray(pts, float)
+    n = len(p)
+    me = ob.data
+    co = np.array([v.co[:] for v in me.vertices]) if len(me.vertices) else np.zeros((0, 3))
+    if not len(co):
+        return 0
+    ab = np.array([_from3(view, *c)[:2] for c in co])
+    cc = np.array([_from3(view, *c)[2] for c in co])
+    on_cap = (np.abs(cc - lo) < tol) | (np.abs(cc - hi) < tol)
+    on_wall = np.full((len(co), n), False)
+    for i in range(n):
+        a, b = p[i], p[(i + 1) % n]
+        e = b - a
+        L = np.linalg.norm(e)
+        if L < 1e-9:
+            continue
+        d = np.abs((ab[:, 0] - a[0]) * e[1] - (ab[:, 1] - a[1]) * e[0]) / L
+        t = ((ab - a) @ e) / (L * L)
+        on_wall[:, i] = (d < tol) & (t > -1e-3) & (t < 1 + 1e-3)
+    bm = bmesh.new(); bm.from_mesh(me)
+    bm.faces.ensure_lookup_table()
+    kill = []
+    for f in bm.faces:
+        idx = [v.index for v in f.verts]
+        if on_cap[idx].all() or on_wall[idx].all(axis=0).any():
+            kill.append(f)
+    if kill:
+        bmesh.ops.delete(bm, geom=kill, context="FACES")
+        bm.to_mesh(me)
+    bm.free()
+    me.update()
+    return len(kill)
+
+
 def extract(skin, name, view, pts, lo, hi, gap=0.0035, keep_cutter=False):
     """Split `skin` along a prism: returns the extracted panel object."""
     cut_in = prism(name + "__cut", view, pts, lo, hi)
     panel = duplicate(skin, name)
     _bool(panel, cut_in, "INTERSECT")
+    strip_cutter_faces(panel, view, pts, lo, hi)
     if gap > 0:
-        cut_out = prism(name + "__gap", view, offset_polygon(pts, gap), lo - 0.001, hi + 0.001)
+        gpts = offset_polygon(pts, gap)
+        cut_out = prism(name + "__gap", view, gpts, lo - 0.001, hi + 0.001)
+        glo, ghi = lo - 0.001, hi + 0.001
     else:
         cut_out = cut_in
+        gpts, glo, ghi = pts, lo, hi
     _bool(skin, cut_out, "DIFFERENCE")
+    strip_cutter_faces(skin, view, gpts, glo, ghi)
     if not keep_cutter:
         for c in {cut_in, cut_out}:
             bpy.data.objects.remove(c, do_unlink=True)
@@ -142,6 +193,7 @@ def extract(skin, name, view, pts, lo, hi, gap=0.0035, keep_cutter=False):
 def cut_away(skin, view, pts, lo, hi):
     c = prism("__cut", view, pts, lo, hi)
     _bool(skin, c, "DIFFERENCE")
+    strip_cutter_faces(skin, view, pts, lo, hi)
     bpy.data.objects.remove(c, do_unlink=True)
 
 
@@ -213,7 +265,7 @@ def solidify(ob, thickness=0.002, offset=-1.0, rim=True):
     m.thickness = thickness
     m.offset = offset
     m.use_rim = rim
-    m.use_even_offset = True
+    m.use_even_offset = False   # even offset explodes on folded slivers at boolean seams
     m.use_quality_normals = True
     bl.apply_all(ob)
     clamp_to_bbox(ob, lo, hi, margin=thickness * 4 + 0.01)

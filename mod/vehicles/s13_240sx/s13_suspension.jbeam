@@ -437,7 +437,7 @@
         ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
         ["$springheight_F", "range", "+m", "Suspension", 0.0, -0.02, 0.02, "Spring Height", "Raise or lower the front ride height", {"stepDis":0.002, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_strut_F", ["s13_strut_F", "s13_shocktop_F"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_strut_F", ["s13_strut_F", "s13_shocktop_F"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -462,7 +462,7 @@
         ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
         ["$springheight_F", "range", "+m", "Suspension", -0.03, -0.05, 0.0, "Spring Height", "Raise or lower the front ride height", {"stepDis":0.002, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_strut_F_sport", ["s13_strut_F", "s13_shocktop_F"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_strut_F_sport", ["s13_strut_F", "s13_shocktop_F"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -492,7 +492,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_strut_F_street", ["s13_strut_F", "s13_shocktop_F"]],
+        ["s13_strut_F_street", ["s13_strut_F", "s13_shocktop_F"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -521,7 +521,7 @@
         ["$damp_bump_F", "range", "N/m/s", "Suspension", 3800, 1520, 9500, "Bump Damping", "Damper rate in compression", {"stepDis":50, "subCategory":"Front"}],
         ["$damp_rebound_F", "range", "N/m/s", "Suspension", 7600, 3040, 19000, "Rebound Damping", "Damper rate in extension", {"stepDis":50, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_strut_F_track", ["s13_strut_F", "s13_shocktop_F"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_strut_F_track", ["s13_strut_F", "s13_shocktop_F"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -549,7 +549,7 @@
         ["$damp_bump_F", "range", "N/m/s", "Suspension", 3000, 1200, 7500, "Bump Damping", "Damper rate in compression", {"stepDis":50, "subCategory":"Front"}],
         ["$damp_rebound_F", "range", "N/m/s", "Suspension", 6400, 2560, 16000, "Rebound Damping", "Damper rate in extension", {"stepDis":50, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_strut_F_drift", ["s13_strut_F", "s13_shocktop_F"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_strut_F_drift", ["s13_strut_F", "s13_shocktop_F"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -577,7 +577,7 @@
         ["$damp_bump_F", "range", "N/m/s", "Suspension", 900, 360.0, 2250, "Bump Damping", "Damper rate in compression", {"stepDis":50, "subCategory":"Front"}],
         ["$damp_rebound_F", "range", "N/m/s", "Suspension", 5500, 2200, 13750, "Rebound Damping", "Damper rate in extension", {"stepDis":50, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_strut_F_drag", ["s13_strut_F", "s13_shocktop_F"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_strut_F_drag", ["s13_strut_F", "s13_shocktop_F"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -605,7 +605,7 @@
         ["$damp_bump_F", "range", "N/m/s", "Suspension", 2600, 1040, 6500, "Bump Damping", "Damper rate in compression", {"stepDis":50, "subCategory":"Front"}],
         ["$damp_rebound_F", "range", "N/m/s", "Suspension", 5000, 2000, 12500, "Rebound Damping", "Damper rate in extension", {"stepDis":50, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_strut_F_rally", ["s13_strut_F", "s13_shocktop_F"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_strut_F_rally", ["s13_strut_F", "s13_shocktop_F"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -630,7 +630,7 @@
         ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
         ["$springheight_R", "range", "+m", "Suspension", 0.0, -0.02, 0.02, "Spring Height", "Raise or lower the rear ride height", {"stepDis":0.002, "subCategory":"Rear"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_shock_R", ["s13_shockbottom_R", "s13_shocktop_R"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_shock_R", ["s13_shockbottom_R", "s13_shocktop_R"]]],
     "beams":[
         ["id1:", "id2:"],
         {"beamType":"|NORMAL", "beamDeform":12000, "beamStrength":140000},
@@ -657,7 +657,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_shock_R_sport", ["s13_shockbottom_R", "s13_shocktop_R"]],
+        ["s13_shock_R_sport", ["s13_shockbottom_R", "s13_shocktop_R"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -688,7 +688,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_shock_R_street", ["s13_shockbottom_R", "s13_shocktop_R"]],
+        ["s13_shock_R_street", ["s13_shockbottom_R", "s13_shocktop_R"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -719,7 +719,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_shock_R_track", ["s13_shockbottom_R", "s13_shocktop_R"]],
+        ["s13_shock_R_track", ["s13_shockbottom_R", "s13_shocktop_R"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -750,7 +750,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_shock_R_drift", ["s13_shockbottom_R", "s13_shocktop_R"]],
+        ["s13_shock_R_drift", ["s13_shockbottom_R", "s13_shocktop_R"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -781,7 +781,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_shock_R_drag", ["s13_shockbottom_R", "s13_shocktop_R"]],
+        ["s13_shock_R_drag", ["s13_shockbottom_R", "s13_shocktop_R"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -812,7 +812,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_shock_R_rally", ["s13_shockbottom_R", "s13_shocktop_R"]],
+        ["s13_shock_R_rally", ["s13_shockbottom_R", "s13_shocktop_R"]],
     ],
     "beams":[
         ["id1:", "id2:"],
@@ -834,7 +834,7 @@
 "s13_swaybar_F_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Front Sway Bar", "value":120},
     "slotType":"s13_swaybar_F",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_swaybar_F", ["s13_lowerarm_F", "s13_fsubframe"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_swaybar_F", ["s13_lowerarm_F", "s13_fsubframe"]]],
     "torsionbars":[
         ["id1:", "id2:", "id3:", "id4:"],
         {"spring":1040, "damp":10, "deform":8000, "strength":9999999},
@@ -844,7 +844,7 @@
 "s13_swaybar_F_sport": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Sport Front Sway Bar", "value":380},
     "slotType":"s13_swaybar_F",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_swaybar_F", ["s13_lowerarm_F", "s13_fsubframe"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_swaybar_F", ["s13_lowerarm_F", "s13_fsubframe"]]],
     "torsionbars":[
         ["id1:", "id2:", "id3:", "id4:"],
         {"spring":1680, "damp":10, "deform":8000, "strength":9999999},
@@ -858,7 +858,7 @@
         ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
         ["$arb_spring_F", "range", "N/m", "Suspension", 60000, 18000, 150000, "Anti-Roll Spring Rate", "Stiffness of the front anti-roll bar at the end links", {"stepDis":500, "subCategory":"Front"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_swaybar_F", ["s13_lowerarm_F", "s13_fsubframe"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_swaybar_F", ["s13_lowerarm_F", "s13_fsubframe"]]],
     "torsionbars":[
         ["id1:", "id2:", "id3:", "id4:"],
         {"spring":"$=$arb_spring_F*0.2*0.2", "damp":10, "deform":8000, "strength":9999999},
@@ -872,7 +872,7 @@
 "s13_swaybar_R_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Rear Sway Bar", "value":110},
     "slotType":"s13_swaybar_R",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_swaybar_R", ["s13_hub_R", "s13_rsubframe"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_swaybar_R", ["s13_hub_R", "s13_rsubframe"]]],
     "torsionbars":[
         ["id1:", "id2:", "id3:", "id4:"],
         {"spring":388.8, "damp":10, "deform":8000, "strength":9999999},
@@ -882,7 +882,7 @@
 "s13_swaybar_R_sport": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Sport Rear Sway Bar", "value":340},
     "slotType":"s13_swaybar_R",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_swaybar_R", ["s13_hub_R", "s13_rsubframe"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_swaybar_R", ["s13_hub_R", "s13_rsubframe"]]],
     "torsionbars":[
         ["id1:", "id2:", "id3:", "id4:"],
         {"spring":712.8, "damp":10, "deform":8000, "strength":9999999},
@@ -896,7 +896,7 @@
         ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
         ["$arb_spring_R", "range", "N/m", "Suspension", 32000, 9600, 80000, "Anti-Roll Spring Rate", "Stiffness of the rear anti-roll bar at the end links", {"stepDis":500, "subCategory":"Rear"}],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_swaybar_R", ["s13_hub_R", "s13_rsubframe"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_swaybar_R", ["s13_hub_R", "s13_rsubframe"]]],
     "torsionbars":[
         ["id1:", "id2:", "id3:", "id4:"],
         {"spring":"$=$arb_spring_R*0.18*0.18", "damp":10, "deform":8000, "strength":9999999},
@@ -917,8 +917,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_steering_rack", ["s13_fsubframe"]],
-        ["s1x_tierod_F", ["s13_tierod_F", "s13_fsubframe"]],
+        ["s13_steering_rack", ["s13_fsubframe"]],
+        ["s13_tierod_F", ["s13_tierod_F", "s13_fsubframe"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -960,8 +960,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_steering_rack", ["s13_fsubframe"]],
-        ["s1x_tierod_F", ["s13_tierod_F", "s13_fsubframe"]],
+        ["s13_steering_rack", ["s13_fsubframe"]],
+        ["s13_tierod_F", ["s13_tierod_F", "s13_fsubframe"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -1003,8 +1003,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_steering_rack", ["s13_fsubframe"]],
-        ["s1x_tierod_F", ["s13_tierod_F", "s13_fsubframe"]],
+        ["s13_steering_rack", ["s13_fsubframe"]],
+        ["s13_tierod_F", ["s13_tierod_F", "s13_fsubframe"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],

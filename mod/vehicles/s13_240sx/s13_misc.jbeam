@@ -64,7 +64,7 @@
 "s13_exhaust_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Exhaust", "value":420},
     "slotType":"s13_exhaust",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_exhaust_s13_stock", ["exhaust"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_exhaust_stock", ["exhaust"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.5, "group":"exhaust"},

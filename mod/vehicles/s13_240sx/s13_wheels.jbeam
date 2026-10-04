@@ -10,8 +10,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_steel14", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_steel14", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_steel14", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_steel14", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -37,8 +37,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_oem15_le", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_oem15_le", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_le", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_le", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -64,8 +64,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_oem15_se", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_oem15_se", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_se", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_se", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -91,8 +91,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_mesh15", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_mesh15", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_mesh15", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_mesh15", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -115,8 +115,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_F_16", "s13_tire_F_215_45_16_sport", "Front Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_sixspoke16", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_sixspoke16", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_sixspoke16", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_sixspoke16", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -139,8 +139,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_F_17", "s13_tire_F_255_40_17_drift", "Front Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_deepdish17", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_deepdish17", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_deepdish17", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_deepdish17", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -163,8 +163,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_F_18", "s13_tire_F_265_35_18_drift", "Front Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_split18", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_split18", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_split18", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_split18", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -187,8 +187,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_F_17", "s13_tire_F_245_40_17_slick", "Front Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_race17", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_race17", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race17", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race17", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -211,8 +211,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_F_18", "s13_tire_F_265_35_18_slick", "Front Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_race18", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_race18", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race18", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race18", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -238,8 +238,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_beadlock15", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_beadlock15", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_beadlock15", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_beadlock15", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -265,8 +265,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_runner15", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_runner15", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_runner15", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_runner15", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -292,8 +292,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_195_60_14_allseason", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_195_60_14_allseason", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_14_allseason", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_14_allseason", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -344,8 +344,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_195_60_15_allseason", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_195_60_15_allseason", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_15_allseason", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_15_allseason", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -396,8 +396,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_205_60_15_allseason", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_205_60_15_allseason", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_60_15_allseason", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_60_15_allseason", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -448,8 +448,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_205_55_15_sport", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_205_55_15_sport", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_55_15_sport", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_55_15_sport", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -500,8 +500,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_205_50_15_semislick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_205_50_15_semislick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_50_15_semislick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_50_15_semislick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -552,8 +552,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_215_45_16_sport", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_215_45_16_sport", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_16_sport", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_16_sport", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -604,8 +604,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_225_45_16_semislick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_225_45_16_semislick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_225_45_16_semislick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_225_45_16_semislick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -656,8 +656,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_215_45_17_sport", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_215_45_17_sport", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_17_sport", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_17_sport", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -708,8 +708,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_235_40_17_semislick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_235_40_17_semislick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_17_semislick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_17_semislick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -760,8 +760,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_255_40_17_drift", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_255_40_17_drift", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_255_40_17_drift", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_255_40_17_drift", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -812,8 +812,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_245_40_17_slick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_245_40_17_slick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_245_40_17_slick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_245_40_17_slick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -864,8 +864,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_235_40_18_drift", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_235_40_18_drift", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_18_drift", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_18_drift", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -916,8 +916,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_265_35_18_drift", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_265_35_18_drift", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_drift", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_drift", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -968,8 +968,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_265_35_18_slick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_265_35_18_slick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_slick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_slick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1020,8 +1020,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_285_35_18_slick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_285_35_18_slick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_285_35_18_slick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_285_35_18_slick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1072,8 +1072,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_275_60_15_dragradial", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_275_60_15_dragradial", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_275_60_15_dragradial", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_275_60_15_dragradial", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1125,8 +1125,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_28x10_15_dragslick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_28x10_15_dragslick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_28x10_15_dragslick", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_28x10_15_dragslick", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1178,8 +1178,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_165_80_15_runner", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_165_80_15_runner", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_165_80_15_runner", ["wheel_FR", "tire_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_165_80_15_runner", ["wheel_FL", "tire_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1221,6 +1221,15 @@
         {"wheelPeripheryBeamDeform":40000, "wheelPeripheryBeamStrength":40000},
     ],
 },
+"s13_hubcap_F_14": {
+    "information":{"authors":"S13/S14 240SX mod", "name":"Steel Wheel Hubcaps (Front)", "value":40},
+    "slotType":"s13_hubcap_F_14",
+    "flexbodies":[
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["s1x_hubcap_14", ["wheel_FR", "wheelhub_FR"], [], {"pos":{"x":"$=-(0.7325+$trackoffset_F)", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_hubcap_14", ["wheel_FL", "wheelhub_FL"], [], {"pos":{"x":"$=0.7325+$trackoffset_F", "y":-1.24, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+    ],
+},
 "s13_wheel_R_steel14": {
     "information":{"authors":"S13/S14 240SX mod", "name":"14x6 Steel Wheel with Hubcap (Rear)", "value":60},
     "slotType":"s13_wheel_R",
@@ -1231,8 +1240,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_steel14", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_steel14", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_steel14", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_steel14", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1258,8 +1267,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_oem15_le", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_oem15_le", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_le", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_le", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1285,8 +1294,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_oem15_se", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_oem15_se", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_se", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_oem15_se", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1312,8 +1321,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_mesh15", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_mesh15", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_mesh15", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_mesh15", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1336,8 +1345,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_R_16", "s13_tire_R_215_45_16_sport", "Rear Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_sixspoke16", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_sixspoke16", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_sixspoke16", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_sixspoke16", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1360,8 +1369,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_R_17", "s13_tire_R_255_40_17_drift", "Rear Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_deepdish17", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_deepdish17", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_deepdish17", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_deepdish17", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1384,8 +1393,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_R_18", "s13_tire_R_265_35_18_drift", "Rear Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_split18", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_split18", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_split18", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_split18", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1408,8 +1417,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_R_17", "s13_tire_R_245_40_17_slick", "Rear Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_race17", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_race17", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race17", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race17", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1432,8 +1441,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_R_18", "s13_tire_R_265_35_18_slick", "Rear Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_race18", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_race18", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race18", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_race18", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1459,8 +1468,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_beadlock15", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_beadlock15", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_beadlock15", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_beadlock15", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1483,8 +1492,8 @@
     "slots":[["type", "default", "description"], ["s13_tire_R_15", "s13_tire_R_165_80_15_runner", "Rear Tires"]],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_wheel_runner15", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_wheel_runner15", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_runner15", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_wheel_runner15", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1510,8 +1519,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_195_60_14_allseason", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_195_60_14_allseason", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_14_allseason", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_14_allseason", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1562,8 +1571,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_195_60_15_allseason", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_195_60_15_allseason", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_15_allseason", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_195_60_15_allseason", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1614,8 +1623,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_205_60_15_allseason", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_205_60_15_allseason", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_60_15_allseason", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_60_15_allseason", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1666,8 +1675,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_205_55_15_sport", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_205_55_15_sport", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_55_15_sport", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_55_15_sport", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1718,8 +1727,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_205_50_15_semislick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_205_50_15_semislick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_50_15_semislick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_205_50_15_semislick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1770,8 +1779,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_215_45_16_sport", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_215_45_16_sport", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_16_sport", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_16_sport", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1822,8 +1831,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_225_45_16_semislick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_225_45_16_semislick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_225_45_16_semislick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_225_45_16_semislick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1874,8 +1883,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_215_45_17_sport", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_215_45_17_sport", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_17_sport", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_215_45_17_sport", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1926,8 +1935,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_235_40_17_semislick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_235_40_17_semislick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_17_semislick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_17_semislick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -1978,8 +1987,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_255_40_17_drift", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_255_40_17_drift", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_255_40_17_drift", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_255_40_17_drift", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2030,8 +2039,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_245_40_17_slick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_245_40_17_slick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_245_40_17_slick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_245_40_17_slick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2082,8 +2091,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_235_40_18_drift", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_235_40_18_drift", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_18_drift", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_235_40_18_drift", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2134,8 +2143,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_265_35_18_drift", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_265_35_18_drift", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_drift", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_drift", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2186,8 +2195,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_265_35_18_slick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_265_35_18_slick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_slick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_265_35_18_slick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2238,8 +2247,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_285_35_18_slick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_285_35_18_slick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_285_35_18_slick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_285_35_18_slick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2290,8 +2299,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_275_60_15_dragradial", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_275_60_15_dragradial", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_275_60_15_dragradial", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_275_60_15_dragradial", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2343,8 +2352,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_28x10_15_dragslick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_28x10_15_dragslick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_28x10_15_dragslick", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_28x10_15_dragslick", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2396,8 +2405,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_tire_165_80_15_runner", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
-        ["s1x_tire_165_80_15_runner", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_165_80_15_runner", ["wheel_RR", "tire_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_tire_165_80_15_runner", ["wheel_RL", "tire_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2439,6 +2448,15 @@
         {"wheelPeripheryBeamDeform":40000, "wheelPeripheryBeamStrength":40000},
     ],
 },
+"s13_hubcap_R_14": {
+    "information":{"authors":"S13/S14 240SX mod", "name":"Steel Wheel Hubcaps (Rear)", "value":40},
+    "slotType":"s13_hubcap_R_14",
+    "flexbodies":[
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["s1x_hubcap_14", ["wheel_RR", "wheelhub_RR"], [], {"pos":{"x":"$=-(0.7350+$trackoffset_R)", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["s1x_hubcap_14", ["wheel_RL", "wheelhub_RL"], [], {"pos":{"x":"$=0.7350+$trackoffset_R", "y":1.235, "z":0.305}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+    ],
+},
 "s13_brake_F_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Disc Brakes (Front)", "value":300},
     "slotType":"s13_brake_F",
@@ -2448,9 +2466,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_stock_F_R", ["wheel_FR", "wheelhub_FR"]],
-        ["s1x_brake_stock_F_L", ["wheel_FL", "wheelhub_FL"]],
-        ["s1x_caliper_stock_F", ["s13_hub_F"]],
+        ["s13_brake_stock_F_R", ["wheel_FR", "wheelhub_FR"]],
+        ["s13_brake_stock_F_L", ["wheel_FL", "wheelhub_FL"]],
+        ["s13_caliper_stock_F", ["s13_hub_F"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2478,9 +2496,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_stock_R_R", ["wheel_RR", "wheelhub_RR"]],
-        ["s1x_brake_stock_R_L", ["wheel_RL", "wheelhub_RL"]],
-        ["s1x_caliper_stock_R", ["s13_hub_R"]],
+        ["s13_brake_stock_R_R", ["wheel_RR", "wheelhub_RR"]],
+        ["s13_brake_stock_R_L", ["wheel_RL", "wheelhub_RL"]],
+        ["s13_caliper_stock_R", ["s13_hub_R"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2508,9 +2526,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_stock_F_R", ["wheel_FR", "wheelhub_FR"]],
-        ["s1x_brake_stock_F_L", ["wheel_FL", "wheelhub_FL"]],
-        ["s1x_caliper_stock_F", ["s13_hub_F"]],
+        ["s13_brake_stock_F_R", ["wheel_FR", "wheelhub_FR"]],
+        ["s13_brake_stock_F_L", ["wheel_FL", "wheelhub_FL"]],
+        ["s13_caliper_stock_F", ["s13_hub_F"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2538,9 +2556,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_stock_R_R", ["wheel_RR", "wheelhub_RR"]],
-        ["s1x_brake_stock_R_L", ["wheel_RL", "wheelhub_RL"]],
-        ["s1x_caliper_stock_R", ["s13_hub_R"]],
+        ["s13_brake_stock_R_R", ["wheel_RR", "wheelhub_RR"]],
+        ["s13_brake_stock_R_L", ["wheel_RL", "wheelhub_RL"]],
+        ["s13_caliper_stock_R", ["s13_hub_R"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2568,9 +2586,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_z32_F_R", ["wheel_FR", "wheelhub_FR"]],
-        ["s1x_brake_z32_F_L", ["wheel_FL", "wheelhub_FL"]],
-        ["s1x_caliper_z32_F", ["s13_hub_F"]],
+        ["s13_brake_z32_F_R", ["wheel_FR", "wheelhub_FR"]],
+        ["s13_brake_z32_F_L", ["wheel_FL", "wheelhub_FL"]],
+        ["s13_caliper_z32_F", ["s13_hub_F"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2598,9 +2616,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_z32_R_R", ["wheel_RR", "wheelhub_RR"]],
-        ["s1x_brake_z32_R_L", ["wheel_RL", "wheelhub_RL"]],
-        ["s1x_caliper_z32_R", ["s13_hub_R"]],
+        ["s13_brake_z32_R_R", ["wheel_RR", "wheelhub_RR"]],
+        ["s13_brake_z32_R_L", ["wheel_RL", "wheelhub_RL"]],
+        ["s13_caliper_z32_R", ["s13_hub_R"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2628,9 +2646,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_bbk_F_R", ["wheel_FR", "wheelhub_FR"]],
-        ["s1x_brake_bbk_F_L", ["wheel_FL", "wheelhub_FL"]],
-        ["s1x_caliper_bbk_F", ["s13_hub_F"]],
+        ["s13_brake_bbk_F_R", ["wheel_FR", "wheelhub_FR"]],
+        ["s13_brake_bbk_F_L", ["wheel_FL", "wheelhub_FL"]],
+        ["s13_caliper_bbk_F", ["s13_hub_F"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2658,9 +2676,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_bbk_R_R", ["wheel_RR", "wheelhub_RR"]],
-        ["s1x_brake_bbk_R_L", ["wheel_RL", "wheelhub_RL"]],
-        ["s1x_caliper_bbk_R", ["s13_hub_R"]],
+        ["s13_brake_bbk_R_R", ["wheel_RR", "wheelhub_RR"]],
+        ["s13_brake_bbk_R_L", ["wheel_RL", "wheelhub_RL"]],
+        ["s13_caliper_bbk_R", ["s13_hub_R"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2688,9 +2706,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_drag_F_R", ["wheel_FR", "wheelhub_FR"]],
-        ["s1x_brake_drag_F_L", ["wheel_FL", "wheelhub_FL"]],
-        ["s1x_caliper_drag_F", ["s13_hub_F"]],
+        ["s13_brake_drag_F_R", ["wheel_FR", "wheelhub_FR"]],
+        ["s13_brake_drag_F_L", ["wheel_FL", "wheelhub_FL"]],
+        ["s13_caliper_drag_F", ["s13_hub_F"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],
@@ -2718,9 +2736,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_brake_drag_R_R", ["wheel_RR", "wheelhub_RR"]],
-        ["s1x_brake_drag_R_L", ["wheel_RL", "wheelhub_RL"]],
-        ["s1x_caliper_drag_R", ["s13_hub_R"]],
+        ["s13_brake_drag_R_R", ["wheel_RR", "wheelhub_RR"]],
+        ["s13_brake_drag_R_L", ["wheel_RL", "wheelhub_RL"]],
+        ["s13_caliper_drag_R", ["s13_hub_R"]],
     ],
     "pressureWheels":[
         ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"],

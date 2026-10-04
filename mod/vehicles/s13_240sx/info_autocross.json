@@ -1,0 +1,30 @@
+{
+  "Configuration": "Autocross / Street Touring",
+  "Config Type": "Custom",
+  "Description": "Street Touring class build: KA24DE breathing mods, adjustable bars and grippy 16\" R-compound tires.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 24800,
+  "Population": 0,
+  "defaultPaintName1": "Grand Prix Blue",
+  "defaultPaintName2": "Grand Prix Blue",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1192,
+  "Power": 168,
+  "Torque": 228,
+  "PowerPeakRPM": "5900",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.09,
+  "Induction Type": "NA",
+  "Top Speed": 60.65,
+  "0-60 mph": 7.6,
+  "0-100 km/h": 8.5,
+  "0-100 mph": 19.7,
+  "0-200 km/h": 40.1,
+  "Transmission": "Manual"
+}

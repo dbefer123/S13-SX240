@@ -1,0 +1,29 @@
+{
+  "Configuration": "XE (A)",
+  "Config Type": "Factory",
+  "Description": "Better equipped XE with the four-speed automatic and 15\" seven-spoke alloys.",
+  "Years": {
+    "min": 1989,
+    "max": 1990
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 14500,
+  "Population": 3,
+  "defaultPaintName1": "Crystal White",
+  "defaultPaintName2": "Crystal White",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1208,
+  "Power": 140,
+  "Torque": 206,
+  "PowerPeakRPM": "5300",
+  "TorquePeakRPM": "4000",
+  "Weight/Power": 8.63,
+  "Induction Type": "NA",
+  "Top Speed": 56.88,
+  "0-60 mph": 8.6,
+  "0-100 km/h": 9.0,
+  "0-100 mph": 23.6,
+  "Transmission": "Automatic"
+}

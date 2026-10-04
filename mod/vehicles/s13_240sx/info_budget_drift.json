@@ -1,0 +1,30 @@
+{
+  "Configuration": "Budget Drift Beater",
+  "Config Type": "Custom",
+  "Description": "Stock KA24DE, welded diff, lowering springs and whatever tires were cheapest.",
+  "Years": {
+    "min": 1989,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 6500,
+  "Population": 0,
+  "defaultPaintName1": "Lime Green Metallic",
+  "defaultPaintName2": "Lime Green Metallic",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1195,
+  "Power": 155,
+  "Torque": 217,
+  "PowerPeakRPM": "5600",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.71,
+  "Induction Type": "NA",
+  "Top Speed": 58.96,
+  "0-60 mph": 8.0,
+  "0-100 km/h": 8.4,
+  "0-100 mph": 21.5,
+  "0-200 km/h": 49.0,
+  "Transmission": "Manual"
+}

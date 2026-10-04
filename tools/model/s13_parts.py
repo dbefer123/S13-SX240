@@ -50,7 +50,7 @@ def underbody():
 
 def wheelwells():
     mb = MeshBuilder("s13_wheelwells")
-    for (cy, cz), track in ((B.AXLE_F_Y and (D.AXLE_F_Y, D.AXLE_Z), D.TRACK_F), ((D.AXLE_R_Y, D.AXLE_Z), D.TRACK_R)):
+    for (cy, cz), track in (((D.AXLE_F_Y, D.AXLE_Z), D.TRACK_F), ((D.AXLE_R_Y, D.AXLE_Z), D.TRACK_R)):
         for s in (1, -1):
             r = 0.372
             x_in, x_out = 0.50, 0.83
@@ -73,53 +73,87 @@ def wheelwells():
 def enginebay():
     mb = MeshBuilder("s13_enginebay")
     for s in (1, -1):
-        # inner fender apron wall
+        # inner fender apron wall, its top following the underside of the hood/nose
         verts = []
-        ys = np.linspace(-2.02, -0.88, 12)
+        ys = np.linspace(-2.02, -0.90, 15)
         for y in ys:
-            for z in (0.30, 0.50, 0.66):
-                x = 0.66 if z < 0.6 else 0.71
-                if -1.62 < y < -0.86 and z < 0.66:
+            ztop = min(0.66, top_z(SPEC, float(y), 0.74) - 0.045)
+            for z in (0.30, 0.50, ztop):
+                x = 0.66 if z < ztop - 0.01 else 0.69
+                if -1.62 < y < -0.92 and z < ztop - 0.01:
                     x = 0.60                                  # strut tower bulge
                 verts.append((s * x, float(y), z))
         mb.add_faces(verts, grid_faces(len(ys), 3, flip=s < 0), "s13_enginebay_paint", smooth=False)
         # strut tower top
-        mb.cylinder((s * D.FS1[0], D.FS1[1], D.FS1[2] - 0.02), (s * D.FS1[0], D.FS1[1], D.FS1[2] + 0.01), 0.09,
+        mb.cylinder((s * D.FS1[0], D.FS1[1], D.FS1[2] - 0.025), (s * D.FS1[0], D.FS1[1], D.FS1[2] - 0.005), 0.09,
                     "s13_enginebay_paint", segs=20)
-    # firewall
+    # firewall (top follows the cowl)
     verts = []
     xs = np.linspace(-0.72, 0.72, 13)
-    for z in (0.22, 0.45, 0.68, 0.84):
+    for k, z in enumerate((0.22, 0.45, 0.68, None)):
         for x in xs:
-            verts.append((float(x), -0.885 + (0.02 if z > 0.8 else 0.0), z))
+            zz = z if z is not None else min(0.84, top_z(SPEC, -0.90, abs(float(x))) - 0.03)
+            verts.append((float(x), -0.885 + (0.02 if z is None else 0.0), zz))
     mb.add_faces(verts, grid_faces(4, len(xs)), "s13_enginebay_paint", smooth=False)
     # radiator core support (upper bar)
-    mb.rbox((0.0, -2.06, 0.555), (0.95, 0.05, 0.04), 0.008, "s13_enginebay_paint")
+    mb.rbox((0.0, -2.06, min(0.555, top_z(SPEC, -2.06, 0.0) - 0.05)), (0.95, 0.05, 0.04), 0.008, "s13_enginebay_paint")
     return mb
 
 
 def popup_lamps():
+    """Pop-up headlamp pods, modelled raised (lens vertical, lid on top, hinge at the rear) and rotated closed
+    about the hinge so they sit under the lid panels."""
     out = []
+    th = math.radians(PJ.POPUP_ANGLE)
+    x0, x1 = 0.395, 0.652
+    xm = (x0 + x1) / 2
+    hy = -1.857
+    hz = min(top_z(SPEC, hy, x) for x in (x0, xm, x1)) - 0.012
+    fy = -2.105                                          # lid front edge (closed)
+    fz = min(top_z(SPEC, fy, x) for x in (x0, xm, x1 + 0.02)) - 0.022
+    L = math.hypot(fy - hy, fz - hz)
+    a_closed = math.atan2(fz - hz, -(fy - hy))           # angle below horizontal (forward), radians (negative = down)
+    a_up = a_closed + th
+    Fy, Fz = hy - L * math.cos(a_up), hz + L * math.sin(a_up)   # raised front edge
+    lens_h = 0.115
+    prof = [(Fy, Fz), (Fy, Fz - lens_h), (hy - 0.03, Fz - lens_h), (hy, hz)]    # raised side profile (y, z)
+
+    def closed(y, z):
+        dy, dz = y - hy, z - hz
+        c, s_ = math.cos(-th), math.sin(-th)
+        # raise = rotate front edge up; closing rotates by -th in the (forward, up) sense
+        fwd, up = -dy, dz
+        fwd2, up2 = fwd * c - up * s_, fwd * s_ + up * c
+        return hy - fwd2, hz + up2
+
     for side, s in (("L", 1), ("R", -1)):
         mb = MeshBuilder(f"s13_popup_lamp_{side}")
-        x0, x1 = 0.40, 0.665
-        # lamp box modelled in the raised orientation (lens facing forward), then rotated closed about the hinge
-        hy, hz = -1.875, top_z(SPEC, -1.875, 0.53) - 0.006
-        box_c = Vector((s * (x0 + x1) / 2, -2.02, hz + 0.075))
-        sizex, sizey, sizez = (x1 - x0), 0.15, 0.115
-        mb.rbox(tuple(box_c), (sizex, sizey, sizez), 0.01, "s13_popup_housing")
-        # lens (glowing material)
-        lens_c = box_c + Vector((0, -sizey / 2 - 0.004, 0))
-        mb.rbox(tuple(lens_c), (sizex - 0.02, 0.008, sizez - 0.02), 0.004, "s13_headlight")
-        # reflector rings
+        xa, xb = s * x0, s * x1
+        # housing: extrude the side profile across x
+        P = [closed(y, z) for y, z in prof]
+        verts = [(xa, y, z) for y, z in P] + [(xb, y, z) for y, z in P]
+        n = len(P)
+        faces = [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
+        faces += [tuple(range(n))[::-1], tuple(range(n, 2 * n))]
+        if s < 0:
+            faces = [f[::-1] for f in faces]
+        mb.add_faces(verts, faces, "s13_popup_housing", smooth=False)
+        # lens + reflector rings on the front face (raised pose: plane y = Fy facing -y)
+        inset = 0.010
+        lz0, lz1 = Fz - lens_h + inset, Fz - inset
+        lens = [(xa + s * inset, Fy - 0.004, lz0), (xb - s * inset, Fy - 0.004, lz0), (xb - s * inset, Fy - 0.004, lz1),
+                (xa + s * inset, Fy - 0.004, lz1)]
+        lens = [(x, *closed(y, z)) for x, y, z in lens]
+        mb.polygon(lens, "s13_headlight", outward=(0, -math.cos(th), -math.sin(th)))
         for k in (-1, 1):
-            c = lens_c + Vector((s * k * 0.06, 0.004, 0))
-            mb.cylinder(tuple(c + Vector((0, -0.006, 0))), tuple(c + Vector((0, 0.01, 0))), 0.035, "s13_headlight_chrome", segs=16)
-        ob_rot = Matrix.Rotation(math.radians(-PJ.POPUP_ANGLE), 4, Vector((1, 0, 0)))
-        piv = Vector((0, hy, hz))
-        bm = mb.bm
-        for v in bm.verts:
-            v.co = (ob_rot @ (v.co - piv)) + piv
+            cx_ = s * (xm + k * 0.065)
+            for r_, mat in ((0.045, "s13_headlight_chrome"), (0.012, "s1x_dark")):
+                ring = []
+                for j in range(20):
+                    t = 2 * math.pi * j / 20
+                    ring.append((cx_ + r_ * math.cos(t), *closed(Fy - 0.0055 + (0.0005 if mat == "s1x_dark" else 0),
+                                                            (lz0 + lz1) / 2 + r_ * math.sin(t))))
+                mb.polygon(ring, mat, outward=(0, -math.cos(th), -math.sin(th)))
         out.append(mb)
     return out
 
@@ -154,52 +188,101 @@ def _loft_x(name_mb, xs, profile_fn, mat, closed=False, flip=False):
     return name_mb.add_faces(verts, faces, mat, smooth=True)
 
 
+def _plateau(x, c, half, ramp):
+    """1 inside |x-c| < half, 0 beyond half+ramp, smooth in between."""
+    d = abs(x - c)
+    if d <= half:
+        return 1.0
+    if d >= half + ramp:
+        return 0.0
+    t = (d - half) / ramp
+    return 1.0 - t * t * (3 - 2 * t)
+
+
 def dash():
+    """Dash top/face loft with the S13's raised cluster binnacle and gauge recess on the driver side."""
     mb = MeshBuilder("s13_dash")
     cx = D.STEER_CENTER[0]
+    gy, gz, gh = D.GAUGE_Y, D.GAUGE_Z, D.GAUGE_H
+
+    def normal(x):
+        wall = 0.73 - 0.04 * math.cos(x * 2.0)
+        return [(-0.80, 0.86), (-0.66, 0.895), (-0.60, 0.905), (-0.52, 0.906), (-0.49, 0.902), (-0.48, 0.897),
+                (-0.474, 0.890), (-0.468, 0.878), (-0.462, 0.864), (-0.452, 0.842), (-0.44, wall), (-0.48, 0.61),
+                (-0.62, 0.56), (-0.80, 0.55)]
+
+    def cluster(x):
+        wall = 0.73 - 0.04 * math.cos(x * 2.0)
+        return [(-0.80, 0.86), (-0.68, 0.975), (-0.62, 1.030), (-0.53, 1.048), (-0.495, 1.040), (-0.505, 1.025),
+                (gy - 0.002, gz + gh / 2 + 0.012), (gy - 0.002, gz - gh / 2 - 0.012), (-0.48, 0.858), (-0.455, 0.835),
+                (-0.44, wall), (-0.48, 0.61), (-0.62, 0.56), (-0.80, 0.55)]
 
     def prof(x):
-        hood = math.exp(-((x - cx) / 0.19) ** 4)          # cluster hood bump on the driver side
-        top = 0.905 + 0.075 * hood
-        front_y = -0.47 + 0.03 * hood
-        wall = 0.73 - 0.04 * math.cos(x * 2.0)
-        return [(-0.80, 0.86), (-0.66, top - 0.01), (-0.55, top), (front_y, top - 0.01), (front_y + 0.025, top - 0.05),
-                (front_y + 0.02, wall), (front_y - 0.04, wall - 0.12), (-0.62, 0.56), (-0.80, 0.55)]
-    xs = np.linspace(-0.74, 0.74, 37)
+        k = _plateau(x, cx, D.GAUGE_W / 2 + 0.025, 0.035)
+        return [(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k) for a, b in zip(normal(x), cluster(x))]
+
+    xs = np.concatenate([np.linspace(-0.74, cx - 0.32, 26), np.linspace(cx - 0.31, min(cx + 0.31, 0.74), 40)])
+    xs = np.unique(np.round(xs, 4))
     _loft_x(mb, xs, prof, M_INT, flip=True)
-    # end caps
+    # side caps of the dash ends
+    for x in (xs[0], xs[-1]):
+        pts = prof(float(x))
+        mb.polygon([(float(x), y, z) for y, z in pts], M_INT, (1 if x > 0 else -1, 0, 0))
     # centre stack
     mb.rbox((0.0, -0.50, 0.66), (0.28, 0.10, 0.20), 0.02, M_INT)
-    mb.rbox((0.0, -0.455, 0.70), (0.22, 0.01, 0.07), 0.004, "s13_radio")
-    mb.rbox((0.0, -0.455, 0.615), (0.22, 0.01, 0.06), 0.004, "s13_hvac")
+    textured_quad(mb, (0.0, -0.449, 0.70), 0.21, 0.065, "s13_radio")
+    textured_quad(mb, (0.0, -0.449, 0.612), 0.21, 0.060, "s13_hvac")
     # vents
     for x in (-0.55, -0.12, 0.12, 0.62):
-        mb.rbox((x, -0.445, 0.84 if abs(x) > 0.3 else 0.79), (0.10, 0.012, 0.045), 0.006, "s1x_dark")
+        z = 0.84 if abs(x) > 0.3 else 0.79
+        mb.rbox((x, -0.45, z), (0.10, 0.012, 0.045), 0.006, "s1x_dark")
+        for k in range(4):
+            mb.box((x, -0.443, z - 0.015 + k * 0.01), (0.092, 0.004, 0.003), "s13_interior_plastic_light")
+    # glovebox outline
+    mb.rbox((-0.42, -0.432, 0.70), (0.34, 0.006, 0.13), 0.01, M_INT2)
     # steering column shroud
     sc = Vector(D.STEER_CENTER)
     a = math.radians(23)
     d = Vector((0, -math.cos(a), -math.sin(a)))
     mb.tube([tuple(sc + d * 0.06), tuple(sc + d * 0.30)], 0.05, M_INT, segs=14)
+    # combination switch stalks
+    for s_ in (1, -1):
+        b = sc + d * 0.09
+        mb.tube([tuple(b), tuple(b + Vector((s_ * 0.13, 0.02, 0.01)))], 0.006, "s1x_dark", segs=8)
     return mb
 
 
+def textured_quad(mb, center, w, h, mat, normal="+y"):
+    """Quad facing the driver (+y) with 0..1 UVs (u = driver's left -> right)."""
+    cx, cy, cz = center
+    verts = [(cx + w / 2, cy, cz - h / 2), (cx - w / 2, cy, cz - h / 2), (cx - w / 2, cy, cz + h / 2), (cx + w / 2, cy, cz + h / 2)]
+    fs = mb.add_faces(verts, [(0, 1, 2, 3)], mat, smooth=False)
+    for f in fs:
+        for loop in f.loops:
+            x, z = loop.vert.co.x, loop.vert.co.z
+            loop[mb.uv].uv = ((cx + w / 2 - x) / w, (z - (cz - h / 2)) / h)
+    return fs
+
+
 def gauges():
-    """Instrument cluster face (textured) recessed in the hood, facing the driver (+y)."""
+    """Instrument cluster face (textured, glow-mapped) recessed in the hood, facing the driver (+y)."""
     mb = MeshBuilder("s13_gauges")
     cx = D.STEER_CENTER[0]
-    gy = D.STEER_CENTER[1] - 0.21
-    gz = 0.955
-    w, h = 0.36, 0.13
+    gy, gz, w, h = D.GAUGE_Y, D.GAUGE_Z, D.GAUGE_W, D.GAUGE_H
     verts = [(cx + w / 2, gy, gz - h / 2), (cx - w / 2, gy, gz - h / 2), (cx - w / 2, gy, gz + h / 2), (cx + w / 2, gy, gz + h / 2)]
-    faces = [(0, 1, 2, 3)]
-    fs = mb.add_faces(verts, faces, "s13_gauges", smooth=False)
-    # proper 0..1 UVs for the gauge texture (u from left to right as seen by the driver)
+    fs = mb.add_faces(verts, [(0, 1, 2, 3)], "s13_gaugeface", smooth=False)
+    # 0..1 UVs for the gauge texture (u from the driver's left to right, v up)
     for f in fs:
         for loop in f.loops:
             x, z = loop.vert.co.x, loop.vert.co.z
             loop[mb.uv].uv = ((cx + w / 2 - x) / w, (z - (gz - h / 2)) / h)
-    # surround / bezel
-    mb.rbox((cx, gy - 0.005, gz), (w + 0.03, 0.01, h + 0.03), 0.006, "s1x_dark")
+    # surround / bezel and hood lip
+    mb.rbox((cx, gy - 0.006, gz), (w + 0.03, 0.01, h + 0.03), 0.006, "s1x_dark")
+    mb.rbox((cx, gy + 0.03, gz + h / 2 + 0.018), (w + 0.05, 0.08, 0.012), 0.005, M_INT)
+    # clear lens (slightly tinted) in front of the face
+    lv = [(cx + w / 2, gy + 0.012, gz - h / 2), (cx - w / 2, gy + 0.012, gz - h / 2), (cx - w / 2, gy + 0.016, gz + h / 2),
+          (cx + w / 2, gy + 0.016, gz + h / 2)]
+    mb.add_faces(lv, [(0, 1, 2, 3)], "s13_gauge_glass", smooth=False)
     return mb
 
 

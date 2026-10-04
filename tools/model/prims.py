@@ -56,6 +56,20 @@ class MeshBuilder:
                 loop[self.uv].uv = (u * uv_scale, v * uv_scale)
         return out
 
+    def polygon(self, verts, mat, outward, smooth=False):
+        """Single n-gon whose normal is flipped (if needed) to face `outward`."""
+        P = [Vector(v) for v in verts]
+        n = Vector((0.0, 0.0, 0.0))
+        for i in range(len(P)):
+            a, b = P[i], P[(i + 1) % len(P)]
+            n.x += (a.y - b.y) * (a.z + b.z)
+            n.y += (a.z - b.z) * (a.x + b.x)
+            n.z += (a.x - b.x) * (a.y + b.y)
+        order = list(range(len(P)))
+        if n.dot(Vector(outward)) < 0:
+            order = order[::-1]
+        return self.add_faces(verts, [tuple(order)], mat, smooth)
+
     def to_object(self, col=None, smooth_angle=None):
         me = bpy.data.meshes.new(self.name)
         self.bm.to_mesh(me)

@@ -1,0 +1,30 @@
+{
+  "Configuration": "Gravel Rally",
+  "Config Type": "Race",
+  "Description": "Raised, long-travel gravel car with a tight 2-way LSD and quick steering.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 29500,
+  "Population": 0,
+  "defaultPaintName1": "Crystal White",
+  "defaultPaintName2": "Crystal White",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1193,
+  "Power": 168,
+  "Torque": 228,
+  "PowerPeakRPM": "5900",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.1,
+  "Induction Type": "NA",
+  "Top Speed": 60.64,
+  "0-60 mph": 8.2,
+  "0-100 km/h": 8.6,
+  "0-100 mph": 19.7,
+  "0-200 km/h": 39.2,
+  "Transmission": "Manual"
+}

@@ -1,0 +1,304 @@
+"""Build all meshes for a vehicle in (headless) Blender and export DAEs + materials.
+
+    python -m tools.model.build_meshes --vehicle s13 [--mod mod] [--blend .cache/build/s13.blend]
+
+Only meshes referenced by the generated JBeam (flexbodies/props) are exported;
+missing ones are reported.  Every exported mesh gets two UV layers:
+UV0 = box projection in metres (tiling/detail maps), UV1 = livery atlas for
+body panels (box metres for everything else).
+"""
+from __future__ import annotations
+
+import argparse
+import glob
+import math
+import os
+import sys
+import time
+
+import bpy
+from mathutils import Vector
+
+from tools.jbeam import load
+from . import bl, materials as MR, mech, wheels_mesh as WM
+from .prims import MeshBuilder
+
+LIVERY_SCALE = 1.0 / 5.2       # metres -> UV1 units for the body livery atlas
+
+
+# ---------------------------------------------------------------------------
+# jbeam references
+# ---------------------------------------------------------------------------
+def referenced_meshes(veh_dir):
+    flex, props = set(), set()
+    for f in glob.glob(os.path.join(veh_dir, "*.jbeam")):
+        for pn, p in load(f).items():
+            for sec in ("flexbodies", "props"):
+                hdr = None
+                for r in p.get(sec, []):
+                    if not isinstance(r, list):
+                        continue
+                    if hdr is None:
+                        hdr = r
+                        continue
+                    if sec == "flexbodies":
+                        flex.add(r[0])
+                    else:
+                        m = r[hdr.index("mesh")]
+                        if m not in ("SPOTLIGHT", "POINTLIGHT"):
+                            props.add(m)
+    return flex, props
+
+
+# ---------------------------------------------------------------------------
+# UVs
+# ---------------------------------------------------------------------------
+def _ensure_layers(me):
+    while len(me.uv_layers) < 2:
+        me.uv_layers.new(name="UVMap" if len(me.uv_layers) == 0 else "UVMap1")
+    me.uv_layers[0].name = "UVMap"
+    me.uv_layers[1].name = "UVMap1"
+
+
+def box_uv(me, layer, scale=1.0):
+    uv = me.uv_layers[layer].data
+    co = [v.co for v in me.vertices]
+    for poly in me.polygons:
+        n = poly.normal
+        ax = max(range(3), key=lambda i: abs(n[i]))
+        for li in poly.loop_indices:
+            c = co[me.loops[li].vertex_index]
+            if ax == 0:
+                u, v = c.y, c.z
+            elif ax == 1:
+                u, v = c.x, c.z
+            else:
+                u, v = c.x, c.y
+            uv[li].uv = (u * scale, v * scale)
+
+
+def livery_uv(me, layer=1):
+    """Body livery atlas: left side top band, right side below, plan view, front/rear strips at the bottom."""
+    s = LIVERY_SCALE
+    uv = me.uv_layers[layer].data
+    co = [v.co for v in me.vertices]
+    for poly in me.polygons:
+        n = poly.normal
+        ax = max(range(3), key=lambda i: abs(n[i]))
+        for li in poly.loop_indices:
+            x, y, z = co[me.loops[li].vertex_index]
+            if ax == 0 and n.x > 0:                       # left side (+x): front on the left of the image
+                u, v = (y + 2.6) * s, 0.74 + z * s
+            elif ax == 0:                                 # right side: front on the right
+                u, v = (2.6 - y) * s, 0.48 + z * s
+            elif ax == 2:                                 # plan (top & bottom)
+                u, v = (y + 2.6) * s, 0.146 + (x + 0.9) * s
+            elif n.y < 0:                                 # front
+                u, v = (x + 0.9) * s, min(z * s, 0.144)
+            else:                                         # rear
+                u, v = 0.5 + (0.9 - x) * s, min(z * s, 0.144)
+            uv[li].uv = (u, v)
+
+
+def finalize_uvs(ob, livery=False):
+    me = ob.data
+    had = len(me.uv_layers)
+    _ensure_layers(me)
+    if had == 0:
+        box_uv(me, 0)
+    if livery:
+        livery_uv(me, 1)
+    else:
+        src, dst = me.uv_layers[0].data, me.uv_layers[1].data
+        for i in range(len(src)):
+            dst[i].uv = src[i].uv
+
+
+# ---------------------------------------------------------------------------
+# helpers
+# ---------------------------------------------------------------------------
+class Scene:
+    def __init__(self, mod_root):
+        self.mod = mod_root
+        self.objs = {}            # name -> (object, dae_key)
+
+    def add_mb(self, mb, dae, smooth_angle=None):
+        ob = mb.to_object(smooth_angle=smooth_angle)
+        return self.add_ob(ob, dae)
+
+    def add_ob(self, ob, dae):
+        name = ob.name
+        if name in self.objs:
+            raise ValueError(f"duplicate mesh {name}")
+        ob.data.name = name
+        self.objs[name] = (ob, dae)
+        return ob
+
+
+def make_materials(mod_root):
+    for name in MR.REGISTRY:
+        MR.blender_material(name, mod_root)
+
+
+def _purge_unregistered():
+    bad = sorted({m.name for ob in bpy.data.objects if ob.type == "MESH" for m in ob.data.materials if m and
+                  m.name not in MR.REGISTRY})
+    return bad
+
+
+def export_dae(objs, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    for o in bpy.context.view_layer.objects:
+        o.select_set(False)
+    for o in objs:
+        o.select_set(True)
+    bpy.context.view_layer.objects.active = objs[0]
+    bpy.ops.wm.collada_export(filepath=path, selected=True, apply_modifiers=True, triangulate=True,
+                              include_children=False, include_animations=False, use_texture_copies=False,
+                              use_object_instantiation=False, sort_by_name=True, export_mesh_type_selection="render",
+                              limit_precision=True, keep_bind_info=False)
+
+
+def strip_dae_images(path):
+    """Remove texture/image references the exporter adds from preview materials (BeamNG uses materials.json)."""
+    import re
+    s = open(path, encoding="utf-8").read()
+    s = re.sub(r"<library_images>.*?</library_images>", "<library_images/>", s, flags=re.S)
+    s = re.sub(r"<newparam sid=\"[^\"]*-(surface|sampler)\">.*?</newparam>", "", s, flags=re.S)
+    s = re.sub(r"<texture texture=\"[^\"]*\" texcoord=\"[^\"]*\"/>", "<color sid=\"diffuse\">0.8 0.8 0.8 1</color>", s)
+    s = re.sub(r"<author>[^<]*</author>", "<author>s13-sx240 build</author>", s)
+    open(path, "w", encoding="utf-8", newline="\n").write(s)
+
+
+# ---------------------------------------------------------------------------
+# S13 contents
+# ---------------------------------------------------------------------------
+def build_s13(sc: Scene):
+    from tools.vehicle.s13 import dims as D, catalog as C
+    from . import s13_exterior as EXT, s13_parts as SP
+
+    t0 = time.time()
+    ext = EXT.build_hatch_exterior()
+    for name, ob in ext.items():
+        ob.name = name
+        sc.add_ob(ob, "s13_body")
+    print(f"  exterior {time.time() - t0:.1f}s")
+    for mb in (SP.underbody(), SP.wheelwells(), SP.enginebay(), *SP.popup_lamps(), SP.radiator(), SP.fueltank()):
+        sc.add_mb(mb, "s13_body")
+    # interior
+    for mb in SP.interior_all():
+        sc.add_mb(mb, "s1x_interior" if mb.name.startswith("s1x_") else "s13_interior")
+    sc.add_mb(WM.steering_wheel_mesh("stock", "s13_steer_stock"), "s13_interior")
+    # mechanicals (chassis-positioned)
+    for mb in (*mech.front_suspension(D, "s13"), *mech.rear_suspension(D, "s13"), *mech.brakes(D, "s13"),
+               *mech.gearboxes(D, "s13"), mech.exhaust_stock(D, "s13")):
+        sc.add_mb(mb, "s13_mech")
+    for mb in (*mech.engine_ka24(D, "s13"), *mech.engine_sr20(D, "s13"), *mech.engine_k20(D, "s13"), *mech.turbos(D, "s13")):
+        sc.add_mb(mb, "s13_engine")
+    for eng in ("ka24e", "ka24de", "sr20det", "k20a"):
+        for mb in mech.intakes(D, "s13", eng, ("stock", "cai", "itb")) + mech.manifolds(D, "s13", eng, ("na", "header", "turbo")):
+            sc.add_mb(mb, "s13_engine")
+    # shared: wheels, tires, hubcaps, aftermarket steering wheels
+    for w in C.WHEELS:
+        sc.add_mb(WM.wheel_mesh(w.key, w.dia, w.width, w.lugs, name=f"s1x_wheel_{w.key}"), "s1x_wheels")
+    for t in C.TIRES:
+        sc.add_mb(WM.tire_mesh(f"s1x_tire_{t.key}", t.radius, t.width_mm, t.aspect, t.dia, t.kind), "s1x_wheels")
+    sc.add_mb(WM.hubcap_mesh(14, "s1x_hubcap_14"), "s1x_wheels")
+    for kind in ("deepdish", "race"):
+        sc.add_mb(WM.steering_wheel_mesh(kind, f"s1x_steer_{kind}"), "s1x_interior")
+
+    # prop pivots (must match tools/vehicle/s13/vehicle.py)
+    cx = D.STEER_CENTER[0]
+    gy, gz = D.GAUGE_Y, D.GAUGE_Z
+    pivots = {
+        "s13_needle_tach": (cx + D.GAUGE_TACH_DX, gy + 0.004, gz),
+        "s13_needle_speedo": (cx - D.GAUGE_TACH_DX, gy + 0.004, gz),
+        "s13_needle_small": (cx + D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ),
+        "s13_pedal_gas": (cx - 0.07, -0.86, 0.47),
+        "s13_pedal_brake": (cx + 0.02, -0.86, 0.47),
+        "s13_pedal_clutch": (cx + 0.12, -0.86, 0.47),
+        "s13_steer_stock": D.STEER_CENTER,
+        "s1x_steer_deepdish": D.STEER_CENTER,
+        "s1x_steer_race": D.STEER_CENTER,
+    }
+    livery = {n for n, (ob, dae) in sc.objs.items() if dae == "s13_body" and n in ext}
+    return pivots, livery
+
+
+DAE_FOLDER = {
+    "s13_body": "vehicles/s13_240sx", "s13_interior": "vehicles/s13_240sx", "s13_mech": "vehicles/s13_240sx",
+    "s13_engine": "vehicles/s13_240sx",
+    "s1x_wheels": "vehicles/common/s1x_240sx", "s1x_interior": "vehicles/common/s1x_240sx",
+}
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--vehicle", default="s13")
+    ap.add_argument("--mod", default="mod")
+    ap.add_argument("--blend", default=".cache/build/s13_meshes.blend")
+    ap.add_argument("--no-export", action="store_true")
+    a = ap.parse_args(argv)
+    mod = os.path.abspath(a.mod)
+
+    bl.reset()
+    make_materials(mod)
+    sc = Scene(mod)
+    t0 = time.time()
+    pivots, livery = build_s13(sc)
+    print(f"built {len(sc.objs)} meshes in {time.time() - t0:.1f}s")
+
+    flex, props = referenced_meshes(os.path.join(mod, "vehicles/s13_240sx"))
+    wanted = flex | props
+    missing = sorted(wanted - set(sc.objs))
+    unused = sorted(set(sc.objs) - wanted)
+    for n in unused:
+        ob, _ = sc.objs.pop(n)
+        bpy.data.objects.remove(ob, do_unlink=True)
+    print(f"referenced {len(wanted)}, exported {len(sc.objs)}, dropped {len(unused)} unused")
+    if missing:
+        print("MISSING meshes:", missing)
+
+    # props: origin at pivot (geometry is modelled around the origin), flexbodies at identity
+    for n, (ob, dae) in sc.objs.items():
+        if n in props:
+            ob.location = Vector(pivots[n])
+        finalize_uvs(ob, livery=n in livery)
+
+    bad = _purge_unregistered()
+    if bad:
+        print("UNREGISTERED materials:", bad)
+
+    used_mats = {m.name for ob, _ in sc.objs.values() for m in ob.data.materials if m}
+    # glowMap swaps + damage materials are not on meshes but must be defined
+    used_mats |= {n for n in MR.REGISTRY if any(n.startswith(b) for b in ("s13_lights", "s13_needle_", "s13_gauges",
+                                                                           "s13_glass"))}
+    tris = 0
+    for ob, _ in sc.objs.values():
+        tris += sum(len(p.vertices) - 2 for p in ob.data.polygons)
+    print(f"triangles: {tris:,}")
+
+    if a.blend:
+        os.makedirs(os.path.dirname(a.blend), exist_ok=True)
+        bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(a.blend))
+
+    if a.no_export:
+        return 0
+    groups = {}
+    for n, (ob, dae) in sc.objs.items():
+        groups.setdefault(dae, []).append(ob)
+    for dae, objs in sorted(groups.items()):
+        path = os.path.join(mod, DAE_FOLDER[dae], f"{dae}.dae")
+        for m in bpy.data.materials:
+            m.use_nodes = False
+        export_dae(objs, path)
+        strip_dae_images(path)
+        print(f"  {dae}.dae: {len(objs)} meshes, {os.path.getsize(path) / 1e6:.1f} MB")
+    for owner in ("s13", "s1x"):
+        p = MR.write_json(mod, owner, used_mats)
+        print("  wrote", os.path.relpath(p, mod))
+    return 1 if (missing or bad) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

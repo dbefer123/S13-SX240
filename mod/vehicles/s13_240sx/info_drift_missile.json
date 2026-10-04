@@ -1,0 +1,30 @@
+{
+  "Configuration": "Drift Missile",
+  "Config Type": "Custom",
+  "Description": "Grassroots drift car: SR20DET, welded diff, angle kit, drift coilovers and mismatched wheels.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 14800,
+  "Population": 0,
+  "defaultPaintName1": "Primer Gray",
+  "defaultPaintName2": "Racing Orange",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1193,
+  "Power": 253,
+  "Torque": 303,
+  "PowerPeakRPM": "6500",
+  "TorquePeakRPM": "4500",
+  "Weight/Power": 4.72,
+  "Induction Type": "Turbo",
+  "Top Speed": 70.14,
+  "0-60 mph": 6.7,
+  "0-100 km/h": 6.9,
+  "0-100 mph": 13.7,
+  "0-200 km/h": 21.8,
+  "Transmission": "Manual"
+}

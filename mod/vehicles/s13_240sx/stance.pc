@@ -1,0 +1,37 @@
+{
+  "format": 2,
+  "model": "s13_240sx",
+  "parts": {
+    "s13_engine": "s13_engine_ka24de",
+    "s13_ka24de_intake": "s13_ka24de_intake_cai",
+    "s13_ka24de_ecu": "s13_ka24de_ecu_stock",
+    "s13_ka24de_internals": "s13_ka24de_internals_stock",
+    "s13_transmission": "s13_transmission_5m",
+    "s13_flywheel": "s13_flywheel_stock",
+    "s13_ka24de_induction": "s13_ka24de_induction_header",
+    "s13_steering_wheel": "s13_steering_wheel_deepdish",
+    "s13_spring_F": "s13_spring_F_street",
+    "s13_spring_R": "s13_spring_R_street",
+    "s13_swaybar_F": "s13_swaybar_F_stock",
+    "s13_swaybar_R": "s13_swaybar_R_stock",
+    "s13_brake_F": "s13_brake_F_stock",
+    "s13_brake_R": "s13_brake_R_stock",
+    "s13_brakepad_F": "s13_brakepad_F_basic",
+    "s13_brakepad_R": "s13_brakepad_R_basic",
+    "s13_differential_R": "s13_differential_R_viscous",
+    "s13_steering": "s13_steering_stock",
+    "s13_wheel_F": "s13_wheel_F_split18",
+    "s13_tire_F_18": "s13_tire_F_235_40_18_drift",
+    "s13_wheel_R": "s13_wheel_R_split18",
+    "s13_tire_R_18": "s13_tire_R_235_40_18_drift"
+  },
+  "vars": {
+    "$springheight_F": -0.075,
+    "$springheight_R": -0.075,
+    "$camber_F": 0.972,
+    "$camber_R": 0.955,
+    "$trackoffset_F": 0.025,
+    "$trackoffset_R": 0.035
+  },
+  "mainPartName": "s13_240sx"
+}

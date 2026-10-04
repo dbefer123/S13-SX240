@@ -258,7 +258,7 @@
         ["id1:", "id2:"],
         {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
         {"beamSpring":601000, "beamDamp":200, "beamDeform":9000, "beamStrength":14000},
-        ["pual", "pub1l", {"inputSource":"lowhighbeam", "inputFactor":1, "inLimit":1.0, "outLimit":1.570375, "factor":0.5704, "inRate":1.6, "outRate":1.6, "breakGroup":"popup_hinge_L"}],
+        ["pual", "pub1l", {"inputSource":"lowhighbeam", "inputFactor":1, "inLimit":1.0, "outLimit":1.466383, "factor":0.4664, "inRate":1.6, "outRate":1.6, "breakGroup":"popup_hinge_L"}],
         {"breakGroup":""},
     ],
     "triangles":[
@@ -350,7 +350,7 @@
         ["id1:", "id2:"],
         {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
         {"beamSpring":601000, "beamDamp":200, "beamDeform":9000, "beamStrength":14000},
-        ["puar", "pub1r", {"inputSource":"lowhighbeam", "inputFactor":1, "inLimit":1.0, "outLimit":1.570375, "factor":0.5704, "inRate":1.6, "outRate":1.6, "breakGroup":"popup_hinge_R"}],
+        ["puar", "pub1r", {"inputSource":"lowhighbeam", "inputFactor":1, "inLimit":1.0, "outLimit":1.466383, "factor":0.4664, "inRate":1.6, "outRate":1.6, "breakGroup":"popup_hinge_R"}],
         {"breakGroup":""},
     ],
     "triangles":[

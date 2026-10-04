@@ -167,7 +167,8 @@ def brakes(D, pfx):
             vented = axle == "F" or ventR
             y = D.AXLE_F_Y if axle == "F" else D.AXLE_R_Y
             track = D.TRACK_F if axle == "F" else D.TRACK_R
-            xr = track / 2 - 0.085
+            xr = track / 2 - 0.020           # rotor centre plane (wheel hub face is at track/2 + 0.045)
+            face = 0.045 + 0.020 - 0.002      # hat reaches the hub face
             for side, s in (("L", 1), ("R", -1)):
                 mb = MeshBuilder(f"{pfx}_brake_{key}_{axle}_{side}")
                 c = (s * xr, y, D.AXLE_Z)
@@ -184,8 +185,8 @@ def brakes(D, pfx):
                     mb.lathe([(R * 0.62, -th / 2), (R, -th / 2), (R, th / 2), (R * 0.62, th / 2)], "s1x_rotor", segs=48,
                              axis="x", center=c, closed=True)
                 # hat toward the hub face (outboard)
-                mb.lathe([(R * 0.62, s * th / 2), (0.075, s * (th / 2 + 0.035)), (0.0, s * (th / 2 + 0.04))],
-                         "s1x_rotor_hat", segs=32, axis="x", center=c)
+                mb.lathe([(R * 0.62, s * th / 2), (R * 0.60, s * (face - 0.012)), (0.085, s * (face - 0.004)),
+                          (0.075, s * face), (0.0, s * face)], "s1x_rotor_hat", segs=32, axis="x", center=c)
                 out.append(mb)
             # caliper (both sides in one mesh, mapped to the hub group)
             mb = MeshBuilder(f"{pfx}_caliper_{key}_{axle}")
@@ -196,7 +197,7 @@ def brakes(D, pfx):
                 big = key in ("bbk", "z32")
                 size = (0.075 if big else 0.06, 0.05, 0.15 if big else 0.11)
                 rot = Matrix.Rotation(-ang if axle == "F" else ang, 3, "X")
-                mb.rbox((s * (track / 2 - 0.085), cy, cz), size, 0.012, cmat, rot=rot)
+                mb.rbox((s * (track / 2 - 0.020), cy, cz), size, 0.012, cmat, rot=rot)
             out.append(mb)
     return out
 

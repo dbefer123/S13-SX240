@@ -1,0 +1,1069 @@
+{
+  "s13_paint": {
+    "name": "s13_paint",
+    "mapTo": "s13_paint",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/common/nullcolormaskR.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_enginebay_paint": {
+    "name": "s13_enginebay_paint",
+    "mapTo": "s13_enginebay_paint",
+    "class": "Material",
+    "Stages": [
+      {
+        "colorPaletteMap": "/vehicles/common/nullcolormaskR.color.png",
+        "colorPaletteMapUseUV": 1,
+        "instanceDiffuse": true,
+        "clearCoatFactor": 1,
+        "clearCoatRoughnessFactor": 1,
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "detailNormalMap": "/vehicles/common/orange_peel_n.normal.png",
+        "detailNormalMapStrength": 0.3,
+        "detailScale": [
+          128,
+          64
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_trim_black": {
+    "name": "s13_trim_black",
+    "mapTo": "s13_trim_black",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.012,
+          0.012,
+          0.013,
+          1
+        ],
+        "roughnessFactor": 0.55,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_leather_grain_nm.normal.png",
+        "detailNormalMapStrength": 0.25,
+        "detailScale": [
+          60,
+          60
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_glass": {
+    "name": "s13_glass",
+    "mapTo": "s13_glass",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.03,
+          0.04,
+          0.045,
+          1
+        ],
+        "roughnessFactor": 0.0,
+        "metallicFactor": 0.75,
+        "opacityFactor": 0.22
+      },
+      {},
+      {},
+      {}
+    ],
+    "castShadows": false,
+    "translucent": true,
+    "translucentBlendOp": "PreMulAlpha",
+    "translucentRecvShadows": true,
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_glass_dmg": {
+    "name": "s13_glass_dmg",
+    "mapTo": "s13_glass_dmg",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_b.color.png",
+        "normalMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_nm.normal.png",
+        "roughnessFactor": 0.05,
+        "metallicFactor": 0.75,
+        "opacityMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_o.data.png"
+      },
+      {},
+      {},
+      {}
+    ],
+    "castShadows": false,
+    "translucent": true,
+    "translucentBlendOp": "PreMulAlpha",
+    "translucentRecvShadows": true,
+    "alphaRef": 20,
+    "alphaTest": true,
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_gauge_glass": {
+    "name": "s13_gauge_glass",
+    "mapTo": "s13_gauge_glass",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.01,
+          0.01,
+          0.012,
+          1
+        ],
+        "roughnessFactor": 0.0,
+        "metallicFactor": 0.6,
+        "opacityFactor": 0.08
+      },
+      {},
+      {},
+      {}
+    ],
+    "castShadows": false,
+    "translucent": true,
+    "translucentBlendOp": "PreMulAlpha",
+    "translucentRecvShadows": true,
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights": {
+    "name": "s13_lights",
+    "mapTo": "s13_lights",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.85,
+          0.86,
+          0.88,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_lens_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_on": {
+    "name": "s13_lights_on",
+    "mapTo": "s13_lights_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.85,
+          0.86,
+          0.88,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_lens_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "emissiveIntensityNits": 15000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_on_intense": {
+    "name": "s13_lights_on_intense",
+    "mapTo": "s13_lights_on_intense",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.85,
+          0.86,
+          0.88,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_lens_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "emissiveIntensityNits": 30000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_dmg": {
+    "name": "s13_lights_dmg",
+    "mapTo": "s13_lights_dmg",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.2975,
+          0.301,
+          0.308,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_nm.normal.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_red": {
+    "name": "s13_lights_red",
+    "mapTo": "s13_lights_red",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.32,
+          0.005,
+          0.005,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_red_on": {
+    "name": "s13_lights_red_on",
+    "mapTo": "s13_lights_red_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.32,
+          0.005,
+          0.005,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          0.04,
+          0.02
+        ],
+        "emissiveIntensityNits": 2500
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_red_on_intense": {
+    "name": "s13_lights_red_on_intense",
+    "mapTo": "s13_lights_red_on_intense",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.32,
+          0.005,
+          0.005,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          0.04,
+          0.02
+        ],
+        "emissiveIntensityNits": 12000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_red_dmg": {
+    "name": "s13_lights_red_dmg",
+    "mapTo": "s13_lights_red_dmg",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.112,
+          0.0017,
+          0.0017,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_nm.normal.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_amber": {
+    "name": "s13_lights_amber",
+    "mapTo": "s13_lights_amber",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.45,
+          0.16,
+          0.0,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_amber_on": {
+    "name": "s13_lights_amber_on",
+    "mapTo": "s13_lights_amber_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.45,
+          0.16,
+          0.0,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          0.45,
+          0.02
+        ],
+        "emissiveIntensityNits": 12000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_amber_on_intense": {
+    "name": "s13_lights_amber_on_intense",
+    "mapTo": "s13_lights_amber_on_intense",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.45,
+          0.16,
+          0.0,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          0.45,
+          0.02
+        ],
+        "emissiveIntensityNits": 14000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_amber_dmg": {
+    "name": "s13_lights_amber_dmg",
+    "mapTo": "s13_lights_amber_dmg",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.1575,
+          0.056,
+          0.0,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_nm.normal.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_reverse": {
+    "name": "s13_lights_reverse",
+    "mapTo": "s13_lights_reverse",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.75,
+          0.75,
+          0.76,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_reverse_on": {
+    "name": "s13_lights_reverse_on",
+    "mapTo": "s13_lights_reverse_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.75,
+          0.75,
+          0.76,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          0.98,
+          0.94
+        ],
+        "emissiveIntensityNits": 9000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_reverse_on_intense": {
+    "name": "s13_lights_reverse_on_intense",
+    "mapTo": "s13_lights_reverse_on_intense",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.75,
+          0.75,
+          0.76,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.04,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03,
+        "emissiveFactor": [
+          1.0,
+          0.98,
+          0.94
+        ],
+        "emissiveIntensityNits": 9000
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_lights_reverse_dmg": {
+    "name": "s13_lights_reverse_dmg",
+    "mapTo": "s13_lights_reverse_dmg",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.2625,
+          0.2625,
+          0.266,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_glass_dmg_nm.normal.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_headlight_chrome": {
+    "name": "s13_headlight_chrome",
+    "mapTo": "s13_headlight_chrome",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.9,
+          0.9,
+          0.9,
+          1
+        ],
+        "roughnessFactor": 0.05,
+        "metallicFactor": 1.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_popup_housing": {
+    "name": "s13_popup_housing",
+    "mapTo": "s13_popup_housing",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.015,
+          0.015,
+          0.016,
+          1
+        ],
+        "roughnessFactor": 0.6,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_gauges": {
+    "name": "s13_gauges",
+    "mapTo": "s13_gauges",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_gauges_b.color.png",
+        "roughnessFactor": 0.6,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_gauges_on": {
+    "name": "s13_gauges_on",
+    "mapTo": "s13_gauges_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_gauges_b.color.png",
+        "roughnessFactor": 0.6,
+        "metallicFactor": 0.0,
+        "emissiveFactor": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "emissiveIntensityNits": 220,
+        "emissiveMap": "/vehicles/s13_240sx/textures/s13_gauges_g.color.png"
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_needle_off": {
+    "name": "s13_needle_off",
+    "mapTo": "s13_needle_off",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.85,
+          0.12,
+          0.02,
+          1
+        ],
+        "roughnessFactor": 0.4,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_needle_on": {
+    "name": "s13_needle_on",
+    "mapTo": "s13_needle_on",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.85,
+          0.12,
+          0.02,
+          1
+        ],
+        "roughnessFactor": 0.4,
+        "metallicFactor": 0.0,
+        "emissiveFactor": [
+          1.0,
+          0.25,
+          0.05
+        ],
+        "emissiveIntensityNits": 300
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_undercoat": {
+    "name": "s13_undercoat",
+    "mapTo": "s13_undercoat",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.025,
+          0.025,
+          0.027,
+          1
+        ],
+        "roughnessFactor": 0.9,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_leather_grain_nm.normal.png",
+        "detailNormalMapStrength": 0.6,
+        "detailScale": [
+          25,
+          25
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_interior_plastic": {
+    "name": "s13_interior_plastic",
+    "mapTo": "s13_interior_plastic",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.022,
+          0.022,
+          0.024,
+          1
+        ],
+        "roughnessFactor": 0.72,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_leather_grain_nm.normal.png",
+        "detailNormalMapStrength": 0.6,
+        "detailScale": [
+          45,
+          45
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_interior_plastic_light": {
+    "name": "s13_interior_plastic_light",
+    "mapTo": "s13_interior_plastic_light",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.06,
+          0.06,
+          0.065,
+          1
+        ],
+        "roughnessFactor": 0.7,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_leather_grain_nm.normal.png",
+        "detailNormalMapStrength": 0.6,
+        "detailScale": [
+          45,
+          45
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_carpet": {
+    "name": "s13_carpet",
+    "mapTo": "s13_carpet",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.03,
+          0.03,
+          0.032,
+          1
+        ],
+        "roughnessFactor": 0.95,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_carpet_nm.normal.png",
+        "detailNormalMapStrength": 1.5,
+        "detailScale": [
+          30,
+          30
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_headliner": {
+    "name": "s13_headliner",
+    "mapTo": "s13_headliner",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.3,
+          0.3,
+          0.3,
+          1
+        ],
+        "roughnessFactor": 0.95,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_headliner_nm.normal.png",
+        "detailNormalMapStrength": 1.5,
+        "detailScale": [
+          35,
+          35
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_seat_cloth": {
+    "name": "s13_seat_cloth",
+    "mapTo": "s13_seat_cloth",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_seat_cloth_b.color.png",
+        "roughnessFactor": 0.95,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_headliner_nm.normal.png",
+        "detailNormalMapStrength": 1.2,
+        "detailScale": [
+          60,
+          60
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_doorcard": {
+    "name": "s13_doorcard",
+    "mapTo": "s13_doorcard",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_seat_cloth_b.color.png",
+        "roughnessFactor": 0.9,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_headliner_nm.normal.png",
+        "detailNormalMapStrength": 1.0,
+        "detailScale": [
+          50,
+          50
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_radio": {
+    "name": "s13_radio",
+    "mapTo": "s13_radio",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_radio_b.color.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_hvac": {
+    "name": "s13_hvac",
+    "mapTo": "s13_hvac",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/s13_240sx/textures/s13_hvac_b.color.png",
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_tail_garnish": {
+    "name": "s13_tail_garnish",
+    "mapTo": "s13_tail_garnish",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.22,
+          0.004,
+          0.004,
+          1
+        ],
+        "normalMap": "/vehicles/s13_240sx/textures/s13_tail_nm.normal.png",
+        "roughnessFactor": 0.05,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  }
+}

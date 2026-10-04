@@ -14,12 +14,31 @@ RUBBER = "s13_rubber"
 
 
 def mats():
-    return {
-        PAINT: bl.material(PAINT, (0.55, 0.03, 0.03, 1), roughness=0.3, clearcoat=1.0),
-        TRIM: bl.material(TRIM, (0.02, 0.02, 0.022, 1), roughness=0.6),
-        GLASS: bl.material(GLASS, (0.05, 0.07, 0.08, 1), roughness=0.05, metallic=0.2),
-        RUBBER: bl.material(RUBBER, (0.01, 0.01, 0.01, 1), roughness=0.9),
-    }
+    from . import materials as MR
+    return {n: MR.blender_material(n) for n in (PAINT, TRIM, GLASS, RUBBER)}
+
+
+# taillight band zones (US fastback): outer tail/brake, turn signal, reverse, centre reflector garnish
+TAIL_ZONES = [  # (x_from, x_to, material)
+    (0.56, 0.80, "s13_taillight"), (0.45, 0.56, "s13_signal_L"), (0.33, 0.45, "s13_reverselight"),
+    (-0.33, 0.33, "s13_tail_garnish"),
+    (-0.45, -0.33, "s13_reverselight"), (-0.56, -0.45, "s13_signal_R"), (-0.80, -0.56, "s13_taillight"),
+]
+
+
+def taillight_zones(tail):
+    """Split the extracted taillight band into lamp zones with clean vertical boundaries."""
+    from . import materials as MR
+    pieces = []
+    for i, (x0, x1, mat) in enumerate(TAIL_ZONES):
+        rect = [(x0, 0.55), (x1, 0.55), (x1, 0.95), (x0, 0.95)]
+        piece = P.extract(tail, f"__tail{i}", "front", rect, *S.TAIL_Y, gap=0.0)
+        bl.assign(piece, MR.blender_material(mat))
+        pieces.append(piece)
+    bpy.data.objects.remove(tail, do_unlink=True)
+    ob = P.join(pieces, "s13_taillights")
+    bl.weld(ob, 1e-6)
+    return ob
 
 
 def mirror_side(pts):
@@ -90,8 +109,7 @@ def build_hatch_exterior(solid=True):
     out["s13_fender_R"] = P.extract(skin, "s13_fender_R", "side", S.FENDER, -S.FENDER_X[1], -S.FENDER_X[0])
 
     # tail light bar
-    out["s13_taillights"] = P.extract(skin, "s13_taillights", "front", S.TAILLIGHT, *S.TAIL_Y, gap=0.002)
-    bl.assign(out["s13_taillights"], bl.material("s13_lights_tail", (0.5, 0.02, 0.02, 1), roughness=0.1))
+    out["s13_taillights"] = taillight_zones(P.extract(skin, "s13_taillights", "front", S.TAILLIGHT, *S.TAIL_Y, gap=0.002))
 
     skin.name = "s13_body_hatch"
     skin.data.name = "s13_body_hatch"

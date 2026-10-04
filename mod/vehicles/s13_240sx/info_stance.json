@@ -1,0 +1,30 @@
+{
+  "Configuration": "Stance / Show",
+  "Config Type": "Custom",
+  "Description": "Slammed on coilovers with aggressive camber and wide 18\" wheels. Built for the parking lot.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 22000,
+  "Population": 0,
+  "defaultPaintName1": "Warm White Pearl",
+  "defaultPaintName2": "Warm White Pearl",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1209,
+  "Power": 168,
+  "Torque": 228,
+  "PowerPeakRPM": "5900",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.2,
+  "Induction Type": "NA",
+  "Top Speed": 60.62,
+  "0-60 mph": 7.8,
+  "0-100 km/h": 8.2,
+  "0-100 mph": 20.2,
+  "0-200 km/h": 41.7,
+  "Transmission": "Manual"
+}

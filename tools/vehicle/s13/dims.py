@@ -10,7 +10,7 @@ FH2 = (0.640, AXLE_F_Y - 0.010, 0.470)    # strut-to-knuckle mount (upper hub no
 FH3 = (0.615, AXLE_F_Y - 0.135, 0.235)    # outer tie-rod end (steering arm ahead of axle)
 FH5 = (0.640, AXLE_F_Y + 0.140, 0.330)    # caliper / brake reaction arm
 FH6 = (0.660, AXLE_F_Y + 0.010, 0.315)    # hub centre helper (flexbody help)
-FS1 = (0.560, AXLE_F_Y - 0.035, 0.795)    # strut top (body)
+FS1 = (0.5707, AXLE_F_Y - 0.0317, 0.7515)  # strut top (body), 45 mm below the hood skin
 FX1 = (0.300, AXLE_F_Y + 0.020, 0.175)    # lower arm inner pivot (crossmember)
 FX2 = (0.390, AXLE_F_Y - 0.360, 0.205)    # tension (TC) rod body mount
 FU1 = (0.360, AXLE_F_Y - 0.180, 0.405)    # virtual upper link pivot, front
@@ -45,3 +45,13 @@ DRIVER_X = 0.365                           # LHD: driver on +X
 SEAT_H_POINT = (0.365, 0.12, 0.40)
 EYE = (0.365, 0.21, 1.080)
 STEER_CENTER = (0.365, -0.385, 0.880)
+
+# instrument cluster (shared by the gauge mesh/texture and the needle props)
+GAUGE_Y = STEER_CENTER[1] - 0.21      # face plane
+GAUGE_Z = 0.955                       # face centre height
+GAUGE_W, GAUGE_H = 0.44, 0.15         # face size
+GAUGE_TACH_DX = 0.075                 # main dial centres at +-dx from the column (tach on the driver's left, +x)
+GAUGE_SMALL_DX = 0.175                # temp (left) / fuel (right) dial centres
+GAUGE_SMALL_DZ = -0.02
+GAUGE_R_MAIN = 0.060
+GAUGE_R_SMALL = 0.030

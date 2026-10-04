@@ -63,13 +63,14 @@ def main_part():
                           "materialEmissiveScaling": {"on_max": 1}},
         "s13_taillight": {"simpleFunction": {"tail_filament": 0.49, "brake_filament": 1}, **lm("s13_lights_red"),
                           "materialEmissiveScaling": {"on_max": 1}},
-        "s13_reverselight": {"simpleFunction": {"reverse_filament": 0.49}, **lm("s13_lights"),
+        "s13_reverselight": {"simpleFunction": {"reverse_filament": 0.49}, **lm("s13_lights_reverse"),
                              "materialEmissiveScaling": {"on_max": 0.49}},
         "s13_signal_L": {"simpleFunction": {"signal_L_filament": 0.49}, **lm("s13_lights_amber"),
                          "materialEmissiveScaling": {"on_max": 0.49}},
         "s13_signal_R": {"simpleFunction": {"signal_R_filament": 0.49}, **lm("s13_lights_amber"),
                          "materialEmissiveScaling": {"on_max": 0.49}},
-        "s13_gauges": {"simpleFunction": {"lowhighbeam": 0.6}, "off": "s13_gauges", "on": "s13_gauges_on"},
+        "s13_gaugeface": {"simpleFunction": {"lowhighbeam": 0.6}, "off": "s13_gauges", "on": "s13_gauges_on"},
+        "s13_needle": {"simpleFunction": {"lowhighbeam": 0.6}, "off": "s13_needle_off", "on": "s13_needle_on"},
     })
     return p
 
@@ -96,6 +97,7 @@ def body_hatch():
     p.flexbody(f"{PFX}_body_hatch", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_underbody", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_wheelwells", [f"{PFX}_body"])
+    p.flexbody(f"{PFX}_enginebay", [f"{PFX}_body"])
     p.flex_props(deformGroup="windshield_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
     p.flexbody(f"{PFX}_windshield", [f"{PFX}_body"], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4", deformVolume=0.8)
     p.flex_props(deformGroup="")
@@ -291,7 +293,7 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
     p.flexbody(f"{PFX}_pedals_static", [f"{PFX}_body"])
     # dash nodes
     cx, cy, cz = D.STEER_CENTER
-    gy, gz = cy - 0.21, 0.955      # gauge pivot plane
+    gy, gz = D.GAUGE_Y, D.GAUGE_Z  # gauge pivot plane
     p.nodes_props(selfCollision=False, collision=True, nodeMaterial="|NM_PLASTIC", frictionCoef=0.6, group=f"{PFX}_dash")
     for nm, x, y, z, w in (("dsh1l", 0.62, -0.62, 0.88, 2.5), ("dsh1r", -0.62, -0.62, 0.88, 2.5), ("dsh1", 0.0, -0.62, 0.90, 2.0),
                            ("dsh2l", 0.62, -0.42, 0.70, 2.5), ("dsh2r", -0.62, -0.42, 0.70, 2.5), ("dsh2", 0.0, -0.40, 0.60, 3.0)):
@@ -300,7 +302,8 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
     p.nodes_props(group=f"{PFX}_body", collision=True, selfCollision=False, nodeMaterial="|NM_PLASTIC")
     for nm, x, y, z, w in (("st1l", 0.37, -0.05, 0.30, 9.0), ("st2l", 0.37, 0.35, 0.33, 9.0), ("st3l", 0.37, 0.48, 0.80, 4.0),
                            ("st1r", -0.37, -0.05, 0.30, 9.0), ("st2r", -0.37, 0.35, 0.33, 9.0), ("st3r", -0.37, 0.48, 0.80, 4.0),
-                           ("rs1l", 0.40, 0.85, 0.38, 6.0), ("rs1r", -0.40, 0.85, 0.38, 6.0), ("hv1", 0.0, -0.55, 0.62, 12.0)):
+                           ("rs1l", 0.40, 0.85, 0.38, 6.0), ("rs1r", -0.40, 0.85, 0.38, 6.0), ("hv1", 0.0, -0.55, 0.62, 12.0),
+                           ("cs1", 0.0, -0.10, 0.50, 2.0)):
         p.node(nm, x, y, z, nodeWeight=w * mass_bias)
     p.nodes_props(group="", collision=False)
     # prop frames: gauge cluster, steering column, pedals
@@ -341,6 +344,8 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
         p.beam("rs1" + side, "fl4" + side)
     for b in ("fp2", "fp3", "fp2l", "fp2r", "dsh2", "dsh1"):
         p.beam("hv1", b)
+    for b in ("hv1", "fl2", "fl3", "fl2l", "fl2r", "fl3l", "fl3r"):
+        p.beam("cs1", b)
     p.beams_props(beamSpring=401000, beamDamp=40)
     for n in ("gref", "grefx", "grefd", "sw1", "sw1x", "sw1d"):
         for b in ("dsh1", "dsh1l", "dsh2", "dsh2l"):
@@ -351,10 +356,11 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
     # gauge needles (pivot positions in world space; needles modelled pointing straight up at their zero)
     p.props_props()
     zero = {"x": 0, "y": 0, "z": 0}
-    tach_c = (cx - 0.075, gy - 0.005, gz)
-    speedo_c = (cx + 0.075, gy - 0.005, gz)
-    fuel_c = (cx + 0.165, gy - 0.004, gz - 0.02)
-    temp_c = (cx - 0.165, gy - 0.004, gz - 0.02)
+    # S13 cluster as seen by the driver: temp | tach | speedo | fuel  (driver's left is +x)
+    tach_c = (cx + D.GAUGE_TACH_DX, gy + 0.004, gz)
+    speedo_c = (cx - D.GAUGE_TACH_DX, gy + 0.004, gz)
+    temp_c = (cx + D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ)
+    fuel_c = (cx - D.GAUGE_SMALL_DX, gy + 0.003, gz + D.GAUGE_SMALL_DZ)
     # tach: 0..8000 rpm over 240 deg, starting at -120 deg (clockwise seen by driver -> negative about +y)
     p.prop("rpmTacho", f"{PFX}_needle_tach", "gref", "grefx", "grefd", zero, {"x": 0, "y": 0, "z": -0.03}, zero,
            0, 8000, -4000, 1, baseTranslationGlobal=dict(x=tach_c[0], y=tach_c[1], z=tach_c[2]))

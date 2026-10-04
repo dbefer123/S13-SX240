@@ -140,7 +140,7 @@ def tire_props(t: TireDef, axle: str, num_rays=16):
     return out
 
 
-def wheel_part(prefix, w: WheelDef, axle: str, center_x: str, default_tire: str, mesh_prefix="s1x_wheel"):
+def wheel_part(prefix, w: WheelDef, axle: str, center_x: str, default_tire: str, axle_yz=(0.0, 0.0), mesh_prefix="s1x_wheel"):
     """Wheel (rim) part for axle 'F' or 'R'. center_x: expression for |x| of the wheel centre."""
     p = Part(f"{prefix}_wheel_{axle}_{w.key}", f"{w.title} ({'Front' if axle == 'F' else 'Rear'})",
              f"{prefix}_wheel_{axle}", value=w.value)
@@ -153,14 +153,14 @@ def wheel_part(prefix, w: WheelDef, axle: str, center_x: str, default_tire: str,
         tag = f"{axle}{side}"
         xexpr = f"$=-({center_x})" if side == "R" else f"$={center_x}"
         p.flexbody(mesh, [f"wheel_{tag}", f"wheelhub_{tag}"],
-                   pos={"x": xexpr, "y": 0.0, "z": 0.0}, rot={"x": 0, "y": 0, "z": 180 if side == "R" else 0},
+                   pos={"x": xexpr, "y": axle_yz[0], "z": axle_yz[1]}, rot={"x": 0, "y": 0, "z": 180 if side == "R" else 0},
                    scale={"x": 1, "y": 1, "z": 1})
     for row in hub_props(w):
         p.table("pressureWheels", ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"]).append(row)
     return p
 
 
-def tire_part(prefix, t: TireDef, axle: str, center_x: str, mesh_prefix="s1x_tire"):
+def tire_part(prefix, t: TireDef, axle: str, center_x: str, axle_yz=(0.0, 0.0), mesh_prefix="s1x_tire"):
     p = Part(f"{prefix}_tire_{axle}_{t.key}", f"{t.title} ({'Front' if axle == 'F' else 'Rear'})",
              f"{prefix}_tire_{axle}_{t.dia}", value=t.value)
     p.variable(f"$tirepressure_{axle}", "psi", "Wheels", t.pressure, 0, 50 if t.kind not in ("dragslick",) else 30,
@@ -171,7 +171,7 @@ def tire_part(prefix, t: TireDef, axle: str, center_x: str, mesh_prefix="s1x_tir
         tag = f"{axle}{side}"
         xexpr = f"$=-({center_x})" if side == "R" else f"$={center_x}"
         p.flexbody(mesh, [f"wheel_{tag}", f"tire_{tag}"],
-                   pos={"x": xexpr, "y": 0.0, "z": 0.0}, rot={"x": 0, "y": 0, "z": 180 if side == "R" else 0},
+                   pos={"x": xexpr, "y": axle_yz[0], "z": axle_yz[1]}, rot={"x": 0, "y": 0, "z": 180 if side == "R" else 0},
                    scale={"x": 1, "y": 1, "z": 1})
     for row in tire_props(t, axle):
         p.table("pressureWheels", ["name", "hubGroup", "group", "node1:", "node2:", "nodeS", "nodeArm:", "wheelDir"]).append(row)
@@ -255,13 +255,13 @@ def pad_parts(prefix):
     return out
 
 
-def hubcap_part(prefix, axle, dia, center_x, mesh="s1x_hubcap"):
+def hubcap_part(prefix, axle, dia, center_x, axle_yz=(0.0, 0.0), mesh="s1x_hubcap"):
     p = Part(f"{prefix}_hubcap_{axle}_{dia}", f"Steel Wheel Hubcaps ({'Front' if axle == 'F' else 'Rear'})",
              f"{prefix}_hubcap_{axle}_{dia}", value=40)
     for side in ("R", "L"):
         tag = f"{axle}{side}"
         xexpr = f"$=-({center_x})" if side == "R" else f"$={center_x}"
         p.flexbody(f"{mesh}_{dia}", [f"wheel_{tag}", f"wheelhub_{tag}"],
-                   pos={"x": xexpr, "y": 0.0, "z": 0.0}, rot={"x": 0, "y": 0, "z": 180 if side == "R" else 0},
+                   pos={"x": xexpr, "y": axle_yz[0], "z": axle_yz[1]}, rot={"x": 0, "y": 0, "z": 180 if side == "R" else 0},
                    scale={"x": 1, "y": 1, "z": 1})
     return p

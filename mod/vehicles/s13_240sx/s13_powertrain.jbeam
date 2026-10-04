@@ -138,7 +138,7 @@
         ["s13_flywheel", "s13_flywheel_stock", "Flywheel"],
     ],
     "powertrain":[["type", "name", "inputName", "inputIndex"], ["combustionEngine", "mainEngine", "dummy", 0]],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_engine_ka24", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_engine_ka24", ["engine"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"engine"},
@@ -241,7 +241,7 @@
 "s13_ka24e_intake_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Air Box", "value":120},
     "slotType":"s13_ka24e_intake",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_ka24e_stock", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_ka24e_stock", ["engine"]]],
 },
 "s13_ka24e_intake_cai": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Cold Air Intake", "value":300},
@@ -267,12 +267,12 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.2, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_ka24e_cai", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_ka24e_cai", ["engine", "radiator"]]],
 },
 "s13_ka24e_induction_na": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Exhaust Manifold", "value":150},
     "slotType":"s13_ka24e_induction",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_manifold_ka24e_na", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_manifold_ka24e_na", ["engine"]]],
 },
 "s13_ka24e_induction_header": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Performance Header", "value":900},
@@ -298,7 +298,7 @@
         ],
     },
     "soundConfigExhaust":{"$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_manifold_ka24e_header", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_manifold_ka24e_header", ["engine"]]],
 },
 "s13_ka24e_ecu_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock ECU", "value":200},
@@ -485,7 +485,7 @@
         ["s13_flywheel", "s13_flywheel_stock", "Flywheel"],
     ],
     "powertrain":[["type", "name", "inputName", "inputIndex"], ["combustionEngine", "mainEngine", "dummy", 0]],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_engine_ka24", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_engine_ka24", ["engine"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"engine"},
@@ -588,7 +588,7 @@
 "s13_ka24de_intake_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Air Box", "value":120},
     "slotType":"s13_ka24de_intake",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_ka24de_stock", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_ka24de_stock", ["engine"]]],
 },
 "s13_ka24de_intake_cai": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Cold Air Intake", "value":300},
@@ -614,12 +614,12 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.2, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_ka24de_cai", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_ka24de_cai", ["engine", "radiator"]]],
 },
 "s13_ka24de_induction_na": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Exhaust Manifold", "value":150},
     "slotType":"s13_ka24de_induction",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_manifold_ka24de_na", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_manifold_ka24de_na", ["engine"]]],
 },
 "s13_ka24de_induction_header": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Performance Header", "value":900},
@@ -645,7 +645,7 @@
         ],
     },
     "soundConfigExhaust":{"$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_manifold_ka24de_header", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_manifold_ka24de_header", ["engine"]]],
 },
 "s13_ka24de_induction_kat_kit": {
     "information":{"authors":"S13/S14 240SX mod", "name":"KA-T Turbo Kit (T3/T4)", "value":2800},
@@ -708,8 +708,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_turbo_medium", ["engine"]],
-        ["s1x_manifold_ka24de_turbo", ["engine"]],
+        ["s13_turbo_medium", ["engine", "radiator"]],
+        ["s13_manifold_ka24de_turbo", ["engine"]],
     ],
 },
 "s13_ka24de_ecu_stock": {
@@ -898,7 +898,7 @@
         ["s13_flywheel", "s13_flywheel_stock", "Flywheel"],
     ],
     "powertrain":[["type", "name", "inputName", "inputIndex"], ["combustionEngine", "mainEngine", "dummy", 0]],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_engine_sr20", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_engine_sr20", ["engine"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"engine"},
@@ -1001,7 +1001,7 @@
 "s13_sr20det_intake_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Air Box", "value":120},
     "slotType":"s13_sr20det_intake",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_sr20det_stock", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_sr20det_stock", ["engine"]]],
 },
 "s13_sr20det_intake_cai": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Cold Air Intake", "value":300},
@@ -1028,7 +1028,7 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.2, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_sr20det_cai", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_sr20det_cai", ["engine", "radiator"]]],
 },
 "s13_sr20det_induction_t25_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock T25 Turbocharger", "value":900},
@@ -1091,8 +1091,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_turbo_small", ["engine"]],
-        ["s1x_manifold_sr20det_turbo", ["engine"]],
+        ["s13_turbo_small", ["engine", "radiator"]],
+        ["s13_manifold_sr20det_turbo", ["engine"]],
     ],
 },
 "s13_sr20det_induction_gt28_kit": {
@@ -1156,8 +1156,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_turbo_medium", ["engine"]],
-        ["s1x_manifold_sr20det_turbo", ["engine"]],
+        ["s13_turbo_medium", ["engine", "radiator"]],
+        ["s13_manifold_sr20det_turbo", ["engine"]],
     ],
 },
 "s13_sr20det_ecu_stock": {
@@ -1347,7 +1347,7 @@
         ["s13_flywheel", "s13_flywheel_stock", "Flywheel"],
     ],
     "powertrain":[["type", "name", "inputName", "inputIndex"], ["combustionEngine", "mainEngine", "dummy", 0]],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_engine_k20", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_engine_k20", ["engine"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"engine"},
@@ -1450,7 +1450,7 @@
 "s13_k20a_intake_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Air Box", "value":120},
     "slotType":"s13_k20a_intake",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_k20a_stock", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_k20a_stock", ["engine"]]],
 },
 "s13_k20a_intake_itb": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Individual Throttle Bodies", "value":2600},
@@ -1478,7 +1478,7 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.4, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_k20a_itb", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_k20a_itb", ["engine"]]],
 },
 "s13_k20a_intake_cai": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Cold Air Intake", "value":380},
@@ -1506,12 +1506,12 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.2, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_k20a_cai", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_k20a_cai", ["engine", "radiator"]]],
 },
 "s13_k20a_induction_na": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Exhaust Manifold", "value":150},
     "slotType":"s13_k20a_induction",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_manifold_k20a_na", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_manifold_k20a_na", ["engine"]]],
 },
 "s13_k20a_induction_header": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Performance Header", "value":900},
@@ -1539,7 +1539,7 @@
         ],
     },
     "soundConfigExhaust":{"$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_manifold_k20a_header", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_manifold_k20a_header", ["engine"]]],
 },
 "s13_k20a_induction_street_k20": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Street Turbo Kit (GT30 size)", "value":5200},
@@ -1602,8 +1602,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_turbo_medium", ["engine"]],
-        ["s1x_manifold_k20a_turbo", ["engine"]],
+        ["s13_turbo_medium", ["engine", "radiator"]],
+        ["s13_manifold_k20a_turbo", ["engine"]],
     ],
 },
 "s13_k20a_ecu_stock": {
@@ -1791,7 +1791,7 @@
         ["s13_flywheel", "s13_flywheel_stock", "Flywheel"],
     ],
     "powertrain":[["type", "name", "inputName", "inputIndex"], ["combustionEngine", "mainEngine", "dummy", 0]],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_engine_k20", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_engine_k20", ["engine"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"engine"},
@@ -1894,7 +1894,7 @@
 "s13_k20a_race_intake_stock": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Stock Air Box", "value":120},
     "slotType":"s13_k20a_race_intake",
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_k20a_stock", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_k20a_stock", ["engine"]]],
 },
 "s13_k20a_race_intake_itb": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Individual Throttle Bodies", "value":2600},
@@ -1920,7 +1920,7 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.4, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_k20a_itb", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_k20a_itb", ["engine"]]],
 },
 "s13_k20a_race_intake_cai": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Cold Air Intake", "value":380},
@@ -1946,7 +1946,7 @@
         ],
     },
     "soundConfig":{"$+intakeMuffling":-0.2, "$+mainGain":1.5},
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_intake_k20a_cai", ["engine"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_intake_k20a_cai", ["engine", "radiator"]]],
 },
 "s13_k20a_race_induction_race_k20": {
     "information":{"authors":"S13/S14 240SX mod", "name":"Race Turbo Kit (GTX35 size)", "value":9800},
@@ -2009,8 +2009,8 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_turbo_large", ["engine"]],
-        ["s1x_manifold_k20a_turbo", ["engine"]],
+        ["s13_turbo_large", ["engine", "radiator"]],
+        ["s13_manifold_k20a_turbo", ["engine"]],
     ],
 },
 "s13_k20a_race_ecu_stock": {
@@ -2107,7 +2107,7 @@
         ["frictionClutch", "clutch", "mainEngine", 1],
         ["manualGearbox", "gearbox", "clutch", 1],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_gearbox_manual", ["engine", "transmission"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_gearbox_manual", ["engine", "transmission"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"transmission"},
@@ -2191,7 +2191,7 @@
         ["frictionClutch", "clutch", "mainEngine", 1],
         ["manualGearbox", "gearbox", "clutch", 1],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_gearbox_manual", ["engine", "transmission"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_gearbox_manual", ["engine", "transmission"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"transmission"},
@@ -2284,7 +2284,7 @@
         ["torqueConverter", "torqueConverter", "mainEngine", 1],
         ["automaticGearbox", "gearbox", "torqueConverter", 1],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_gearbox_automatic", ["engine", "transmission"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_gearbox_automatic", ["engine", "transmission"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"transmission"},
@@ -2370,7 +2370,7 @@
         ["frictionClutch", "clutch", "mainEngine", 1],
         ["manualGearbox", "gearbox", "clutch", 1],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_gearbox_manual", ["engine", "transmission"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_gearbox_manual", ["engine", "transmission"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"transmission"},
@@ -2456,7 +2456,7 @@
         ["frictionClutch", "clutch", "mainEngine", 1],
         ["sequentialGearbox", "gearbox", "clutch", 1],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_gearbox_sequential", ["engine", "transmission"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_gearbox_sequential", ["engine", "transmission"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"transmission"},
@@ -2538,7 +2538,7 @@
         ["frictionClutch", "clutch", "mainEngine", 1],
         ["sequentialGearbox", "gearbox", "clutch", 1],
     ],
-    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s1x_gearbox_sequential", ["engine", "transmission"]]],
+    "flexbodies":[["mesh", "[group]:", "nonFlexMaterials"], ["s13_gearbox_sequential", ["engine", "transmission"]]],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
         {"selfCollision":false, "collision":true, "nodeMaterial":"|NM_METAL", "frictionCoef":0.7, "group":"transmission"},
@@ -2599,7 +2599,7 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_driveshaft", ["transmission", "driveshaft", "differential"]],
+        ["s13_driveshaft", ["transmission", "driveshaft", "differential"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -2633,9 +2633,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_diff_R", ["differential"]],
-        ["s1x_halfshaft_RL", ["differential", "wheelhub_RL"]],
-        ["s1x_halfshaft_RR", ["differential", "wheelhub_RR"]],
+        ["s13_diff_R", ["differential"]],
+        ["s13_halfshaft_RL", ["differential", "wheelhub_RL"]],
+        ["s13_halfshaft_RR", ["differential", "wheelhub_RR"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -2697,9 +2697,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_diff_R", ["differential"]],
-        ["s1x_halfshaft_RL", ["differential", "wheelhub_RL"]],
-        ["s1x_halfshaft_RR", ["differential", "wheelhub_RR"]],
+        ["s13_diff_R", ["differential"]],
+        ["s13_halfshaft_RL", ["differential", "wheelhub_RL"]],
+        ["s13_halfshaft_RR", ["differential", "wheelhub_RR"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -2764,9 +2764,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_diff_R", ["differential"]],
-        ["s1x_halfshaft_RL", ["differential", "wheelhub_RL"]],
-        ["s1x_halfshaft_RR", ["differential", "wheelhub_RR"]],
+        ["s13_diff_R", ["differential"]],
+        ["s13_halfshaft_RL", ["differential", "wheelhub_RL"]],
+        ["s13_halfshaft_RR", ["differential", "wheelhub_RR"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -2831,9 +2831,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_diff_R", ["differential"]],
-        ["s1x_halfshaft_RL", ["differential", "wheelhub_RL"]],
-        ["s1x_halfshaft_RR", ["differential", "wheelhub_RR"]],
+        ["s13_diff_R", ["differential"]],
+        ["s13_halfshaft_RL", ["differential", "wheelhub_RL"]],
+        ["s13_halfshaft_RR", ["differential", "wheelhub_RR"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -2895,9 +2895,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_diff_R", ["differential"]],
-        ["s1x_halfshaft_RL", ["differential", "wheelhub_RL"]],
-        ["s1x_halfshaft_RR", ["differential", "wheelhub_RR"]],
+        ["s13_diff_R", ["differential"]],
+        ["s13_halfshaft_RL", ["differential", "wheelhub_RL"]],
+        ["s13_halfshaft_RR", ["differential", "wheelhub_RR"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],
@@ -2959,9 +2959,9 @@
     ],
     "flexbodies":[
         ["mesh", "[group]:", "nonFlexMaterials"],
-        ["s1x_diff_R", ["differential"]],
-        ["s1x_halfshaft_RL", ["differential", "wheelhub_RL"]],
-        ["s1x_halfshaft_RR", ["differential", "wheelhub_RR"]],
+        ["s13_diff_R", ["differential"]],
+        ["s13_halfshaft_RL", ["differential", "wheelhub_RL"]],
+        ["s13_halfshaft_RR", ["differential", "wheelhub_RR"]],
     ],
     "nodes":[
         ["id", "posX", "posY", "posZ"],

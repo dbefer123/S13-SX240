@@ -1,0 +1,203 @@
+{
+  "Name": "240SX (S13)",
+  "Brand": "Nissan",
+  "Author": "s13-sx240 mod",
+  "Country": "Japan",
+  "Type": "Car",
+  "Body Style": "Hatchback",
+  "Derby Class": "Compact Car",
+  "Description": "Late-80s front-engine, rear-drive Japanese sports coupe. Fastback hatch with pop-up headlights, built from scratch for this mod with a deep tuning catalogue up to tube-chassis K20 race cars.",
+  "default_pc": "se_1991",
+  "defaultPaintName1": "Super Red",
+  "Years": {
+    "min": 1989,
+    "max": 1994
+  },
+  "paints": {
+    "Super Red": {
+      "baseColor": [
+        0.52,
+        0.015,
+        0.02,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.25,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Super Black": {
+      "baseColor": [
+        0.012,
+        0.012,
+        0.013,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.22,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.02
+    },
+    "Crystal White": {
+      "baseColor": [
+        0.82,
+        0.82,
+        0.8,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.3,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.04
+    },
+    "Cool Silver Metallic": {
+      "baseColor": [
+        0.48,
+        0.49,
+        0.5,
+        1.2
+      ],
+      "metallic": 0.85,
+      "roughness": 0.42,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Dark Green Pearl": {
+      "baseColor": [
+        0.02,
+        0.09,
+        0.06,
+        1.2
+      ],
+      "metallic": 0.6,
+      "roughness": 0.35,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Blue Black Pearl": {
+      "baseColor": [
+        0.012,
+        0.018,
+        0.045,
+        1.2
+      ],
+      "metallic": 0.7,
+      "roughness": 0.35,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Dark Gray Metallic": {
+      "baseColor": [
+        0.11,
+        0.11,
+        0.115,
+        1.2
+      ],
+      "metallic": 0.85,
+      "roughness": 0.4,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Warm White Pearl": {
+      "baseColor": [
+        0.86,
+        0.84,
+        0.78,
+        1.2
+      ],
+      "metallic": 0.3,
+      "roughness": 0.3,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Lime Green Metallic": {
+      "baseColor": [
+        0.32,
+        0.45,
+        0.12,
+        1.2
+      ],
+      "metallic": 0.7,
+      "roughness": 0.35,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Champagne Gold Metallic": {
+      "baseColor": [
+        0.55,
+        0.45,
+        0.3,
+        1.2
+      ],
+      "metallic": 0.8,
+      "roughness": 0.38,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Racing Yellow": {
+      "class": "custom",
+      "baseColor": [
+        0.85,
+        0.62,
+        0.02,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.25,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Racing Orange": {
+      "class": "custom",
+      "baseColor": [
+        0.85,
+        0.22,
+        0.02,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.25,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Grand Prix Blue": {
+      "class": "custom",
+      "baseColor": [
+        0.02,
+        0.15,
+        0.55,
+        1.2
+      ],
+      "metallic": 0.2,
+      "roughness": 0.28,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.03
+    },
+    "Matte Black": {
+      "class": "custom",
+      "baseColor": [
+        0.02,
+        0.02,
+        0.02,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.85,
+      "clearcoat": 0.0,
+      "clearcoatRoughness": 0.6
+    },
+    "Primer Gray": {
+      "class": "custom",
+      "baseColor": [
+        0.22,
+        0.22,
+        0.21,
+        1.2
+      ],
+      "metallic": 0.0,
+      "roughness": 0.9,
+      "clearcoat": 0.0,
+      "clearcoatRoughness": 0.8
+    }
+  }
+}

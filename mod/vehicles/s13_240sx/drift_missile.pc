@@ -1,0 +1,34 @@
+{
+  "format": 2,
+  "model": "s13_240sx",
+  "parts": {
+    "s13_engine": "s13_engine_sr20det",
+    "s13_sr20det_intake": "s13_sr20det_intake_cai",
+    "s13_sr20det_ecu": "s13_sr20det_ecu_stock",
+    "s13_sr20det_internals": "s13_sr20det_internals_stock",
+    "s13_transmission": "s13_transmission_5m_sr",
+    "s13_flywheel": "s13_flywheel_light",
+    "s13_sr20det_induction": "s13_sr20det_induction_t25_stock",
+    "s13_steering_wheel": "s13_steering_wheel_deepdish",
+    "s13_spring_F": "s13_spring_F_drift",
+    "s13_spring_R": "s13_spring_R_drift",
+    "s13_swaybar_F": "s13_swaybar_F_race",
+    "s13_swaybar_R": "s13_swaybar_R_sport",
+    "s13_brake_F": "s13_brake_F_z32",
+    "s13_brake_R": "s13_brake_R_z32",
+    "s13_brakepad_F": "s13_brakepad_F_sport",
+    "s13_brakepad_R": "s13_brakepad_R_sport",
+    "s13_differential_R": "s13_differential_R_welded",
+    "s13_steering": "s13_steering_anglekit",
+    "s13_wheel_F": "s13_wheel_F_split18",
+    "s13_tire_F_18": "s13_tire_F_235_40_18_drift",
+    "s13_wheel_R": "s13_wheel_R_deepdish17",
+    "s13_tire_R_17": "s13_tire_R_255_40_17_drift"
+  },
+  "vars": {
+    "$wastegateStart": 12,
+    "$tirepressure_R": 40,
+    "$camber_F": 0.975
+  },
+  "mainPartName": "s13_240sx"
+}
