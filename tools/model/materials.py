@@ -253,6 +253,11 @@ def _define():
     add("s13_interior_trim", owner=o, color=(0.035, 0.035, 0.038), rough=0.8, detail_normal=BUILTIN["leather_grain"],
         detail_scale=(45, 45), detail_strength=0.5)
     add("s13_badge_blue", owner=o, color=(0.02, 0.05, 0.25), rough=0.2, clearcoat=1.0)
+    # convertible soft top: black canvas outside, grey lining inside
+    add("s13_softtop_fabric", owner=o, color=(0.016, 0.016, 0.018), rough=0.93, detail_normal=BUILTIN["headliner"],
+        detail_scale=(90, 90), detail_strength=1.6)
+    add("s13_softtop_lining", owner=o, color=(0.16, 0.16, 0.16), rough=0.95, detail_normal=BUILTIN["headliner"],
+        detail_scale=(40, 40), detail_strength=1.3)
     # glowMap keys: mesh material names that the game swaps for off/on/on_intense materials (not written to json)
     for key, like in (("s13_headlight", "s13_lights"), ("s13_taillight", "s13_lights_red"), ("s13_signal_L", "s13_lights_amber"),
                       ("s13_signal_R", "s13_lights_amber"), ("s13_reverselight", "s13_lights_reverse"),

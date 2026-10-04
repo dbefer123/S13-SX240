@@ -41,7 +41,8 @@
     "s13_wheel_F": "s13_wheel_F_race18",
     "s13_tire_F_18": "s13_tire_F_265_35_18_slick",
     "s13_wheel_R": "s13_wheel_R_race18",
-    "s13_tire_R_18": "s13_tire_R_285_35_18_slick"
+    "s13_tire_R_18": "s13_tire_R_285_35_18_slick",
+    "s13_headliner": ""
   },
   "vars": {
     "$wastegateStart": 22,

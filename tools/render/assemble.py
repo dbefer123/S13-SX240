@@ -165,3 +165,23 @@ def _livery_preview(skin, paints, mod):
             nt.links.new(acc.outputs[2], add.inputs[6]); nt.links.new(mul.outputs[2], add.inputs[7])
             acc = add
     nt.links.new(acc.outputs[2], bsdf.inputs["Base Color"])
+
+
+def cull_backfaces():
+    """Preview the game's back-face culling: every material renders its back faces fully transparent, so
+    inside-out or one-sided surfaces seen from behind show up as holes, like in BeamNG."""
+    for m in bpy.data.materials:
+        if not m.use_nodes or m.node_tree is None:
+            continue
+        nt = m.node_tree
+        out = next((n for n in nt.nodes if n.type == "OUTPUT_MATERIAL"), None)
+        if out is None or not out.inputs["Surface"].links:
+            continue
+        src = out.inputs["Surface"].links[0].from_socket
+        geo = nt.nodes.new("ShaderNodeNewGeometry")
+        tr = nt.nodes.new("ShaderNodeBsdfTransparent")
+        mix = nt.nodes.new("ShaderNodeMixShader")
+        nt.links.new(geo.outputs["Backfacing"], mix.inputs["Fac"])
+        nt.links.new(src, mix.inputs[1])
+        nt.links.new(tr.outputs["BSDF"], mix.inputs[2])
+        nt.links.new(mix.outputs["Shader"], out.inputs["Surface"])

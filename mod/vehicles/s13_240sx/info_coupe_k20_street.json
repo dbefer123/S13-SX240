@@ -1,0 +1,31 @@
+{
+  "Configuration": "Coupe K20 Street",
+  "Config Type": "Custom",
+  "Body Style": "Coupe",
+  "Description": "Clean street coupe hiding a turbocharged Honda K20A on 13 psi (about 400 hp), six-speed, coilovers and big brakes.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 34000,
+  "Population": 0,
+  "defaultPaintName1": "Dark Gray Metallic",
+  "defaultPaintName2": "Dark Gray Metallic",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1182,
+  "Power": 418,
+  "Torque": 390,
+  "PowerPeakRPM": "8000",
+  "TorquePeakRPM": "7000",
+  "Weight/Power": 2.83,
+  "Induction Type": "Turbo",
+  "Top Speed": 83.47,
+  "0-60 mph": 5.9,
+  "0-100 km/h": 6.0,
+  "0-100 mph": 10.6,
+  "0-200 km/h": 14.7,
+  "Transmission": "Manual"
+}

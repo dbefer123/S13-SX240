@@ -87,41 +87,69 @@ def main_part():
 REF = dict(ref=(0.0, 0.30, 0.30), back=(0.0, 0.80, 0.30), left=(0.40, 0.30, 0.30), up=(0.0, 0.30, 0.70))
 
 
-def body_hatch():
-    p, nodes = ST.unibody_hatch()
-    p.d["information"]["name"] = "Unibody (Hatchback)"
-    for slot, default, desc in (
-            (f"{PFX}_hood", f"{PFX}_hood", "Hood"), (f"{PFX}_popup_L", f"{PFX}_popup_L", "Left Pop-up Headlight"),
-            (f"{PFX}_popup_R", f"{PFX}_popup_R", "Right Pop-up Headlight"),
-            (f"{PFX}_fender_L", f"{PFX}_fender_L", "Left Fender"), (f"{PFX}_fender_R", f"{PFX}_fender_R", "Right Fender"),
-            (f"{PFX}_door_L", f"{PFX}_door_L", "Left Door"), (f"{PFX}_door_R", f"{PFX}_door_R", "Right Door"),
-            (f"{PFX}_hatch", f"{PFX}_hatch", "Hatch"),
-            (f"{PFX}_bumper_F", f"{PFX}_bumper_F", "Front Bumper"), (f"{PFX}_bumper_R", f"{PFX}_bumper_R", "Rear Bumper"),
-            (f"{PFX}_taillights", f"{PFX}_taillights", "Tail Lights"),
-            (f"{PFX}_interior", f"{PFX}_interior_stock", "Interior"),
-            (f"{PFX}_rollcage", f"{PFX}_rollcage_none", "Roll Cage")):
+BODY_INFO = {"hatch": "Unibody (Hatchback)", "coupe": "Unibody (Coupe)", "convertible": "Unibody (Convertible)"}
+
+
+def body(kind="hatch"):
+    p, nodes = ST.unibody(kind)
+    p.d["information"]["name"] = BODY_INFO[kind]
+    slots = [(f"{PFX}_hood", f"{PFX}_hood", "Hood"), (f"{PFX}_popup_L", f"{PFX}_popup_L", "Left Pop-up Headlight"),
+             (f"{PFX}_popup_R", f"{PFX}_popup_R", "Right Pop-up Headlight"),
+             (f"{PFX}_fender_L", f"{PFX}_fender_L", "Left Fender"), (f"{PFX}_fender_R", f"{PFX}_fender_R", "Right Fender")]
+    dsfx = "_conv" if kind == "convertible" else ""
+    slots += [(f"{PFX}_door_L", f"{PFX}_door{dsfx}_L", "Left Door"), (f"{PFX}_door_R", f"{PFX}_door{dsfx}_R", "Right Door")]
+    if kind == "hatch":
+        slots.append((f"{PFX}_hatch", f"{PFX}_hatch", "Hatch"))
+    else:
+        slots.append((f"{PFX}_trunk", f"{PFX}_trunk", "Trunk Lid"))
+    slots += [(f"{PFX}_bumper_F", f"{PFX}_bumper_F", "Front Bumper"), (f"{PFX}_bumper_R", f"{PFX}_bumper_R", "Rear Bumper"),
+              (f"{PFX}_taillights", f"{PFX}_taillights" if kind == "hatch" else f"{PFX}_taillights_coupe", "Tail Lights"),
+              (f"{PFX}_interior", f"{PFX}_interior_stock", "Interior")]
+    if kind == "convertible":
+        slots.append((f"{PFX}_softtop", f"{PFX}_softtop_up", "Convertible Top"))
+    else:
+        slots.append((f"{PFX}_headliner", f"{PFX}_headliner" if kind == "hatch" else f"{PFX}_headliner_coupe", "Headliner"))
+        slots.append((f"{PFX}_rollcage", f"{PFX}_rollcage_none", "Roll Cage"))
+    for slot, default, desc in slots:
         p.slot(slot, default, desc)
     for slot, d_uni, d_tube, desc in RACE.AERO_SLOTS:
         p.slot(f"{PFX}_{slot}", f"{PFX}_{d_uni}" if d_uni else "", desc)
-    p.flexbody(f"{PFX}_body_hatch", [f"{PFX}_body"])
+    p.flexbody(f"{PFX}_body_{kind}", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_underbody", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_wheelwells", [f"{PFX}_body"])
     p.flexbody(f"{PFX}_enginebay", [f"{PFX}_body"])
-    body_common(p)
+    if kind == "coupe":
+        p.flexbody(f"{PFX}_parcelshelf", [f"{PFX}_body"])
+    body_common(p, kind)
     return p
 
 
-def body_common(p):
+def body_hatch():
+    return body("hatch")
+
+
+def body_common(p, kind="hatch"):
     """Glass, reference nodes, cameras, glass-break triggers and collision skin shared by every body."""
+    nodes = ST.all_nodes(kind)
+    roof = kind != "convertible"
     p.flex_props(deformGroup="windshield_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
     p.flexbody(f"{PFX}_windshield", [f"{PFX}_body"], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4", deformVolume=0.8)
     p.flex_props(deformGroup="")
     p.flexbody(f"{PFX}_windshield_trim", [f"{PFX}_body"])
-    for s in ("L", "R"):
-        p.flex_props(deformGroup=f"quarterglass_{s}_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
-        p.flexbody(f"{PFX}_quarterglass_{s}", [f"{PFX}_body"])
+    if kind == "hatch":
+        for s in ("L", "R"):
+            p.flex_props(deformGroup=f"quarterglass_{s}_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
+            p.flexbody(f"{PFX}_quarterglass_{s}", [f"{PFX}_body"])
+            p.flex_props(deformGroup="")
+            p.flexbody(f"{PFX}_quarterglass_trim_{s}", [f"{PFX}_body"])
+    elif kind == "coupe":
+        for s in ("L", "R"):
+            p.flex_props(deformGroup=f"quarterglass_{s}_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
+            p.flexbody(f"{PFX}_quarterglass_coupe_{s}", [f"{PFX}_body"])
+        p.flex_props(deformGroup="rearwindow_break")
+        p.flexbody(f"{PFX}_rearwindow", [f"{PFX}_body"], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4",
+                   deformVolume=0.7)
         p.flex_props(deformGroup="")
-        p.flexbody(f"{PFX}_quarterglass_trim_{s}", [f"{PFX}_body"])
     # reference nodes (collision off) aligned exactly on the axes
     p.nodes_props(group="", collision=False, selfCollision=False, nodeWeight=1.0)
     for nm, key in (("ref", "ref"), ("refb", "back"), ("refl", "left"), ("refu", "up")):
@@ -129,44 +157,62 @@ def body_common(p):
     p.nodes_props(collision=True, selfCollision=True)
     p.beams_props(beamPrecompression=1, beamType="|NORMAL", beamLongBound=1.0, beamShortBound=1.0)
     p.beams_props(beamSpring=1501000, beamDamp=100, beamDeform=80000, beamStrength="FLT_MAX")
+    up_links = ("rf2", "rf2l", "rf2r", "fl3") if roof else ("bp2l", "bp2r", "fl3", "fl2")
     for a, links in (("ref", ("fl3", "fl3l", "fl3r", "fl2", "fl4")), ("refb", ("fl4", "fl4l", "fl4r", "fl5")),
-                     ("refl", ("fl3l", "si3l", "fl2l", "fl4l")), ("refu", ("rf2", "rf2l", "rf2r", "fl3"))):
+                     ("refl", ("fl3l", "si3l", "fl2l", "fl4l")), ("refu", up_links)):
         for b in links:
             p.beam(a, b)
     # windshield / glass break trigger beams
     p.beams_props(deformGroup="windshield_break", deformationTriggerRatio=0.008)
     for a, b in (("rf1l", "fp3r"), ("rf1r", "fp3l"), ("rf1", "fp3")):
         p.beam(a, b, beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
-    p.beams_props(deformGroup="quarterglass_L_break")
-    p.beam("cp1l", "qp3l", beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
-    p.beams_props(deformGroup="quarterglass_R_break")
-    p.beam("cp1r", "qp3r", beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
+    if kind == "hatch":
+        p.beams_props(deformGroup="quarterglass_L_break")
+        p.beam("cp1l", "qp3l", beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
+        p.beams_props(deformGroup="quarterglass_R_break")
+        p.beam("cp1r", "qp3r", beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
+    elif kind == "coupe":
+        p.beams_props(deformGroup="quarterglass_L_break")
+        p.beam("rf3l", "qp3l", beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
+        p.beams_props(deformGroup="quarterglass_R_break")
+        p.beam("rf3r", "qp3r", beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
+        p.beams_props(deformGroup="rearwindow_break", deformationTriggerRatio=0.01)
+        for a, b in (("rf4l", "rw1"), ("rf4r", "rw1"), ("rf4", "cp2l"), ("rf4", "cp2r")):
+            p.beam(a, b, beamSpring=0, beamDamp=0, beamDeform=500, beamStrength="FLT_MAX")
     p.beams_props(deformGroup="")
     p.set("refNodes", [["ref:", "back:", "left:", "up:", "leftCorner:", "rightCorner:"],
                        ["ref", "refb", "refl", "refu", "fe2l", "fe2r"]])
     p.set("cameraExternal", {"distance": 5.4, "distanceMin": 2.0, "offset": {"x": 0.0, "y": 0.10, "z": 0.48}, "fov": 65})
     p.set("cameraChase", {"distance": 5.4, "distanceMin": 2.0, "defaultRotation": {"x": 0, "y": -11, "z": 0},
                           "offset": {"x": 0.0, "y": 0.10, "z": 0.75}, "fov": 65})
+    dash_links = ["rf2l", "rf2r", "fl3l", "fl3r", "bp3l", "ap1l"] if roof else ["ap1l", "ap1r", "fl3l", "fl3r", "bp3l", "bp3r"]
     cams = [["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
             {"nodeWeight": 1.3}, {"selfCollision": False}, {"collision": False},
             {"beamSpring": 46000, "beamDamp": 450},
             ["hood", 0.0, -1.10, 0.98, 65, "fp3", "fp3l", "fp3r", "ft3l", "ft3r", "fs1l",
              {"beamDeform": 5001000, "beamStrength": "FLT_MAX"}],
             {"beamSpring": 3000, "beamDamp": 110},
-            ["dash", D.EYE[0], D.EYE[1], D.EYE[2], 62, "rf2l", "rf2r", "fl3l", "fl3r", "bp3l", "ap1l",
+            ["dash", D.EYE[0], D.EYE[1], D.EYE[2], 62, *dash_links,
              {"beamDeform": 5001000, "beamStrength": "FLT_MAX"}],
             {"selfCollision": True}, {"collision": True}]
     p.set("camerasInternal", cams)
-    p.set("sounds", {"cabinFilterCoef": 0.30})
+    p.set("sounds", {"cabinFilterCoef": 0.30 if roof else 0.08})
     p.tris_props(dragCoef=10, groundModel="metal", triangleType="NORMALTYPE")
-    for q in body_skin_quads():
-        p.quad(*q)
+    for q in body_skin_quads(kind):
+        if all(n in nodes for n in q):
+            if len(q) == 3:
+                p.tri(*q)
+            else:
+                p.quad(*q)
     return p
 
 
-def body_skin_quads():
+def body_skin_quads(kind="hatch"):
     """Collision skin of the unibody (left side written, mirrored with reversed winding)."""
-    L = [("si0l", "si1l", "fl1l", "fp1l"), ("si1l", "si2l", "fl2l", "fl1l"), ("si2l", "si3l", "fl3l", "fl2l"),
+    L = []
+    if kind in ("coupe", "convertible"):
+        L += [("rf4l", "cp2l", "rw1", "rf4"), ("cp2l", "cp3l", "rw1")]
+    L += [("si0l", "si1l", "fl1l", "fp1l"), ("si1l", "si2l", "fl2l", "fl1l"), ("si2l", "si3l", "fl3l", "fl2l"),
          ("si3l", "si4l", "fl4l", "fl3l"), ("si4l", "si5l", "fl5l", "fl4l"),
          ("fl1l", "fl2l", "fl2", "fl1"), ("fl2l", "fl3l", "fl3", "fl2"), ("fl3l", "fl4l", "fl4", "fl3"),
          ("fl4l", "fl5l", "fl5", "fl4"), ("fp1l", "fl1l", "fl1", "fp1"),
@@ -291,6 +337,41 @@ def taillights():
     return p
 
 
+def taillights_coupe():
+    p = Part(f"{PFX}_taillights_coupe", "Stock Tail Lights (Coupe / Convertible)", f"{PFX}_taillights", value=300)
+    p.flex_props(deformGroup="taillight_break", deformMaterialBase="s13_lights_red", deformMaterialDamaged="s13_lights_red_dmg")
+    p.flexbody(f"{PFX}_taillights_coupe", [f"{PFX}_body"])
+    p.flex_props(deformGroup="")
+    p.props_props(lightInnerAngle=40, lightOuterAngle=90, lightColor={"r": 255, "g": 20, "b": 10, "a": 255},
+                  flareName="vehicleBrakeLightFlare", lightCastShadows=False)
+    for side, s in (("l", 1), ("r", -1)):
+        for func, rng, bright in (("lowhighbeam", 4, 0.25), ("brakelights", 8, 0.8)):
+            p.prop(func, "POINTLIGHT", "tl3" + side, "tl3", "tl2" + side, {"x": 0, "y": 0, "z": 0},
+                   {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1,
+                   baseTranslationGlobal={"x": s * 0.56, "y": 2.27, "z": 0.672}, lightRange=rng,
+                   lightIntensityLm=400 * bright, flareScale=0.04, deformGroup="taillight_break")
+        p.prop("reverse", "POINTLIGHT", "tl3" + side, "tl3", "tl2" + side, {"x": 0, "y": 0, "z": 0},
+               {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1,
+               baseTranslationGlobal={"x": s * 0.385, "y": 2.27, "z": 0.758}, lightRange=6, lightIntensityLm=250,
+               lightColor={"r": 255, "g": 255, "b": 240, "a": 255}, flareName="vehicleReverseLightFlare",
+               flareScale=0.03, deformGroup="taillight_break")
+    p.beams_props(deformGroup="taillight_break", deformationTriggerRatio=0.02)
+    for a, b in (("tl3l", "tl2"), ("tl3r", "tl2"), ("tl3l", "tl3r")):
+        p.beam(a, b, beamSpring=0, beamDamp=0, beamDeform=1000, beamStrength="FLT_MAX")
+    p.beams_props(deformGroup="")
+    return p
+
+
+def headliners():
+    out = []
+    for key, title, mesh in (("headliner", "Stock Headliner", f"{PFX}_headliner"),
+                             ("headliner_coupe", "Stock Headliner (Coupe)", f"{PFX}_headliner_coupe")):
+        p = Part(f"{PFX}_{key}", title, f"{PFX}_headliner", value=120)
+        p.flexbody(mesh, [f"{PFX}_body"])
+        out.append(p)
+    return out
+
+
 RACE_TACH = (D.STEER_CENTER[0], -0.560, 1.030)   # race tach pod face centre
 SHIFT_LED_MATS = ["s13_led_green", "s13_led_green", "s13_led_amber", "s13_led_amber", "s13_led_red"]
 
@@ -331,7 +412,7 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
     if kind == "race":
         for m, g in (("dash_race", "dash"), ("race_tach", "dash"), ("seat_race", "body"), ("extinguisher", "body"),
                      ("race_switchpanel", "dash"), ("pedals_static", "body")):
-            p.flexbody(f"{PFX}_{m}", [f"{PFX}_{g}"])
+            p.flexbody(f"{PFX}_{m}", [f"{PFX}_{g}"] + ([f"{PFX}_body"] if m == "race_tach" else []))
         p.set("glowMap", {f"s13_shiftled_{i}": {"simpleFunction": {f"s13sl{i}": 1}, "off": m, "on": m + "_on"}
                           for i, m in enumerate(SHIFT_LED_MATS)})
     else:
@@ -346,7 +427,6 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
         p.flexbody(f"{PFX}_cabin_trim", [f"{PFX}_body"])
         if kind == "stock":
             p.flexbody(f"{PFX}_carpet", [f"{PFX}_body"])
-            p.flexbody(f"{PFX}_headliner", [f"{PFX}_body"])
             p.flexbody(f"{PFX}_doorcard_L", [f"{PFX}_door_L"])
             p.flexbody(f"{PFX}_doorcard_R", [f"{PFX}_door_R"])
             p.flexbody(rear, [f"{PFX}_body"])
@@ -500,10 +580,14 @@ def all_files():
     """Return {filename: [parts...]}"""
     files = OrderedDict()
     files[f"{VEH}.jbeam"] = [main_part()]
-    files[f"{PFX}_body.jbeam"] = [body_hatch()]
+    files[f"{PFX}_body.jbeam"] = [body("hatch"), body("coupe"), body("convertible")] + headliners()
     files[f"{PFX}_panels.jbeam"] = [PJ.hood(), PJ.popup("L"), PJ.popup("R"), PJ.fender("L"), PJ.fender("R"),
                                     PJ.door("L"), PJ.door("R"), PJ.hatch(), PJ.bumper_front(), PJ.bumper_rear(),
                                     taillights()]
+    files[f"{PFX}_coupe.jbeam"] = ([PJ.trunk(), PJ.trunk(name=f"{PFX}_trunk_light", mesh=f"{PFX}_trunk_carbon",
+                                                          title="Carbon Fiber Trunk Lid", value=1500,
+                                                          mass=6.0).scale_springs(6.0 / 16.0),
+                                    taillights_coupe()] + PJ.trunk_spoilers() + PJ.convertible_doors() + PJ.softtops())
     files[f"{PFX}_interior.jbeam"] = ([interior_stock(),
                                        interior_stock("leather", "Leather Interior (LE)", 1600, seats=f"{PFX}_seats_leather",
                                                       rear=f"{PFX}_rearseat_leather"),

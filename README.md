@@ -25,7 +25,7 @@ JBeam generator and an offline validator).
 | 2 | Drivable S13 hatch: unibody, MacPherson/multilink suspension, steering, KA24E/KA24DE/SR20DET/K20A, 4AT/5MT/6MT/sequential, LSD options, wheels/tires/brakes, pop-up lights, gauges, interior, 15 configs | **done (first release)** |
 | 3 | K20 race builds: tube chassis, roll cages, high- and low-downforce aero, drag gear (wheelie bar, parachute, transbrake, two-step, line lock), race interior, 6 race configs | **done** |
 | 4 | Full S13 catalogue: exterior detail (lamps, grilles, rub strips, badges, mirrors, wipers, plates), body kits, liveries, engine detail, interior trim, leather, hydraulic handbrake | **done** |
-| 5 | S13 coupe and convertible | planned |
+| 5 | S13 coupe and convertible: notchback body with trunk, convertible with power soft top (raised / folded) and reinforced floor, frameless doors, 8 configs; mod-wide fix for inside-out parts | **done** |
 | 6 | S14 zenki / kouki | planned |
 | 7 | Final polish, thumbnails, stats | planned |
 
@@ -61,6 +61,26 @@ JBeam generator and an offline validator).
 | IMSA GTO Tribute | Tube chassis | Flares, tall wing, pop-up delete, K20A turbo | ~640 hp / 950 kg |
 
 Weights are estimates from the JBeam (nodes + wheels + fuel); power is the estimated crank peak.
+
+## Configurations (S13 coupe and convertible)
+
+| Config | Body | Type | Spec | Est. power / weight |
+|---|---|---|---|---|
+| Base Coupe (M) 1990 | Coupe | Factory | KA24E, 5MT, open diff, 14" steel wheels | 140 hp / 1190 kg |
+| LE Coupe (A) 1992 | Coupe | Factory | KA24DE, 4AT, leather, rear wing with third brake light, 15" alloys | 155 hp / 1210 kg |
+| SE Coupe (M) 1992 | Coupe | Factory | KA24DE, 5MT, viscous LSD, sport suspension, rear wing | 155 hp / 1195 kg |
+| Coupe SR20 Drift | Coupe | Custom | SR20DET, 2-way LSD, angle kit, hydro handbrake, drift bumper, carbon trunk, ducktail, roll bar | ~270 hp / 1160 kg |
+| Coupe K20 Street | Coupe | Custom | K20A turbo at 13 psi, 6MT, coilovers, big brakes | ~420 hp / 1180 kg |
+| Convertible (A) 1992 | Convertible | Factory | Power soft top (raised), KA24DE, 4AT only (as in 1992), leather | 155 hp / 1310 kg |
+| Convertible SE (M) 1994 | Convertible | Factory | Soft top raised, 5MT, viscous LSD | 155 hp / 1290 kg |
+| Convertible Cruiser | Convertible | Custom | Top folded under the tonneau, windows down, intake/header, lowered, 16" wheels | ~170 hp / 1270 kg |
+
+**Coupe and convertible bodies.** Both share every panel ahead of the B-pillar with the hatch, so all front
+bumpers, hoods, fenders, pop-ups and doors fit every body. The coupe has its own roof, quarter windows, rear
+window, trunk lid and wrap-around tail lamps. The convertible removes the roof structure and adds sill
+stiffeners, floor X-braces and a belt-line hoop (about +90 kg, like the real car). Its power soft top is a
+separate part: **Raised** (fabric over bows with a glass rear window and quarter windows, latched to the
+windshield header) or **Folded** (stowed under the hard tonneau).
 
 **Tube chassis.** This is a separate body part (`Tube Chassis (Race Spaceframe)`). It keeps every unibody
 attachment point, so all suspension, engine and panel parts still fit. It adds a welded cage, a lighter frame,
@@ -107,6 +127,10 @@ an aluminium floor and tubs, and the visible tube-frame mesh is generated from t
 - **Liveries (Paint Design):** Factory Two-Tone, Twin Racing Stripes, IMSA GTO Tribute, Tractive Racing track livery, Drift Two-Tone.
   All are fully colourable: paint slots 1–3 recolour the livery colours.
 - **Interior:** cloth (stock) or leather (LE) seats. **Handbrake:** stock, or a hydraulic drift handbrake with a strength slider.
+- **Body styles (Body slot):** hatchback, coupe, convertible, or the race tube chassis.
+  - Coupe / convertible: steel or carbon trunk lid, trunk spoilers (OEM rear wing with third brake light, ducktail lip).
+  - Convertible: power soft top raised or folded; frameless doors with the windows up or lowered.
+  - Headliner slot (hatch and coupe), so stripped builds can lose it.
 - **License plates:** game-generated US plates (rear plate in a bumper recess; a front plate slot on the bumper).
 - **Fuel:** stock 60 L tank, 40 L race cell, 10 L drag cell. **Exhaust:** stock or 3" race straight-through. **Radiator:** stock or race aluminium.
 
@@ -121,15 +145,19 @@ I can't run BeamNG.drive in the build environment. The mod is checked by an offl
    - The **transbrake** and **two-step** on the K20 Drag Spec: hold the transbrake, bring the revs up on the two-step, release.
    - The **line lock** should hold the fronts during a burnout.
    - The **wheelie bar** wheels should touch down on hard launches.
-5b. **Aero.** On the K20 Track Spec, the wing angle slider should visibly rotate the wing and change downforce (in-game aero debug).
-5. **Thermals.** Engines use the template's air-cooled model; check that the temperature gauge moves and nothing overheats at idle.
-6. **Lights.**
+5. **Aero.** On the K20 Track Spec, the wing angle slider should visibly rotate the wing and change downforce (in-game aero debug).
+6. **Thermals.** Engines use the template's air-cooled model; check that the temperature gauge moves and nothing overheats at idle.
+7. **Lights.**
    - Low/high beam should raise the **pop-up headlights** (hydro on `lowhighbeam`).
-   - Check the tail/brake/reverse/signal glow and the gauge backlight at night.
-7. **Gauges.** The tach (left), speedo (right), temperature and fuel needles should follow the engine.
-8. **Crash damage.** Panels should come off at the hinges and latches, glass should crack (`s13_glass_dmg`), and lights should break.
-9. **Materials.** Paint colour selection should work (palette `nullcolormaskR.color.png`), and the shared `s1x_*` materials should load from `vehicles/common/s1x_240sx/`.
-10. **Tuning menu.** Every slider should change something; ride height and camber should look right.
+   - Check the tail/brake/reverse/signal glow and the gauge backlight at night (hatch and coupe tail lamps).
+8. **Gauges.** The tach (left), speedo (right), temperature and fuel needles should follow the engine.
+9. **Crash damage.** Panels should come off at the hinges and latches, glass should crack (`s13_glass_dmg`), and lights should break.
+   - Coupe / convertible: the trunk lid should hinge at the front and break its latch at the bottom.
+   - Convertible: the raised soft top should stay latched to the windshield header at speed and tear off in a rollover.
+     The body should feel a little less stiff than the coupe (no roof), but should not flex visibly on bumps.
+10. **Materials.** Paint colour selection should work (palette `nullcolormaskR.color.png`), and the shared `s1x_*` materials should load from `vehicles/common/s1x_240sx/`.
+    No part should look see-through or inside-out (every closed part is checked for outward normals).
+11. **Tuning menu.** Every slider should change something; ride height and camber should look right.
 
 ## Building from source
 
@@ -138,7 +166,8 @@ pip install -r tools/requirements.txt         # bpy 4.5 (headless Blender), nump
 python tools/fetch_reference.py               # BeamNG docs + official modding template (reference only)
 python -m tools.build_all                     # textures -> jbeam -> meshes -> configs -> validate -> thumbs -> zip
 python -m tools.validate.run -v               # validation report only
-python -m tools.render.preview_car out/ --views q_front_left,interior_cut,engine
+python -m tools.validate.normals              # inside-out (inverted) closed parts in the mesh library
+python -m tools.render.preview_car out/ --views q_front_left,interior_cut,engine --cull   # --cull: back faces hidden, as in game
 pytest tools/tests
 ```
 

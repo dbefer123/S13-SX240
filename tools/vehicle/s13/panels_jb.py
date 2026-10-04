@@ -305,15 +305,19 @@ def fender(side="L", mesh="s13_fender", title="Stock Front Fender", value=220, m
 # doors
 # --------------------------------------------------------------------------
 def door(side="L", mesh="s13_door", glass="s13_doorglass", title="Stock Door", value=520, mass=26.0, name=None):
+    """glass=None: window wound down (no glass mesh, no glass-break trigger)."""
     s = 1 if side == "L" else -1
     sl = side.lower()
     p = Part(name or f"s13_door_{side}", f"{title} ({'Left' if s > 0 else 'Right'})", f"s13_door_{side}", value=value)
     p.slot(f"s13_mirror_{side}", f"s13_mirror_{side}", "Side Mirror")
     grp = f"s13_door_{side}"
     p.flexbody(f"{mesh}_{side}", [grp])
-    p.flex_props(deformGroup=f"doorglass_{side}_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
-    p.flexbody(f"{glass}_{side}", [grp], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4", deformVolume=0.6)
-    p.flex_props(deformGroup="")
+    if glass:
+        p.flex_props(deformGroup=f"doorglass_{side}_break", deformMaterialBase="s13_glass",
+                     deformMaterialDamaged="s13_glass_dmg")
+        p.flexbody(f"{glass}_{side}", [grp], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4",
+                   deformVolume=0.6)
+        p.flex_props(deformGroup="")
     rows = {
         "dr1": (-0.620, 0.280), "dr2": (-0.650, 0.600), "dr3": (-0.640, 0.860),
         "dr4": (-0.040, 0.250), "dr5": (-0.040, 0.600), "dr6": (-0.040, 0.875),
@@ -354,7 +358,7 @@ def door(side="L", mesh="s13_door", glass="s13_doorglass", title="Stock Door", v
             p.beam(n(a), n(b))
     p.beam_comment("latch")
     p.beams_props(beamSpring=1501000, beamDamp=60, beamDeform=9000, beamStrength=13000, breakGroup=f"door_latch_{side}")
-    for a, bs in (("dr8", ("bp2", "bp1", "bp3")), ("dr9", ("bp3", "rf3"))):
+    for a, bs in (("dr8", ("bp2", "bp1", "bp3")), ("dr9", ("bp3", "qp3"))):
         for b in bs:
             p.beam(n(a), n(b))
     p.beams_props(breakGroup="")
@@ -363,10 +367,11 @@ def door(side="L", mesh="s13_door", glass="s13_doorglass", title="Stock Door", v
     for a, b in (("dr4", "si2"), ("dr7", "si4"), ("dr1", "si1"), ("dr5", "si2"), ("dr7", "bp1")):
         p.beam(n(a), n(b))
     _reset_beams(p)
-    p.beams_props(deformGroup=f"doorglass_{side}_break", deformationTriggerRatio=0.02)
-    for a, b in (("dr10", "dr6"), ("dr11", "dr6"), ("dr3", "dr11")):
-        p.beam(n(a), n(b), beamSpring=0, beamDamp=0, beamDeform=1000, beamStrength="FLT_MAX")
-    p.beams_props(deformGroup="")
+    if glass:
+        p.beams_props(deformGroup=f"doorglass_{side}_break", deformationTriggerRatio=0.02)
+        for a, b in (("dr10", "dr6"), ("dr11", "dr6"), ("dr3", "dr11")):
+            p.beam(n(a), n(b), beamSpring=0, beamDamp=0, beamDeform=1000, beamStrength="FLT_MAX")
+        p.beams_props(deformGroup="")
     p.tris_props(dragCoef=8, groundModel="metal", triangleType="NORMALTYPE")
     for a, b in zip(grid, grid[1:]):
         for j in range(2):
@@ -606,3 +611,215 @@ def spoiler_oem():
            {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1, baseTranslationGlobal={"x": 0.0, "y": 2.24, "z": 0.995},
            lightRange=4, lightIntensityLm=180, flareScale=0.02)
     return p
+
+
+# --------------------------------------------------------------------------
+# coupe / convertible: trunk lid, convertible doors, soft top
+# --------------------------------------------------------------------------
+CSPEC = B.coupe_spec()
+
+
+def tzc(y, x, inset=INSET):
+    return top_z(CSPEC, y, x) - inset
+
+
+def convertible_doors():
+    out = []
+    for s in ("L", "R"):
+        out.append(door(s, mesh="s13_door_conv", glass="s13_doorglass", title="Convertible Door (Frameless)",
+                        name=f"s13_door_conv_{s}", value=560, mass=25.0))
+        out.append(door(s, mesh="s13_door_conv", glass=None, title="Convertible Door (Window Lowered)",
+                        name=f"s13_door_conv_down_{s}", value=560, mass=25.0))
+    return out
+
+
+def trunk(name="s13_trunk", mesh="s13_trunk", title="Stock Trunk Lid", value=420, mass=16.0):
+    """Coupe/convertible trunk lid: deck + rear face between the tail lamps; hinged at the front, latched at the bottom."""
+    p = Part(name, title, "s13_trunk", value=value)
+    p.slot("s13_trunkspoiler", "", "Trunk Spoiler")
+    grp = "s13_trunk"
+    p.flexbody(mesh, [grp])
+    rows = {
+        "tk1": [(0.0, 1.705), (0.36, 1.705), (0.63, 1.715)],
+        "tk2": [(0.0, 2.060), (0.36, 2.060), (0.64, 2.050)],
+    }
+    p.nodes_props(group=grp, **PANEL_NODE)
+    w = mass / 16
+    names = {}
+    for key, pts in rows.items():
+        r = []
+        for j, (x, y) in enumerate(pts):
+            nm = key + ("" if j == 0 else ("l" if j == 1 else "ll"))
+            z = tzc(y, x)
+            p.node(nm, x, y, z, nodeWeight=w)
+            if x:
+                p.node(mir(nm), -x, y, z, nodeWeight=w)
+        names[key] = [mir(key + "ll"), mir(key + "l"), key, key + "l", key + "ll"]
+    # rear face top (just below the rounded rear edge) and the centre stem between the lamps
+    for nm, x, y, z in (("tk3", 0.0, 2.250, 0.860), ("tk3l", 0.36, 2.245, 0.860), ("tk3ll", 0.60, 2.205, 0.850),
+                        ("tk4", 0.0, 2.255, 0.680), ("tk4l", 0.24, 2.252, 0.680)):
+        p.node(nm, x, y, z, nodeWeight=w)
+        if x:
+            p.node(mir(nm), -x, y, z, nodeWeight=w)
+    names["tk3"] = ["tk3rr", "tk3r", "tk3", "tk3l", "tk3ll"]
+    names["tk4"] = ["tk4r", "tk4", "tk4l"]
+    p.nodes_props(group="", **RIGID)
+    p.node("tk0", 0.0, 1.950, 0.800, nodeWeight=w)
+    p.nodes_props(group="")
+    _std_beams(p, 901000, 40, 9000)
+    pairs = []
+    for key in ("tk1", "tk2", "tk3", "tk4"):
+        r = names[key]
+        pairs += list(zip(r, r[1:]))
+    for ka, kb in (("tk1", "tk2"), ("tk2", "tk3")):
+        ra, rb = names[ka], names[kb]
+        for j in range(5):
+            pairs.append((ra[j], rb[j]))
+            if j < 4:
+                pairs += [(ra[j], rb[j + 1]), (ra[j + 1], rb[j])]
+    r3, r4 = names["tk3"], names["tk4"]
+    pairs += [("tk4r", "tk3r"), ("tk4", "tk3"), ("tk4l", "tk3l"), ("tk4r", "tk3"), ("tk4", "tk3r"), ("tk4", "tk3l"),
+              ("tk4l", "tk3"), ("tk4r", "tk3rr"), ("tk4l", "tk3ll")]
+    for a, b in pairs:
+        p.beam(a, b)
+    p.beam_comment("rigidifier")
+    p.beams_props(beamSpring=401000, beamDamp=30, beamDeform=5000, beamStrength="FLT_MAX")
+    for key in ("tk1", "tk2", "tk3", "tk4"):
+        for nm in names[key]:
+            p.beam(nm, "tk0")
+    p.beam_comment("hinges (front edge, at the package tray)")
+    p.beams_props(beamSpring=1501000, beamDamp=60, beamDeform=15000, beamStrength=30000, breakGroup="trunk_hinge")
+    for a, bs in (("tk1l", ("cp3l", "rw1", "qp8l")), ("tk1r", ("cp3r", "rw1", "qp8r")), ("tk1", ("rw1", "cp3l", "cp3r"))):
+        for b in bs:
+            p.beam(a, b)
+    p.beam_comment("latch (bottom of the centre panel)")
+    p.beams_props(beamSpring=1001000, beamDamp=50, beamDeform=8000, beamStrength=11000, breakGroup="trunk_latch")
+    for a, b in (("tk4", "tl3"), ("tk4", "tl2"), ("tk4l", "tl3"), ("tk4r", "tl3"), ("tk4l", "tl2l"), ("tk4r", "tl2r")):
+        p.beam(a, b)
+    p.beams_props(breakGroup="")
+    p.beams_props(beamType="|SUPPORT", beamLongBound=3, beamSpring=501000, beamDamp=40, beamDeform=9000, beamStrength=40000)
+    for a, b in (("tk2ll", "tp3l"), ("tk2rr", "tp3r"), ("tk3ll", "tl3l"), ("tk3rr", "tl3r"), ("tk1ll", "qp8l"),
+                 ("tk1rr", "qp8r"), ("tk3", "tl3"), ("tk2", "tl3")):
+        p.beam(a, b)
+    _reset_beams(p)
+    p.tris_props(dragCoef=10, groundModel="metal", triangleType="NORMALTYPE")
+    for ka, kb in (("tk1", "tk2"), ("tk2", "tk3")):
+        ra, rb = names[ka], names[kb]
+        for j in range(4):
+            p.quad(ra[j], ra[j + 1], rb[j + 1], rb[j])
+    return p
+
+
+def trunk_spoilers():
+    out = []
+    p = Part("s13_trunkspoiler_oem", "OEM Rear Wing with Brake Light (SE/LE)", "s13_trunkspoiler", value=360)
+    p.flexbody("s13_trunkspoiler_oem", ["s13_trunk"])
+    p.props_props(lightInnerAngle=40, lightOuterAngle=100, lightColor={"r": 255, "g": 20, "b": 10, "a": 255},
+                  flareName="vehicleBrakeLightFlare", lightCastShadows=False)
+    p.prop("brakelights", "POINTLIGHT", "tk2", "tk2l", "tk3", {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0},
+           {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1, baseTranslationGlobal={"x": 0.0, "y": 2.13, "z": 1.003},
+           lightRange=4, lightIntensityLm=180, flareScale=0.02)
+    # a little lift reduction from the wing
+    p.tris_props(dragCoef=6, liftCoef=40, stallAngle=0.5, groundModel="metal")
+    p.tri("tk2l", "tk2", "tk2r")
+    p.tris_props(liftCoef=0, stallAngle=0.58, dragCoef=10)
+    out.append(p)
+    p = Part("s13_trunkspoiler_lip", "Ducktail Trunk Lip", "s13_trunkspoiler", value=180)
+    p.flexbody("s13_trunkspoiler_lip", ["s13_trunk"])
+    out.append(p)
+    return out
+
+
+SOFTTOP_ROWS = [  # (row, y, half widths)
+    ("sft0", -0.050, (0.0, 0.25, 0.49)),
+    ("sft1", 0.350, (0.0, 0.27, 0.52)),
+    ("sft2", 0.850, (0.0, 0.27, 0.51)),
+    ("sft3", 1.250, (0.0, 0.26, 0.49)),
+]
+
+
+def softtops():
+    """Convertible soft top: raised (fabric over aluminium bows, glass rear window) or folded under the tonneau."""
+    out = []
+    p = Part("s13_softtop_up", "Power Soft Top (Raised)", "s13_softtop", value=1400)
+    p.flexbody("s13_softtop", ["s13_softtop", "s13_body"])
+    p.flex_props(deformGroup="softtop_glass_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
+    p.flexbody("s13_softtop_glass", ["s13_softtop", "s13_body"], deformSound="event:>Destruction>Vehicle>Glass>glassbreaksound4",
+               deformVolume=0.5)
+    for s in ("L", "R"):
+        p.flex_props(deformGroup=f"quarterglass_conv_{s}_break")
+        p.flexbody(f"s13_quarterglass_conv_{s}", ["s13_softtop", "s13_body"])
+    p.flex_props(deformGroup="")
+    p.nodes_props(group="s13_softtop", selfCollision=True, collision=True, nodeMaterial="|NM_PLASTIC", frictionCoef=0.6)
+    grid = []
+    for key, y, xs in SOFTTOP_ROWS:
+        row = []
+        for j, x in enumerate(xs):
+            nm = key + ("" if j == 0 else "l" * j)
+            p.node(nm, x, y, tzc(y, x, 0.014), nodeWeight=1.9)
+            if x:
+                p.node(mir(nm), -x, y, tzc(y, x, 0.014), nodeWeight=1.9)
+        grid.append([mir(key + "ll"), mir(key + "l"), key, key + "l", key + "ll"])
+    for s, sx_ in (("l", 1), ("r", -1)):                         # sail panels behind the quarter windows
+        p.node("sft4" + s, sx_ * 0.690, 1.180, 0.950, nodeWeight=1.5)
+    p.nodes_props(group="")
+    _std_beams(p, 301000, 30, 6000)
+    pairs = []
+    for r in grid:
+        pairs += list(zip(r, r[1:]))
+    for ra, rb in zip(grid, grid[1:]):
+        for j in range(5):
+            pairs.append((ra[j], rb[j]))
+            if j < 4:
+                pairs += [(ra[j], rb[j + 1]), (ra[j + 1], rb[j])]
+    for s in ("l", "r"):
+        pairs += [("sft4" + s, "sft3" + s * 2), ("sft4" + s, "sft2" + s * 2), ("sft4" + s, "sft3" + s)]
+    for a, b in pairs:
+        p.beam(a, b)
+    p.beam_comment("header latches")
+    p.beams_props(beamSpring=601000, beamDamp=40, beamDeform=8000, beamStrength=12000, breakGroup="softtop_latch")
+    for a, bs in (("sft0", ("rf1", "rf1l", "rf1r")), ("sft0l", ("rf1l", "rf1", "ap1l")), ("sft0r", ("rf1r", "rf1", "ap1r")),
+                  ("sft0ll", ("rf1l", "ap1l", "hp3l")), ("sft0rr", ("rf1r", "ap1r", "hp3r"))):
+        for b in bs:
+            p.beam(a, b)
+    p.beam_comment("side rails, main pivots and rear bow to the body")
+    p.beams_props(beamSpring=801000, beamDamp=50, beamDeform=12000, beamStrength=26000, breakGroup="softtop_frame")
+    for s in ("l", "r"):
+        links = (("sft1" + s * 2, ("bp3" + s, "hp3" + s, "ap1" + s)), ("sft2" + s * 2, ("bp3" + s, "qp3" + s, "bp2" + s)),
+                 ("sft3" + s * 2, ("qp5" + s, "qp3" + s, "cp3" + s)), ("sft4" + s, ("qp5" + s, "qp8" + s, "cp3" + s, "qp3" + s)),
+                 ("sft3" + s, ("cp3" + s, "rw1")))
+        for a, bs in links:
+            for b in bs:
+                p.beam(a, b)
+    p.beam("sft3", "rw1")
+    p.beam("sft3", "cp3l")
+    p.beam("sft3", "cp3r")
+    p.beams_props(breakGroup="")
+    _reset_beams(p)
+    p.beams_props(deformGroup="softtop_glass_break", deformationTriggerRatio=0.02)
+    for a, b in (("sft3l", "rw1"), ("sft3r", "rw1"), ("sft3", "cp3l")):
+        p.beam(a, b, beamSpring=0, beamDamp=0, beamDeform=800, beamStrength="FLT_MAX")
+    for s, S_ in (("l", "L"), ("r", "R")):
+        p.beams_props(deformGroup=f"quarterglass_conv_{S_}_break")
+        p.beam("sft2" + s * 2, "qp3" + s, beamSpring=0, beamDamp=0, beamDeform=800, beamStrength="FLT_MAX")
+    p.beams_props(deformGroup="")
+    p.tris_props(dragCoef=10, groundModel="plastic", triangleType="NORMALTYPE")
+    for ra, rb in zip(grid, grid[1:]):
+        for j in range(4):
+            p.quad(ra[j], ra[j + 1], rb[j + 1], rb[j])
+    p.set("sounds", {"cabinFilterCoef": 0.25})
+    out.append(p)
+
+    p = Part("s13_softtop_down", "Power Soft Top (Folded Under the Tonneau)", "s13_softtop", value=1400)
+    p.nodes_props(group="", selfCollision=False, collision=False, nodeMaterial="|NM_PLASTIC", frictionCoef=0.6)
+    for s, sx_ in (("l", 1), ("r", -1)):
+        p.node("sfd1" + s, sx_ * 0.42, 1.38, 0.72, nodeWeight=12.0)
+    p.nodes_props(collision=True)
+    _std_beams(p, 801000, 60, 12000)
+    for s in ("l", "r"):
+        for b in ("cp3" + s, "qp5" + s, "rt1" + s, "rw1", "fl6", "qp8" + s):
+            p.beam("sfd1" + s, b)
+    p.beam("sfd1l", "sfd1r")
+    p.set("sounds", {"cabinFilterCoef": 0.05})
+    out.append(p)
+    return out

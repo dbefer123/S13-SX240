@@ -74,3 +74,46 @@ def hatch_spec() -> BodySpec:
         w_max=W_MAX, z_top=Z_TOP, z_bot=Z_BOT, z_sill=Z_SILL, w_sill_k=W_SILL_K, z_sh=Z_SH,
         z_belt=Z_BELT, w_belt=W_BELT, z_rail=Z_RAIL, w_rail=W_RAIL, lean=LEAN, r_top=R_TOP).items()}
     return BodySpec("s13_hatch", Y_FRONT, Y_REAR, g, GH_START, GH_END, cap_front=0.004)
+
+
+# ---------------------------------------------------------------------------
+# notchback coupe (also the convertible's lower body): identical to the hatch up to the
+# B-pillar, then a longer roof, a steep rear window (~26 deg) and a flat trunk deck.
+# Traced from the Silvia coupe blueprint (rear part offset +35 mm to match the hatch's
+# published height at the shared doors/windshield).
+# ---------------------------------------------------------------------------
+GH_END_COUPE = 1.62
+
+
+def _upto(pts, y, extra=()):
+    """Hatch control points up to y, plus hatch-curve samples at `extra` (keeps the shared doors' region identical)."""
+    g = Guide(pts)
+    keep = [p for p in pts if p[0] <= y + 1e-9]
+    return keep + [(e, round(float(g(e)), 5)) for e in extra if e > keep[-1][0]]
+
+
+Z_TOP_COUPE = _upto(Z_TOP, 0.62, (0.68,)) + [
+    (0.82, 1.252), (0.90, 1.240), (0.96, 1.226), (1.02, 1.205), (1.10, 1.174), (1.20, 1.128), (1.30, 1.080),
+    (1.40, 1.031), (1.50, 0.982), (1.57, 0.950), (1.62, 0.934), (1.68, 0.927), (1.80, 0.926), (1.95, 0.930),
+    (2.06, 0.936), (2.14, 0.934), (2.20, 0.922), (2.255, 0.910)]
+Z_BELT_COUPE = _upto(Z_BELT, 0.40, (0.62, 0.68)) + [
+    (0.90, 0.907), (1.40, 0.912), (1.62, 0.915), (1.78, 0.917), (1.95, 0.920), (2.12, 0.918), (2.20, 0.910),
+    (2.255, 0.900)]
+W_BELT_COUPE = _upto(W_BELT, 0.90) + [(1.40, 0.745), (1.60, 0.735), (1.68, 2.0), (2.30, 2.0)]
+Z_RAIL_COUPE = _upto(Z_RAIL, 0.40, (0.62, 0.68)) + [
+    (0.90, 1.196), (1.00, 1.166), (1.10, 1.132), (1.20, 1.090), (1.30, 1.044), (1.40, 0.998), (1.50, 0.955),
+    (1.58, 0.925), (1.62, 0.916)]
+W_RAIL_COUPE = _upto(W_RAIL, 0.40, (0.62, 0.68)) + [(0.95, 0.518), (1.20, 0.508), (1.45, 0.505), (1.58, 0.510),
+                                                   (1.62, 0.520)]
+
+
+def coupe_spec() -> BodySpec:
+    g = {k: Guide(v) for k, v in dict(
+        w_max=W_MAX, z_top=Z_TOP_COUPE, z_bot=Z_BOT, z_sill=Z_SILL, w_sill_k=W_SILL_K, z_sh=Z_SH,
+        z_belt=Z_BELT_COUPE, w_belt=W_BELT_COUPE, z_rail=Z_RAIL_COUPE, w_rail=W_RAIL_COUPE, lean=LEAN,
+        r_top=R_TOP).items()}
+    return BodySpec("s13_coupe", Y_FRONT, Y_REAR, g, GH_START, GH_END_COUPE, cap_front=0.004)
+
+
+def spec_for(body="hatch") -> BodySpec:
+    return hatch_spec() if body == "hatch" else coupe_spec()

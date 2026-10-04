@@ -624,7 +624,7 @@
         ["dr8l", "bp1l"],
         ["dr8l", "bp3l"],
         ["dr9l", "bp3l"],
-        ["dr9l", "rf3l"],
+        ["dr9l", "qp3l"],
         {"breakGroup":""},
         //door stops: keep the door out of the cabin
         {"beamType":"|SUPPORT", "beamLongBound":3, "beamSpring":501000, "beamDamp":40, "beamDeform":12000, "beamStrength":60000},
@@ -747,7 +747,7 @@
         ["dr8r", "bp1r"],
         ["dr8r", "bp3r"],
         ["dr9r", "bp3r"],
-        ["dr9r", "rf3r"],
+        ["dr9r", "qp3r"],
         {"breakGroup":""},
         //door stops: keep the door out of the cabin
         {"beamType":"|SUPPORT", "beamLongBound":3, "beamSpring":501000, "beamDamp":40, "beamDeform":12000, "beamStrength":60000},

@@ -1,0 +1,31 @@
+{
+  "Configuration": "Convertible SE (M)",
+  "Config Type": "Factory",
+  "Body Style": "Convertible",
+  "Description": "Later convertible with the five-speed manual, viscous LSD and 15\" SE alloys.",
+  "Years": {
+    "min": 1993,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 21800,
+  "Population": 2,
+  "defaultPaintName1": "Dark Green Pearl",
+  "defaultPaintName2": "Dark Green Pearl",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1293,
+  "Power": 155,
+  "Torque": 217,
+  "PowerPeakRPM": "5600",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 8.34,
+  "Induction Type": "NA",
+  "Top Speed": 58.78,
+  "0-60 mph": 8.2,
+  "0-100 km/h": 9.1,
+  "0-100 mph": 22.7,
+  "0-200 km/h": 51.9,
+  "Transmission": "Manual"
+}

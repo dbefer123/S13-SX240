@@ -1,0 +1,30 @@
+{
+  "Configuration": "Base Coupe (M)",
+  "Config Type": "Factory",
+  "Body Style": "Coupe",
+  "Description": "The notchback coupe in its simplest form: 140 hp KA24E, five-speed, open differential and 14\" steel wheels.",
+  "Years": {
+    "min": 1989,
+    "max": 1990
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 12900,
+  "Population": 3,
+  "defaultPaintName1": "Crystal White",
+  "defaultPaintName2": "Crystal White",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1193,
+  "Power": 140,
+  "Torque": 206,
+  "PowerPeakRPM": "5300",
+  "TorquePeakRPM": "4000",
+  "Weight/Power": 8.52,
+  "Induction Type": "NA",
+  "Top Speed": 56.91,
+  "0-60 mph": 9.0,
+  "0-100 km/h": 9.5,
+  "0-100 mph": 23.9,
+  "Transmission": "Manual"
+}

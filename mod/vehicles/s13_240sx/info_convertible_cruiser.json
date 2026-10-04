@@ -1,0 +1,31 @@
+{
+  "Configuration": "Convertible Cruiser",
+  "Config Type": "Custom",
+  "Body Style": "Convertible",
+  "Description": "Top down, windows down: intake and exhaust, lowering springs, 16\" six-spokes and a deep-dish wheel.",
+  "Years": {
+    "min": 1992,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 19800,
+  "Population": 0,
+  "defaultPaintName1": "Grand Prix Blue",
+  "defaultPaintName2": "Grand Prix Blue",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1272,
+  "Power": 168,
+  "Torque": 228,
+  "PowerPeakRPM": "5900",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 7.57,
+  "Induction Type": "NA",
+  "Top Speed": 60.51,
+  "0-60 mph": 8.2,
+  "0-100 km/h": 8.6,
+  "0-100 mph": 20.6,
+  "0-200 km/h": 42.4,
+  "Transmission": "Manual"
+}

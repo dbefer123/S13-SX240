@@ -66,7 +66,8 @@ def wheelwells():
             mb.add_faces(verts, faces, M_UNDER, smooth=True)
             # inner wall disc
             prof = [(0.0, 0.0), (r, 0.0)]
-            mb.lathe(prof, M_UNDER, segs=24, axis="x", center=(s * x_in, cy, cz), angle=(0, math.pi))
+            mb.lathe(prof, M_UNDER, segs=24, axis="x", center=(s * x_in, cy, cz),
+                     angle=(math.pi, 0) if s > 0 else (0, math.pi))          # faces the wheel
     return mb
 
 
@@ -83,7 +84,7 @@ def enginebay():
                 if -1.62 < y < -0.92 and z < ztop - 0.01:
                     x = 0.60                                  # strut tower bulge
                 verts.append((s * x, float(y), z))
-        mb.add_faces(verts, grid_faces(len(ys), 3, flip=s < 0), "s13_enginebay_paint", smooth=False)
+        mb.add_faces(verts, grid_faces(len(ys), 3, flip=s > 0), "s13_enginebay_paint", smooth=False)   # faces the bay
         # strut tower top
         mb.cylinder((s * D.FS1[0], D.FS1[1], D.FS1[2] - 0.025), (s * D.FS1[0], D.FS1[1], D.FS1[2] - 0.005), 0.09,
                     "s13_enginebay_paint", segs=20)
@@ -94,7 +95,7 @@ def enginebay():
         for x in xs:
             zz = z if z is not None else min(0.84, top_z(SPEC, -0.90, abs(float(x))) - 0.03)
             verts.append((float(x), -0.885 + (0.02 if z is None else 0.0), zz))
-    mb.add_faces(verts, grid_faces(4, len(xs)), "s13_enginebay_paint", smooth=False)
+    mb.add_faces(verts, grid_faces(4, len(xs), flip=True), "s13_enginebay_paint", smooth=False)   # faces forward
     # radiator core support (upper bar)
     mb.rbox((0.0, -2.06, min(0.555, top_z(SPEC, -2.06, 0.0) - 0.05)), (0.95, 0.05, 0.04), 0.008, "s13_enginebay_paint")
     return mb
@@ -390,7 +391,7 @@ def doorcards():
             for z in zs:
                 x = side_x(SPEC, float(y), float(z)) - 0.075
                 verts.append((s * x, float(y), float(z)))
-        mb.add_faces(verts, grid_faces(len(ys), len(zs), flip=s < 0), "s13_doorcard", smooth=True)
+        mb.add_faces(verts, grid_faces(len(ys), len(zs), flip=s > 0), "s13_doorcard", smooth=True)   # faces the cabin
         mb.rbox((s * (side_x(SPEC, 0.0, 0.6) - 0.11), 0.05, 0.60), (0.07, 0.40, 0.05), 0.02, M_INT)  # armrest
         mb.rbox((s * (side_x(SPEC, -0.3, 0.75) - 0.09), -0.30, 0.75), (0.02, 0.05, 0.03), 0.008, "s1x_chrome")  # handle
         out.append(mb)

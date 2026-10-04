@@ -98,7 +98,9 @@ def tube_floor():
             if y > 1.0:
                 z = 0.30
             verts.append((xx, float(y), z))
-    mb.add_faces(verts, grid_faces(len(ys), len(xs), flip=True), M_ALU, smooth=False)
+    f = grid_faces(len(ys), len(xs), flip=True)
+    mb.add_faces(verts, f, M_ALU, smooth=False)                              # seen from the cabin ...
+    mb.add_faces(verts, [q[::-1] for q in f], M_ALU, smooth=False)           # ... and from below (own vertices)
     # rear tubs
     cy, cz = D.AXLE_R_Y, D.AXLE_Z
     for s in (1, -1):
@@ -112,7 +114,8 @@ def tube_floor():
             verts += [(s * 0.46, y, z), (s * 0.80, y, z)]
         faces = [(2 * i, 2 * i + 1, 2 * i + 3, 2 * i + 2) if s < 0 else (2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1) for i in range(n)]
         mb.add_faces(verts, faces, M_ALU, smooth=True)
-        mb.lathe([(0.0, 0.0), (r, 0.0)], M_ALU, segs=20, axis="x", center=(s * 0.46, cy, cz), angle=(0.15, math.pi - 0.15))
+        mb.lathe([(0.0, 0.0), (r, 0.0)], M_ALU, segs=20, axis="x", center=(s * 0.46, cy, cz),
+                 angle=(math.pi - 0.15, 0.15) if s > 0 else (0.15, math.pi - 0.15))      # faces the wheel
     return mb
 
 
@@ -190,7 +193,7 @@ def wing_gt():
         return (x, yl + u * ca - v * sa, zl + u * sa + v * ca)
     n = len(loop)
     verts = [to3(u, v, -span) for u, v in loop] + [to3(u, v, span) for u, v in loop]
-    faces = [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
+    faces = [(n + i, n + (i + 1) % n, (i + 1) % n, i) for i in range(n)]       # outward (loop runs LE->upper->TE)
     mb.add_faces(verts, faces, M_CARBON, smooth=True)
     # gurney flap
     mb.box(to3(chord - 0.004, 0.012, 0.0), (2 * span, 0.004, 0.026), M_CARBON, rot=Matrix.Rotation(ang, 3, "X"))
@@ -228,7 +231,7 @@ def wing_gt_mounts():
             o = side * 2 * m
             for i in range(m - 1):
                 f = (o + i, o + i + 1, o + m + i + 1, o + m + i)
-                faces.append(f if (side == 0) ^ (s < 0) else f[::-1])
+                faces.append(f if side == 0 else f[::-1])              # -x sheet faces -x, +x sheet faces +x
         mb.add_faces(verts, faces, "s1x_aluminium", smooth=False)
         mb.cylinder((s * xm, 2.185, 0.895), (s * xm, 2.185, 0.912), 0.035, "s1x_aluminium", segs=16)
     return mb
@@ -249,7 +252,9 @@ def diffuser():
     for y, z in ((1.90, 0.205), (2.30, 0.330)):
         for x in xs:
             verts.append((float(x), y, z))
-    mb.add_faces(verts, grid_faces(2, len(xs), flip=True), M_CARBON, smooth=False)
+    f = grid_faces(2, len(xs), flip=True)
+    mb.add_faces(verts, f, M_CARBON, smooth=False)                           # both sides visible
+    mb.add_faces(verts, [q[::-1] for q in f], M_CARBON, smooth=False)
     for x in (-0.62, -0.30, 0.0, 0.30, 0.62):
         mb.polygon([(x, 1.90, 0.205), (x, 2.30, 0.330), (x, 2.30, 0.235), (x, 2.0, 0.19)], M_CARBON, outward=(1, 0, 0))
         mb.polygon([(x + 0.004, 1.90, 0.205), (x + 0.004, 2.30, 0.330), (x + 0.004, 2.30, 0.235), (x + 0.004, 2.0, 0.19)],
@@ -410,7 +415,7 @@ def dash_race():
     for x in xs:
         for y, z in ((-0.80, 0.86), (-0.64, 0.905), (-0.50, 0.90), (-0.47, 0.86), (-0.47, 0.70)):
             verts.append((float(x), y, z))
-    mb.add_faces(verts, grid_faces(len(xs), 5, flip=True), M_CARBON, smooth=False)
+    mb.add_faces(verts, grid_faces(len(xs), 5, flip=False), M_CARBON, smooth=False)   # faces up / toward the driver
     # column shroud + pod stalk
     sc = Vector(D.STEER_CENTER)
     a = math.radians(23)

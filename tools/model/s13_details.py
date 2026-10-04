@@ -195,6 +195,17 @@ def _emit_band(mb, rows, s, mat, thick=0.004):
     mb.add_faces(verts, faces, mat, smooth=True)
 
 
+def door_handle(door, s, name):
+    """Black pull handle in the door's rear upper corner."""
+    ds = Surface(door)
+    y, z = 0.43, 0.785
+    x = ds.x_side(y, z, s) or s * side_x(SPEC, y, z)
+    mb = MeshBuilder(name)
+    mb.rbox((x + s * 0.006, y, z), (0.012, 0.12, 0.030), 0.006, "s13_trim_black")
+    mb.rbox((x + s * 0.002, y + 0.04, z), (0.006, 0.05, 0.022), 0.004, "s1x_dark")
+    return mb.to_object()
+
+
 def _badge_text(name, text, size, loc, rot, mat, extrude=0.0015):
     ob = text_mesh(name, text, size, mat, location=loc, rotation=rot, extrude=extrude)
     return ob
@@ -239,7 +250,10 @@ def _front_inserts(name, bf, openings, lamps=True, lip=None, intercooler=False):
         faces = [(i, i + 1, n + i + 1, n + i) for i in range(n - 1)]
         faces += [(n + i, n + i + 1, 2 * n + i + 1, 2 * n + i) for i in range(n - 1)]
         faces += [(2 * n + i, 2 * n + i + 1, i + 1, i) for i in range(n - 1)]
+        faces = [f[::-1] for f in faces]                       # outward
         mb.add_faces(verts, faces, mat, smooth=False)
+        for idx in (0, n - 1):                                  # end caps
+            mb.polygon([verts[idx], verts[n + idx], verts[2 * n + idx]], mat, outward=(1 if verts[idx][0] > 0 else -1, 0, 0))
     if intercooler:
         mb.rbox((0.0, -2.10, 0.33), (0.86, 0.06, 0.15), 0.01, "s1x_intercooler")
     return mb.to_object()
@@ -271,7 +285,7 @@ def post_solidify(out):
                 row_a.append((float(x), y - 0.01, 0.268))
                 row_b.append((float(x), y + 0.035, 0.225))
             n = len(row_a)
-            mb.add_faces(row_a + row_b, [(i + 1, i, n + i, n + i + 1) for i in range(n - 1)], "s13_trim_black", smooth=False)
+            mb.add_faces(row_a + row_b, [(i, i + 1, n + i + 1, n + i) for i in range(n - 1)], "s13_trim_black", smooth=False)
         add(name, mb.to_object())
         _assign_by(out[name], "s13_trim_black", lambda c, n: c.z < 0.262)
 
@@ -311,10 +325,13 @@ def post_solidify(out):
     for s, side in ((1, "L"), (-1, "R")):
         targets = [("s13_bumper_F", np.linspace(-2.08, -1.61, 14)), (f"s13_fender_{side}", np.linspace(-1.60, -0.67, 24)),
                    (f"s13_door_{side}", np.linspace(-0.635, 0.565, 26)), ("s13_body_hatch", np.linspace(0.61, 1.72, 26)),
-                   ("s13_bumper_R", np.linspace(1.63, 2.06, 12))]
+                   ("s13_bumper_R", np.linspace(1.63, 2.06, 12)),
+                   (f"s13_door_conv_{side}", np.linspace(-0.635, 0.565, 26))]
         targets += [(f"s13_bumper_F_{k}", np.linspace(-2.08, -1.61, 14)) for k in FRONT_VARIANTS]
         targets += [(f"s13_bumper_R_{k}", np.linspace(1.63, 2.06, 12)) for k in REAR_VARIANTS]
         for target, ys in targets:
+            if target not in out:
+                continue
             mb = MeshBuilder(f"__strip_{target}_{side}")
             _band(mb, ys, *STRIP_Z, s, "s13_trim_black", surf=Surface(out[target]))
             if mb.bm.faces:
@@ -322,14 +339,10 @@ def post_solidify(out):
             else:
                 mb.bm.free()
         # door handle (black pull, rear upper corner)
-        door = out[f"s13_door_{side}"]
-        ds = Surface(door)
-        y, z = 0.43, 0.785
-        x = ds.x_side(y, z, s) or s * side_x(SPEC, y, z)
-        mb = MeshBuilder(f"__handle_{side}")
-        mb.rbox((x + s * 0.006, y, z), (0.012, 0.12, 0.030), 0.006, "s13_trim_black")
-        mb.rbox((x + s * 0.002, y + 0.04, z), (0.006, 0.05, 0.022), 0.004, "s1x_dark")
-        add(f"s13_door_{side}", mb.to_object())
+        for dname in (f"s13_door_{side}", f"s13_door_conv_{side}"):
+            if dname not in out:
+                continue
+            add(dname, door_handle(out[dname], s, f"__handle_{dname}"))
 
     # ---- rear: markers, reflectors, plate recess, badges -----------------------
     br = out["s13_bumper_R"]
@@ -462,7 +475,7 @@ def side_skirts():
         for i in range(len(rows) - 1):
             for k in range(n - 1):
                 f = (i * n + k, i * n + k + 1, (i + 1) * n + k + 1, (i + 1) * n + k)
-                faces.append(f if s < 0 else f[::-1])
+                faces.append(f[::-1] if s < 0 else f)          # outward
         mb.add_faces(verts, faces, "s13_paint", smooth=True)
         for i in (0, len(rows) - 1):
             mb.polygon(rows[i], "s13_paint", outward=(0, -1 if i == 0 else 1, 0))
@@ -477,7 +490,7 @@ def hatch_spoiler():
     loop = [(0.0, 0.0), (0.03, 0.012), (0.08, 0.016), (chord, 0.010), (chord, 0.0), (0.06, -0.006)]
     n = len(loop)
     verts = [(-span, y_le + u, z0 + v) for u, v in loop] + [(span, y_le + u, z0 + v) for u, v in loop]
-    mb.add_faces(verts, [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)], "s13_paint", smooth=True)
+    mb.add_faces(verts, [(n + i, n + (i + 1) % n, (i + 1) % n, i) for i in range(n)], "s13_paint", smooth=True)
     for x in (-span, span):
         mb.polygon([(x, y_le + u, z0 + v) for u, v in loop], "s13_paint", outward=(1 if x > 0 else -1, 0, 0))
     for s in (1, -1):
@@ -488,9 +501,34 @@ def hatch_spoiler():
 
 def interior_faces(out):
     """Give the cabin-facing faces of the solidified shell an interior trim material instead of body paint."""
-    from . import materials as MR
     rules = {"s13_body_hatch": "s13_interior_trim", "s13_hatch": "s13_interior_trim", "s13_door_L": "s13_interior_trim",
-             "s13_door_R": "s13_interior_trim"}
+             "s13_door_R": "s13_interior_trim", "s13_door_conv_L": "s13_interior_trim",
+             "s13_door_conv_R": "s13_interior_trim"}
+    interior_faces_for(out, rules)
+    undercoat_faces(out["s13_body_hatch"])
+
+
+def undercoat_faces(ob, z_max=0.30, paint_name="s13_paint"):
+    """Downward-facing floor-pan faces of a body shell get the black undercoat instead of body paint."""
+    from . import materials as MR
+    me = ob.data
+    names = [m.name for m in me.materials if m]
+    if paint_name not in names:
+        return 0
+    if "s13_undercoat" not in names:
+        me.materials.append(MR.blender_material("s13_undercoat"))
+        names.append("s13_undercoat")
+    paint, idx = names.index(paint_name), names.index("s13_undercoat")
+    n = 0
+    for poly in me.polygons:
+        if poly.material_index == paint and poly.center.z < z_max and poly.normal.z < -0.5:
+            poly.material_index = idx
+            n += 1
+    return n
+
+
+def interior_faces_for(out, rules, paint_name="s13_paint", ylim=(-0.86, 2.15)):
+    from . import materials as MR
     for name, matname in rules.items():
         ob = out.get(name)
         if ob is None:
@@ -502,12 +540,12 @@ def interior_faces(out):
             me.materials.append(mat)
             names.append(matname)
         idx = names.index(matname)
-        paint = names.index("s13_paint") if "s13_paint" in names else -1
+        paint = names.index(paint_name) if paint_name in names else -1
         for poly in me.polygons:
             if poly.material_index != paint:
                 continue
             c, n = poly.center, poly.normal
-            if not (-0.86 < c.y < 2.15 and c.z > 0.22):
+            if not (ylim[0] < c.y < ylim[1] and c.z > 0.22):
                 continue
             radial = Vector((c.x, 0.0, c.z - 0.62))
             if radial.length < 1e-6:
@@ -526,7 +564,8 @@ def sun_visors_and_belts():
         mb.rbox((x, y, z), (0.36, 0.17, 0.018), 0.01, "s13_interior_plastic_light",
                 rot=Matrix.Rotation(math.radians(-12), 3, "X"))
         # seat belt: from the B-pillar upper anchor down to the floor beside the seat
-        top = (s * 0.70, 0.62, 0.98)
-        mb.tube([top, (s * 0.66, 0.50, 0.78), (s * 0.60, 0.40, 0.40), (s * 0.58, 0.35, 0.20)], 0.006, "s1x_strap_black", segs=4)
+        # upper anchor at shoulder height on the B-pillar / quarter trim (works for the convertible too)
+        top = (s * 0.70, 0.64, 0.905)
+        mb.tube([top, (s * 0.665, 0.52, 0.74), (s * 0.60, 0.40, 0.40), (s * 0.58, 0.35, 0.20)], 0.006, "s1x_strap_black", segs=4)
         mb.rbox(top, (0.03, 0.04, 0.06), 0.008, "s13_interior_plastic")
     return mb

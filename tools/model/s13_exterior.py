@@ -96,6 +96,11 @@ def build_hatch_exterior(solid=True):
     for side, xr in (("L", S.SIDE_X), ("R", (-S.SIDE_X[1], -S.SIDE_X[0]))):
         glass, trim = glass_with_trim(f"s13_doorglass_{side}", "side", P.smooth_polygon(S.DOOR_GLASS, 0.035), *xr)
         door = P.extract(skin, f"s13_door_{side}", "side", P.smooth_polygon(S.DOOR, 0.02), *xr)
+        # convertible: frameless door (same panel, no window frame / seal ring)
+        conv = P.duplicate(door, f"s13_door_conv_{side}")
+        sill = [(float(y), float(spec.g("z_belt", float(y))) + 0.006) for y in np.linspace(-0.75, 0.65, 15)]
+        P.cut_away(conv, "side", sill + [(0.65, 1.50), (-0.75, 1.50)], *xr)
+        out[f"s13_door_conv_{side}"] = conv
         out[f"s13_door_{side}"] = P.join([door, trim], f"s13_door_{side}")
         out[f"s13_doorglass_{side}"] = glass
 

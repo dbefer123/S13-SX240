@@ -41,7 +41,8 @@
     "s13_wheel_F": "s13_wheel_F_split18",
     "s13_tire_F_18": "s13_tire_F_235_40_18_drift",
     "s13_wheel_R": "s13_wheel_R_split18",
-    "s13_tire_R_18": "s13_tire_R_265_35_18_drift"
+    "s13_tire_R_18": "s13_tire_R_265_35_18_drift",
+    "s13_headliner": ""
   },
   "vars": {
     "$wastegateStart": 24,

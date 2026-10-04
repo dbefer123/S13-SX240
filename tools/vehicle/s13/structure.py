@@ -42,6 +42,7 @@ CABIN = [
     ("bp1l", 0.815, 0.660, 0.400, 2.2), ("bp2l", 0.815, 0.660, 0.660, 2.0), ("bp3l", 0.760, 0.660, 0.895, 1.8),
     # A-pillar and roof
     ("ap1l", 0.665, -0.420, 1.050, 1.6),
+    ("ws1", 0.0, -0.470, 1.030, 1.6),          # windshield centre (glass is bonded to the frame)
     ("rf1l", 0.545, -0.130, 1.195, 1.6), ("rf1", 0.0, -0.130, 1.215, 1.4),
     ("rf2l", 0.530, 0.300, 1.222, 1.5), ("rf2", 0.0, 0.300, 1.272, 1.3),
     ("rf3l", 0.522, 0.660, 1.212, 1.6), ("rf3", 0.0, 0.660, 1.258, 1.3),
@@ -89,10 +90,42 @@ def is_center(name):
     return not (name.endswith("l") or name.endswith("r"))
 
 
-def all_nodes():
+# ---- body variants ---------------------------------------------------------------
+# notchback coupe: longer roof, C-pillar sail down to the deck, trunk opening behind the package tray
+COUPE_MOVES = {
+    "rf4": (0.0, 0.900, 1.228), "rf4l": (0.500, 0.900, 1.185),
+    "cp1l": (0.625, 1.000, 1.035), "cp2l": (0.575, 1.300, 0.990), "cp3l": (0.600, 1.635, 0.915),
+    "qp3l": (0.755, 0.950, 0.895), "qp5l": (0.750, 1.250, 0.900), "qp8l": (0.735, 1.620, 0.905),
+    "tp3l": (0.725, 1.950, 0.905), "tl3": (0.0, 2.205, 0.630), "tl3l": (0.620, 2.180, 0.800),
+}
+COUPE_EXTRA = [("rw1", 0.0, 1.625, 0.920, 1.6),         # package tray / rear window base centre
+               ("rw2", 0.0, 1.270, 1.075, 1.2)]         # rear window centre (bonded glass)
+COUPE_BEAMS = [("rw1", "cp3l"), ("rw1", "cp2l"), ("rw1", "rf4"), ("rw1", "rt1l"), ("rw1", "fl6"), ("rw1", "qp8l"),
+               ("rw1", "cp1l"), ("rw1", "tl3l"), ("rw1", "rr2l"),
+               ("rw2", "rf4"), ("rw2", "rf4l"), ("rw2", "cp2l"), ("rw2", "cp1l"), ("rw2", "rw1")]
+# convertible: no roof or C-pillars; the windshield header (rf1*) stays
+CONV_REMOVE = {"rf2", "rf2l", "rf3", "rf3l", "rf4", "rf4l", "cp1l", "cp2l", "rw2"}
+CONV_BEAMS = [  # reinforcement: deeper sills, floor X-braces, belt-line hoop behind the doors
+    ("si0l", "si2l"), ("si1l", "si3l"), ("si2l", "si4l"), ("si3l", "si5l"), ("hp1l", "si2l"), ("bp1l", "si2l"),
+    ("fl1l", "fl3r"), ("fl2l", "fl4r"), ("fp1l", "fl2r"), ("fl1", "fl3"), ("fl2", "fl4"),
+    ("bp3l", "qp5l"), ("bp2l", "qp3l"), ("qp3l", "cp3l"), ("bp3l", "bp3r"), ("qp3l", "qp3r"), ("ap1l", "hp2l"),
+    ("rf1l", "hp2l"), ("ap1l", "fp2l"), ("rw1", "qp5l"),
+]
+CONV_MASS = {"si1l": 4.0, "si2l": 4.0, "si3l": 4.0, "si4l": 4.0, "si5l": 3.0, "fl1l": 2.5, "fl2l": 2.5, "fl3l": 2.5,
+             "fl4l": 2.5, "fl1": 2.0, "fl2": 2.0, "fl3": 2.0, "fl4": 2.0, "hp1l": 2.0, "hp2l": 2.0, "hp3l": 1.5,
+             "bp1l": 2.0, "bp2l": 2.0, "ap1l": 0.8}
+
+
+def all_nodes(body="hatch"):
     out = {}
-    for tbl in (FRONT, CABIN, REAR):
+    moves = COUPE_MOVES if body in ("coupe", "convertible") else {}
+    extra = COUPE_EXTRA if body in ("coupe", "convertible") else []
+    for tbl in (FRONT, CABIN, REAR, extra):
         for n, x, y, z, w in tbl:
+            if body == "convertible" and n in CONV_REMOVE:
+                continue
+            if n in moves:
+                x, y, z = moves[n]
             out[n] = ((x, y, z), w)
             if x != 0.0:
                 out[mir(n)] = ((-x, y, z), w)
@@ -158,6 +191,7 @@ PILLARS = [  # A pillar, B pillar, roof
     ("si4l", "bp1l"), ("bp1l", "bp2l"), ("bp2l", "bp3l"), ("bp3l", "rf3l"), ("bp2l", "rf3l"),
     ("si4l", "bp2l"), ("bp1l", "bp3l"), ("fl4l", "bp1l"), ("fl4l", "bp2l"), ("si3l", "bp1l"), ("si5l", "bp1l"),
     ("bp3l", "rf2l"), ("bp3l", "rf4l"),
+    ("ws1", "rf1"), ("ws1", "rf1l"), ("ws1", "fp3"), ("ws1", "fp4l"), ("ws1", "ap1l"), ("ws1", "fp3l"),
     # cabin box: floor <-> roof diagonals through the pillars (rigidity)
     ("hp3l", "rf1l"), ("hp2l", "rf1l"), ("fp3l", "rf1l"), ("fp3l", "rf1"), ("ap1l", "rf1"),
     ("fp4l", "rf1l"),
@@ -230,10 +264,19 @@ def _beam_set(groups):
     return out
 
 
-def unibody_hatch() -> Part:
+def _filter(pairs, nodes):
+    return [(a, b) for a, b in pairs if a in nodes and b in nodes]
+
+
+BODY_TITLES = {"hatch": ("Unibody (Hatchback)", 5200), "coupe": ("Unibody (Coupe)", 5000),
+               "convertible": ("Unibody (Convertible, Reinforced)", 6400)}
+
+
+def unibody(body="hatch") -> Part:
     _EMITTED.clear()
-    p = Part("s13_body_hatch", "Unibody (Hatchback)", "s13_body", value=5200)
-    nodes = all_nodes()
+    title, value = BODY_TITLES[body]
+    p = Part(f"s13_body_{body}", title, "s13_body", value=value)
+    nodes = all_nodes(body)
     p.nodes_props(selfCollision=True, collision=True, nodeMaterial="|NM_METAL", frictionCoef=0.5, group="s13_body")
     # emit nodes grouped by weight to keep the file readable
     extra_groups = {"fs1": "s13_shocktop_F", "rt1": "s13_shocktop_R"}
@@ -242,7 +285,10 @@ def unibody_hatch() -> Part:
         for base, g in extra_groups.items():
             if name in (base + "l", base + "r"):
                 inline["group"] = ["s13_body", g]
-        p.node(name, *pos, nodeWeight=round(w * BODY_MASS_SCALE, 3), **inline)
+        wt = w * BODY_MASS_SCALE
+        if body == "convertible":
+            wt += CONV_MASS.get(name, CONV_MASS.get(mir(name), 0.0))
+        p.node(name, *pos, nodeWeight=round(wt, 3), **inline)
     p.nodes_props(group="")
 
     p.beams_props(deformLimitExpansion=1.2)
@@ -258,16 +304,26 @@ def unibody_hatch() -> Part:
         p.beam(a, b)
     p.beam_comment("firewall, floor, sills")
     p.beams_props(beamSpring=2501000, beamDamp=150, beamDeform=95000, beamStrength="FLT_MAX")
-    for a, b in _beam_set([FIREWALL, FLOOR]):
+    for a, b in _filter(_beam_set([FIREWALL, FLOOR]), nodes):
         p.beam(a, b)
-    p.beam_comment("pillars and roof")
+    if body == "convertible":
+        p.beam_comment("convertible reinforcement: sill stiffeners, floor braces, belt-line hoop")
+        p.beams_props(beamSpring=2801000, beamDamp=160, beamDeform=110000, beamStrength="FLT_MAX")
+        for a, b in _filter(_beam_set([CONV_BEAMS]), nodes):
+            p.beam(a, b)
+    p.beam_comment("pillars and roof" if body != "convertible" else "windshield frame and pillars")
     p.beams_props(beamSpring=1801000, beamDamp=120, beamDeform=48000, beamStrength="FLT_MAX")
-    for a, b in _beam_set([PILLARS, CABIN_X, EXTRA_BRACES]):
+    for a, b in _filter(_beam_set([PILLARS, CABIN_X, EXTRA_BRACES]), nodes):
         p.beam(a, b)
     p.beam_comment("rear structure")
     p.beams_props(beamSpring=1801000, beamDamp=120, beamDeform=42000, beamStrength="FLT_MAX")
-    for a, b in _beam_set([REAR_BODY]):
+    groups = [REAR_BODY] + ([COUPE_BEAMS] if body in ("coupe", "convertible") else [])
+    for a, b in _filter(_beam_set(groups), nodes):
         p.beam(a, b)
     p.beams_props(beamPrecompression=1, beamType="|NORMAL", beamLongBound=1.0, beamShortBound=1.0)
     p.beams_props(deformLimitExpansion=1.2)
     return p, nodes
+
+
+def unibody_hatch():
+    return unibody("hatch")

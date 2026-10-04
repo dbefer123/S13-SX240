@@ -56,12 +56,26 @@ def main(argv=None):
     ap.add_argument("--samples", type=int, default=24)
     ap.add_argument("--hide", default="", help="comma separated mesh name prefixes to hide (e.g. body panels)")
     ap.add_argument("--prefix", default="")
+    ap.add_argument("--cull", action="store_true", help="render back faces transparent (as the game culls them)")
     a = ap.parse_args(argv)
     cfg = {"parts": {}, "vars": {}}
     if a.config:
         with open(a.config) as f:
             cfg = json.load(f)
-    res, shown = assemble(a.mod, a.veh, cfg, a.blend)
+    paint = None
+    if a.config:
+        from tools.render.thumbnails import paint_for
+        vdir = os.path.join(a.mod, "vehicles", a.veh)
+        key = os.path.splitext(os.path.basename(a.config))[0]
+        try:
+            with open(os.path.join(vdir, "info.json")) as f:
+                paint = paint_for(os.path.join(vdir, f"info_{key}.json"), json.load(f).get("paints", {}))
+        except OSError:
+            paint = None
+    res, shown = assemble(a.mod, a.veh, cfg, a.blend, paint=paint)
+    if a.cull:
+        from tools.render.assemble import cull_backfaces
+        cull_backfaces()
     if a.hide:
         pre = tuple(a.hide.split(","))
         for o in shown:

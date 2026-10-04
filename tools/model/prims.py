@@ -71,6 +71,7 @@ class MeshBuilder:
         return self.add_faces(verts, [tuple(order)], mat, smooth)
 
     def to_object(self, col=None, smooth_angle=None):
+        orient_closed_islands(self.bm)
         me = bpy.data.meshes.new(self.name)
         self.bm.to_mesh(me)
         self.bm.free()
@@ -106,7 +107,9 @@ class MeshBuilder:
             j2 = (j + 1) % n
             for i in range(m - 1 if not closed else m):
                 i2 = (i + 1) % m
-                faces.append((j * m + i, j2 * m + i, j2 * m + i2, j * m + i2))
+                f = (j * m + i, j2 * m + i, j2 * m + i2, j * m + i2)
+                # the y-axis mapping (r cos, a, r sin) is mirrored w.r.t. x/z: keep one winding convention
+                faces.append(f[::-1] if axis == "y" else f)
         return self.add_faces(verts, faces, mat, smooth, uv_scale)
 
     def tube(self, path, radius, mat, segs=12, caps=True, smooth=True, radii=None):
@@ -136,10 +139,10 @@ class MeshBuilder:
         for i in range(n - 1):
             for k in range(segs):
                 k2 = (k + 1) % segs
-                faces.append((i * segs + k, i * segs + k2, (i + 1) * segs + k2, (i + 1) * segs + k))
+                faces.append((i * segs + k, (i + 1) * segs + k, (i + 1) * segs + k2, i * segs + k2))   # outward
         if caps:
-            faces.append(tuple(range(segs))[::-1])
-            faces.append(tuple((n - 1) * segs + k for k in range(segs)))
+            faces.append(tuple(range(segs)))
+            faces.append(tuple((n - 1) * segs + k for k in range(segs))[::-1])
         return self.add_faces(verts, faces, mat, smooth)
 
     def box(self, center, size, mat, rot=None, bevel=0.0, smooth=False):
@@ -197,6 +200,9 @@ class MeshBuilder:
         faces = [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
         faces.append(tuple(range(n))[::-1])
         faces.append(tuple(range(n, 2 * n)))
+        area = sum(outline[i][0] * outline[(i + 1) % n][1] - outline[(i + 1) % n][0] * outline[i][1] for i in range(n))
+        if (area < 0) != (axis == "y"):            # clockwise outline or mirrored axis mapping -> flip
+            faces = [f[::-1] for f in faces]
         return self.add_faces(verts, faces, mat, smooth)
 
     def helix(self, p0, p1, radius, wire, turns, mat, segs_per_turn=16, wire_segs=6):
@@ -221,6 +227,53 @@ class MeshBuilder:
         """Flat ring/disc between two radii (axis 'x' typical for wheels)."""
         prof = [(r_in, -thickness / 2), (r_out, -thickness / 2), (r_out, thickness / 2), (r_in, thickness / 2)]
         return self.lathe(prof, mat, segs=segs, axis=axis, center=center, closed=True)
+
+
+def orient_closed_islands(bm, min_vol=1e-12):
+    """Make every watertight island enclose a positive volume (outward normals).  Open surfaces are left alone."""
+    import bmesh as _bmesh
+    bm.faces.ensure_lookup_table()
+    seen = set()
+    flipped = 0
+    for f in bm.faces:
+        if f.index in seen:
+            continue
+        stack, island = [f], []
+        seen.add(f.index)
+        while stack:
+            g = stack.pop()
+            island.append(g)
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h.index not in seen:
+                        seen.add(h.index)
+                        stack.append(h)
+        if any(len(e.link_faces) != 2 for g in island for e in g.edges):
+            continue
+        vol = 0.0
+        for g in island:
+            vs = [v.co for v in g.verts]
+            for i in range(1, len(vs) - 1):
+                vol += vs[0].dot(vs[i].cross(vs[i + 1]))
+        if vol < -min_vol:
+            _bmesh.ops.reverse_faces(bm, faces=island, flip_multires=False)
+            flipped += 1
+    if flipped:
+        bm.normal_update()
+    return flipped
+
+
+def orient_object(ob):
+    """orient_closed_islands for an existing mesh object."""
+    import bmesh as _bmesh
+    bm = _bmesh.new()
+    bm.from_mesh(ob.data)
+    n = orient_closed_islands(bm)
+    if n:
+        bm.to_mesh(ob.data)
+        ob.data.update()
+    bm.free()
+    return n
 
 
 def rounded_rect(w, h, r, segs=4):

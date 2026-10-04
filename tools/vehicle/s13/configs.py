@@ -286,5 +286,87 @@ def race_configs():
     return out
 
 
+COUPE = {f"{P}_body": f"{P}_body_coupe"}
+CONV = {f"{P}_body": f"{P}_body_convertible"}
+TOP_DOWN = {f"{P}_softtop": f"{P}_softtop_down", f"{P}_door_L": f"{P}_door_conv_down_L",
+            f"{P}_door_R": f"{P}_door_conv_down_R"}
+WING_OEM = {f"{P}_trunkspoiler": f"{P}_trunkspoiler_oem"}
+
+
+def coupe_configs():
+    se = merge(engine("ka24de"), chassis(diff="viscous"), wheels("oem15_se", "205_60_15_allseason"))
+    out = [
+        Cfg("coupe_base_1990", "Base Coupe (M)", "Factory", (1989, 1990),
+            "The notchback coupe in its simplest form: 140 hp KA24E, five-speed, open differential and 14\" steel wheels.",
+            merge(COUPE, engine("ka24e"), chassis(), wheels("steel14", "195_60_14_allseason")),
+            paint="Crystal White", value=12900, population=3, body="Coupe"),
+        Cfg("coupe_le_1992", "LE Coupe (A)", "Factory", (1991, 1992),
+            "Luxury Edition coupe: leather, four-speed automatic, rear wing with high-mount stop lamp and 15\" alloys.",
+            merge(COUPE, se, engine("ka24de", trans="4a"), WING_OEM,
+                  {f"{P}_shifter": f"{P}_shifter_auto", f"{P}_interior": f"{P}_interior_leather"},
+                  wheels("oem15_le", "205_60_15_allseason")),
+            paint="Super Red", value=17200, population=2, body="Coupe"),
+        Cfg("coupe_se_1992", "SE Coupe (M)", "Factory", (1991, 1992),
+            "155 hp twin-cam KA24DE, five-speed, viscous LSD, sport suspension and the rear wing.",
+            merge(COUPE, se, WING_OEM, chassis(springs="sport", bars=("sport", "sport"), diff="viscous")),
+            paint="Cool Silver Metallic", value=16300, population=3, body="Coupe"),
+        Cfg("coupe_sr20_drift", "Coupe SR20 Drift", "Custom", (1991, 1994),
+            "Notchback drift build: SR20DET with a bigger turbo, 2-way LSD, angle kit, hydraulic handbrake and a ducktail lip.",
+            merge(COUPE, engine("sr20det", intake="cai", induction="t25_stock", trans="5m_sr", ecu="race", flywheel="light"),
+                  {f"{P}_trunkspoiler": f"{P}_trunkspoiler_lip", f"{P}_bumper_F": f"{P}_bumper_F_drift",
+                   f"{P}_trunk": f"{P}_trunk_light",
+                   f"{P}_steering_wheel": f"{P}_steering_wheel_deepdish", f"{P}_handbrake": f"{P}_handbrake_hydro",
+                   f"{P}_interior": f"{P}_interior_stripped", f"{P}_headliner": "", f"{P}_rollcage": f"{P}_rollcage_rollbar"},
+                  chassis(springs="drift", bars=("race", "sport"), brakes="z32", pads="sport", diff="lsd2",
+                          steering="anglekit"),
+                  wheels("deepdish17", "215_45_17_sport", "deepdish17", "255_40_17_drift")),
+            vars={"$wastegateStart": 14, "$tirepressure_R": 38, "$camber_F": 0.975, "$springheight_F": -0.04,
+                  "$springheight_R": -0.04},
+            paint="Super Black", value=21500, body="Coupe"),
+        Cfg("coupe_k20_street", "Coupe K20 Street", "Custom", (1991, 1994),
+            "Clean street coupe hiding a turbocharged Honda K20A on 13 psi (about 400 hp), six-speed, coilovers and big brakes.",
+            merge(COUPE, engine("k20a", intake="cai", induction="street_k20", ecu="race", internals="forged",
+                                trans="6m_cd009", flywheel="light"), WING_OEM,
+                  {f"{P}_shifter": f"{P}_shifter_short", f"{P}_exhaust": f"{P}_exhaust_race"},
+                  chassis(springs="street", bars=("sport", "sport"), brakes="bbk", pads="sport", diff="lsd15"),
+                  wheels("deepdish17", "215_45_17_sport", "deepdish17", "235_40_17_semislick")),
+            vars={"$wastegateStart": 13, "$springheight_F": -0.03, "$springheight_R": -0.03},
+            paint="Dark Gray Metallic", value=34000, body="Coupe"),
+        Cfg("convertible_1992", "Convertible (A)", "Factory", (1992, 1992),
+            "The first-year convertible: power soft top with glass rear window, KA24DE and the four-speed automatic only.",
+            merge(CONV, se, engine("ka24de", trans="4a"), WING_OEM,
+                  {f"{P}_shifter": f"{P}_shifter_auto", f"{P}_interior": f"{P}_interior_leather"},
+                  wheels("oem15_le", "205_60_15_allseason")),
+            paint="Super Black", value=20500, population=2, body="Convertible"),
+        Cfg("convertible_se_1994", "Convertible SE (M)", "Factory", (1993, 1994),
+            "Later convertible with the five-speed manual, viscous LSD and 15\" SE alloys.",
+            merge(CONV, se, WING_OEM, wheels("oem15_se", "205_55_15_sport")),
+            paint="Dark Green Pearl", value=21800, population=2, body="Convertible"),
+        Cfg("convertible_cruiser", "Convertible Cruiser", "Custom", (1992, 1994),
+            "Top down, windows down: intake and exhaust, lowering springs, 16\" six-spokes and a deep-dish wheel.",
+            merge(CONV, se, TOP_DOWN, engine("ka24de", intake="cai", induction="header"), WING_OEM,
+                  {f"{P}_steering_wheel": f"{P}_steering_wheel_deepdish", f"{P}_shifter": f"{P}_shifter_short"},
+                  chassis(springs="sport", bars=("sport", "stock"), brakes="z32", pads="sport", diff="viscous"),
+                  wheels("sixspoke16", "215_45_16_sport")),
+            vars={"$springheight_F": -0.03, "$springheight_R": -0.03},
+            paint="Grand Prix Blue", value=19800, body="Convertible"),
+    ]
+    return out
+
+
+def _fix_headliner(cfgs):
+    """Stripped and race interiors on the unibody also lose the headliner."""
+    for c in cfgs:
+        if c.parts.get(f"{P}_body", "") == f"{P}_body_tube" or f"{P}_headliner" in c.parts:
+            continue
+        if c.parts.get(f"{P}_interior") in (f"{P}_interior_stripped", f"{P}_interior_race"):
+            c.parts[f"{P}_headliner"] = ""
+    return cfgs
+
+
+def all_configs():
+    return _fix_headliner(hatch_configs() + race_configs() + coupe_configs())
+
+
 def write(mod):
-    return write_configs(mod, VEH, hatch_configs() + race_configs(), BASE_INFO, PAINTS)
+    return write_configs(mod, VEH, all_configs(), BASE_INFO, PAINTS)

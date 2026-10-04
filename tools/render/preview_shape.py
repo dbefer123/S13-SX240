@@ -21,6 +21,8 @@ SIDE_TARGET = (0.0, 0.0, 0.65)
 # blueprint side views: (file, crop box, crop zoom, front-axle px (x,y) in zoomed crop, metres per zoomed px)
 BLUEPRINTS = {
     "s13_hatch": (".cache/blueprints/s13_hatch_go.gif", (220, 225, 653, 360), 3, (297, 292), 2.475 / 678),
+    # Silvia coupe: drawn ~35 mm lower above the beltline -> shifted up by dz for comparison
+    "s13_coupe": (".cache/blueprints/s13_coupe_tb.png", (0, 360, 785, 610), 2, (358, 350.6), 2.475 / 836, 0.035),
 }
 
 
@@ -52,7 +54,8 @@ def overlay(name, render_path, out_path):
     from PIL import Image, ImageOps, ImageChops
     if name not in BLUEPRINTS:
         return
-    f, box, zoom, (ax, ay), s = BLUEPRINTS[name]
+    f, box, zoom, (ax, ay), s, *rest = BLUEPRINTS[name]
+    dz = rest[0] if rest else 0.0
     bp = Image.open(os.path.join(ROOT, f)).convert("L").crop(box)
     bp = bp.resize((bp.width * zoom, bp.height * zoom), Image.LANCZOS)
     W, H = RES
@@ -61,7 +64,7 @@ def overlay(name, render_path, out_path):
     a = 1 / (PX_PER_M * s)
     c = ax + (-W / 2 / PX_PER_M - m.AXLE_F_Y) / s
     e = -a
-    fz = ay - (SIDE_TARGET[2] + H / 2 / PX_PER_M - m.AXLE_Z) / s
+    fz = ay - (SIDE_TARGET[2] + H / 2 / PX_PER_M - m.AXLE_Z - dz) / s
     warped = bp.transform((W, H), Image.AFFINE, (a, 0, c, 0, a, fz), resample=Image.BILINEAR, fillcolor=255)
     ren = Image.open(render_path).convert("RGB")
     lines = ImageOps.invert(warped)

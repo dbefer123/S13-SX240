@@ -38,6 +38,7 @@ class Cfg:
     value: int = 10000
     population: int = 0
     phase: int = 2                   # build phase that provides every part (for staged generation)
+    body: str | None = None          # "Body Style" shown in the vehicle selector (defaults to the model's)
 
 
 def _interp(table, x):
@@ -194,6 +195,8 @@ def write_configs(mod, veh, configs, base_info, paints):
         info = OrderedDict()
         info["Configuration"] = c.title
         info["Config Type"] = c.ctype
+        if c.body:
+            info["Body Style"] = c.body
         info["Description"] = c.desc
         info["Years"] = {"min": c.years[0], "max": c.years[1]}
         info["Drivetrain"] = "RWD"

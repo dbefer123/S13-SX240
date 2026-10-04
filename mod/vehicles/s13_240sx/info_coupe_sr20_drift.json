@@ -1,0 +1,31 @@
+{
+  "Configuration": "Coupe SR20 Drift",
+  "Config Type": "Custom",
+  "Body Style": "Coupe",
+  "Description": "Notchback drift build: SR20DET with a bigger turbo, 2-way LSD, angle kit, hydraulic handbrake and a ducktail lip.",
+  "Years": {
+    "min": 1991,
+    "max": 1994
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 21500,
+  "Population": 0,
+  "defaultPaintName1": "Super Black",
+  "defaultPaintName2": "Super Black",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1160,
+  "Power": 272,
+  "Torque": 325,
+  "PowerPeakRPM": "6500",
+  "TorquePeakRPM": "4500",
+  "Weight/Power": 4.26,
+  "Induction Type": "Turbo",
+  "Top Speed": 71.92,
+  "0-60 mph": 6.7,
+  "0-100 km/h": 6.9,
+  "0-100 mph": 13.0,
+  "0-200 km/h": 20.0,
+  "Transmission": "Manual"
+}

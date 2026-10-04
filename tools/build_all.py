@@ -70,6 +70,8 @@ def main(argv=None):
     if "meshes" not in skip:
         if run(["tools.model.build_meshes", "--vehicle", "s13", "--mod", MOD], "meshes + materials"):
             print("mesh build reported problems")
+        if run(["tools.validate.normals"], "normals (inside-out parts)"):
+            print("inside-out closed parts found")
     print("--- configs")
     write_configs()
     rc = run(["tools.validate.run", "--mod", MOD], "validation")

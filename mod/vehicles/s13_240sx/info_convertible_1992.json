@@ -1,0 +1,30 @@
+{
+  "Configuration": "Convertible (A)",
+  "Config Type": "Factory",
+  "Body Style": "Convertible",
+  "Description": "The first-year convertible: power soft top with glass rear window, KA24DE and the four-speed automatic only.",
+  "Years": {
+    "min": 1992,
+    "max": 1992
+  },
+  "Drivetrain": "RWD",
+  "Fuel Type": "Gasoline",
+  "Propulsion": "ICE",
+  "Value": 20500,
+  "Population": 2,
+  "defaultPaintName1": "Super Black",
+  "defaultPaintName2": "Super Black",
+  "defaultPaintName3": "Super Black",
+  "Weight": 1313,
+  "Power": 155,
+  "Torque": 217,
+  "PowerPeakRPM": "5600",
+  "TorquePeakRPM": "4400",
+  "Weight/Power": 8.47,
+  "Induction Type": "NA",
+  "Top Speed": 58.75,
+  "0-60 mph": 8.8,
+  "0-100 km/h": 9.3,
+  "0-100 mph": 23.5,
+  "Transmission": "Automatic"
+}

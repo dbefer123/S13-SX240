@@ -199,6 +199,28 @@ def build_s13(sc: Scene):
     derived["s13_hatchglass_poly"] = RM.recolor_copy(ext["s13_hatchglass"], "s13_hatchglass_poly", "s13_glass_poly")
     for name, ob in derived.items():
         sc.add_ob(ob, "s13_body")
+    # coupe + convertible rear bodies (trunk lid and coupe tail lamps are shared: keep the coupe's)
+    from . import s13_coupe as CP
+    t1 = time.time()
+    rear = {}
+    for kind in ("coupe", "convertible"):
+        objs = CP.build_rear_exterior(kind)
+        for name, ob in objs.items():
+            if name in rear:
+                bpy.data.objects.remove(ob, do_unlink=True)
+                continue
+            ob.name = name
+            rear[name] = ob
+            sc.add_ob(ob, "s13_body_coupe")
+    for mb in CP.trunk_spoilers():
+        sc.add_mb(mb, "s13_body_coupe")
+        rear[mb.name] = sc.objs[mb.name][0]
+    from . import s13_race as RM
+    rear["s13_trunk_carbon"] = sc.add_ob(RM.recolor_copy(rear["s13_trunk"], "s13_trunk_carbon", {"s13_paint": "s1x_carbon"}),
+                                         "s13_body_coupe")
+    for mb in (CP.parcel_shelf(), CP.headliner_coupe()):
+        sc.add_mb(mb, "s13_interior")
+    print(f"  coupe/convertible {time.time() - t1:.1f}s")
     from . import s13_details as DET
     for mb in DET.mirrors():
         sc.add_mb(mb, "s13_body" if mb.name != "s13_mirror_int" else "s13_interior")
@@ -251,13 +273,15 @@ def build_s13(sc: Scene):
     }
     from tools.vehicle.s13.vehicle import RACE_TACH
     pivots["s13_needle_race"] = (RACE_TACH[0], RACE_TACH[1] + 0.006, RACE_TACH[2])
-    livery = {n for n, (ob, dae) in sc.objs.items() if dae == "s13_body" and (n in ext or n in derived)}
+    livery = {n for n, (ob, dae) in sc.objs.items() if dae in ("s13_body", "s13_body_coupe") and
+              (n in ext or n in derived or n in rear)}
     livery |= {"s13_overfenders_R", "s13_sideskirts_aero", "s13_spoiler_oem"}
     return pivots, livery
 
 
 DAE_FOLDER = {
-    "s13_body": "vehicles/s13_240sx", "s13_interior": "vehicles/s13_240sx", "s13_mech": "vehicles/s13_240sx",
+    "s13_body": "vehicles/s13_240sx", "s13_body_coupe": "vehicles/s13_240sx",
+    "s13_interior": "vehicles/s13_240sx", "s13_mech": "vehicles/s13_240sx",
     "s13_engine": "vehicles/s13_240sx", "s13_race": "vehicles/s13_240sx",
     "s1x_wheels": "vehicles/common/s1x_240sx", "s1x_interior": "vehicles/common/s1x_240sx",
 }
@@ -291,6 +315,10 @@ def main(argv=None):
     if missing:
         print("MISSING meshes:", missing)
 
+    # every watertight part must have outward normals (the game culls back faces)
+    from .prims import orient_object
+    nflip = sum(orient_object(ob) for ob, _ in sc.objs.values())
+    print(f"flipped {nflip} inside-out closed islands")
     # props: origin at pivot (geometry is modelled around the origin), flexbodies at identity
     for n, (ob, dae) in sc.objs.items():
         if n in props:
