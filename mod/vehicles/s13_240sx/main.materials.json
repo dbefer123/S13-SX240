@@ -975,6 +975,37 @@
     "materialTag1": "vehicle",
     "version": 1.5
   },
+  "s13_seat_leather": {
+    "name": "s13_seat_leather",
+    "mapTo": "s13_seat_leather",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.05,
+          0.045,
+          0.04,
+          1
+        ],
+        "roughnessFactor": 0.55,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_leather_nm.normal.png",
+        "detailNormalMapStrength": 1.0,
+        "detailScale": [
+          50,
+          50
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
   "s13_doorcard": {
     "name": "s13_doorcard",
     "mapTo": "s13_doorcard",
@@ -1029,6 +1060,87 @@
         "baseColorMap": "/vehicles/s13_240sx/textures/s13_hvac_b.color.png",
         "roughnessFactor": 0.5,
         "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_badge_chrome": {
+    "name": "s13_badge_chrome",
+    "mapTo": "s13_badge_chrome",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.85,
+          0.85,
+          0.87,
+          1
+        ],
+        "roughnessFactor": 0.06,
+        "metallicFactor": 1.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_interior_trim": {
+    "name": "s13_interior_trim",
+    "mapTo": "s13_interior_trim",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.035,
+          0.035,
+          0.038,
+          1
+        ],
+        "roughnessFactor": 0.8,
+        "metallicFactor": 0.0,
+        "detailNormalMap": "/vehicles/common/generic_mat_tex/detail_leather_grain_nm.normal.png",
+        "detailNormalMapStrength": 0.5,
+        "detailScale": [
+          45,
+          45
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s13_badge_blue": {
+    "name": "s13_badge_blue",
+    "mapTo": "s13_badge_blue",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.02,
+          0.05,
+          0.25,
+          1
+        ],
+        "roughnessFactor": 0.2,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 1.0,
+        "clearCoatRoughnessFactor": 0.03
       },
       {},
       {},

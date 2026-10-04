@@ -190,7 +190,8 @@ RACE_BODY_SLOTS = [  # slot, default for the tube chassis, description
 AERO_SLOTS = [  # common to unibody + tube chassis: slot, default unibody, default tube, description
     ("splitter", "", "splitter_race", "Front Splitter"), ("canards", "", "", "Canards"),
     ("wing", "", "wing_gt", "Rear Wing / Spoiler"), ("diffuser", "", "diffuser_race", "Rear Diffuser"),
-    ("overfenders_R", "", "overfenders_R", "Rear Over-Fenders"), ("wheeliebar", "", "", "Wheelie Bar"),
+    ("overfenders_R", "", "overfenders_R", "Rear Over-Fenders"), ("sideskirts", "", "", "Side Skirts"),
+    ("wheeliebar", "", "", "Wheelie Bar"),
     ("parachute", "", "", "Parachute"),
 ]
 
@@ -472,6 +473,12 @@ def diffuser():
     return p
 
 
+def sideskirts():
+    p = Part(f"{PFX}_sideskirts_aero", "Aero Side Skirts", f"{PFX}_sideskirts", value=420)
+    p.flexbody(f"{PFX}_sideskirts_aero", [f"{PFX}_body"])
+    return p
+
+
 def overfenders_R():
     p = Part(f"{PFX}_overfenders_R", "Rear Over-Fenders (+50 mm)", f"{PFX}_overfenders_R", value=900)
     p.flexbody(f"{PFX}_overfenders_R", [f"{PFX}_body"])
@@ -606,10 +613,18 @@ def light_panels():
                 mass=6.0).scale_springs(6.0 / 16.0),
         PJ.hatch(name=f"{PFX}_hatch_light", mesh=f"{PFX}_hatch_carbon", glass=f"{PFX}_hatchglass_poly",
                  title="Carbon Hatch with Polycarbonate Window", value=1800, mass=8.5).scale_springs(8.5 / 21.0),
-        PJ.bumper_front(name=f"{PFX}_bumper_F_light", title="Lightweight FRP Front Bumper", value=500,
-                        mass=4.5).scale_springs(4.5 / 10.0),
-        PJ.bumper_rear(name=f"{PFX}_bumper_R_light", title="Lightweight FRP Rear Bumper", value=420,
-                       mass=3.8).scale_springs(3.8 / 8.5),
+        PJ.bumper_front(name=f"{PFX}_bumper_F_light", mesh=f"{PFX}_bumper_F_race", title="FRP Race Front Bumper (Big Intake)",
+                        value=500, mass=4.5).scale_springs(4.5 / 10.0),
+        PJ.bumper_rear(name=f"{PFX}_bumper_R_light", mesh=f"{PFX}_bumper_R_race", title="FRP Race Rear Bumper (Diffuser Cut-Out)",
+                       value=420, mass=3.8).scale_springs(3.8 / 8.5),
+        PJ.bumper_front(name=f"{PFX}_bumper_F_aero", mesh=f"{PFX}_bumper_F_aero", title="Aero Front Bumper with Lip Spoiler",
+                        value=650, mass=10.5),
+        PJ.bumper_front(name=f"{PFX}_bumper_F_drift", mesh=f"{PFX}_bumper_F_drift", title="Type-X Style Drift Bumper",
+                        value=900, mass=8.0).scale_springs(8.0 / 10.0),
+        PJ.bumper_front(name=f"{PFX}_bumper_F_drag", mesh=f"{PFX}_bumper_F_drag", title="Smooth FRP Drag Bumper",
+                        value=450, mass=4.0).scale_springs(4.0 / 10.0),
+        PJ.bumper_rear(name=f"{PFX}_bumper_R_aero", mesh=f"{PFX}_bumper_R_aero", title="Aero Rear Bumper with Valance",
+                       value=550, mass=9.0),
     ]
     for s in ("L", "R"):
         out.append(PJ.door(s, glass=f"{PFX}_doorglass_poly", title="FRP Race Door (Polycarbonate Window)", value=1100,
@@ -623,6 +638,6 @@ def light_panels():
 
 def race_parts(body_common):
     return ([tube_chassis(body_common)] + rollcages() + light_panels() +
-            [splitter(), canards(), wing_gt(), wicker_bill(), diffuser(), overfenders_R(), wheelie_bar(), parachute(),
+            [splitter(), canards(), wing_gt(), wicker_bill(), diffuser(), overfenders_R(), sideskirts(), wheelie_bar(), parachute(),
              fuelcell("racecell", "40L Race Fuel Cell", 40, 1200, f"{PFX}_fuelcell"),
              fuelcell("dragcell", "10L Drag Fuel Cell", 10, 600, f"{PFX}_fuelcell_drag")] + electronics())

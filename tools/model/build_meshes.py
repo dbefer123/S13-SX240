@@ -104,7 +104,7 @@ def finalize_uvs(ob, livery=False):
     me = ob.data
     had = len(me.uv_layers)
     _ensure_layers(me)
-    if had == 0:
+    if had == 0 or livery:
         box_uv(me, 0)
     if livery:
         livery_uv(me, 1)
@@ -199,6 +199,12 @@ def build_s13(sc: Scene):
     derived["s13_hatchglass_poly"] = RM.recolor_copy(ext["s13_hatchglass"], "s13_hatchglass_poly", "s13_glass_poly")
     for name, ob in derived.items():
         sc.add_ob(ob, "s13_body")
+    from . import s13_details as DET
+    for mb in DET.mirrors():
+        sc.add_mb(mb, "s13_body" if mb.name != "s13_mirror_int" else "s13_interior")
+    for mb in (DET.side_skirts(), DET.hatch_spoiler()):
+        sc.add_mb(mb, "s13_body")
+    sc.add_mb(DET.sun_visors_and_belts(), "s13_interior")
     for mb in RM.race_all():
         dae = "s13_interior" if mb.name in ("s13_dash_race", "s13_race_tach", "s13_needle_race", "s13_seat_race",
                                             "s13_seats_bucket", "s13_extinguisher", "s13_race_switchpanel") else "s13_race"
@@ -211,7 +217,10 @@ def build_s13(sc: Scene):
     for mb in (*mech.front_suspension(D, "s13"), *mech.rear_suspension(D, "s13"), *mech.brakes(D, "s13"),
                *mech.gearboxes(D, "s13"), mech.exhaust_stock(D, "s13")):
         sc.add_mb(mb, "s13_mech")
-    for mb in (*mech.engine_ka24(D, "s13"), *mech.engine_sr20(D, "s13"), *mech.engine_k20(D, "s13"), *mech.turbos(D, "s13")):
+    from . import engines as ENG
+    for ob in (*ENG.engine_ka24(D, "s13"), *ENG.engine_sr20(D, "s13"), *ENG.engine_k20(D, "s13")):
+        sc.add_ob(ob, "s13_engine")
+    for mb in mech.turbos(D, "s13"):
         sc.add_mb(mb, "s13_engine")
     for eng in ("ka24e", "ka24de", "sr20det", "k20a"):
         for mb in mech.intakes(D, "s13", eng, ("stock", "cai", "itb")) + mech.manifolds(D, "s13", eng, ("na", "header", "turbo")):
@@ -243,7 +252,7 @@ def build_s13(sc: Scene):
     from tools.vehicle.s13.vehicle import RACE_TACH
     pivots["s13_needle_race"] = (RACE_TACH[0], RACE_TACH[1] + 0.006, RACE_TACH[2])
     livery = {n for n, (ob, dae) in sc.objs.items() if dae == "s13_body" and (n in ext or n in derived)}
-    livery.add("s13_overfenders_R")
+    livery |= {"s13_overfenders_R", "s13_sideskirts_aero", "s13_spoiler_oem"}
     return pivots, livery
 
 
@@ -272,7 +281,8 @@ def main(argv=None):
 
     flex, props = referenced_meshes(os.path.join(mod, "vehicles/s13_240sx"))
     wanted = flex | props
-    missing = sorted(wanted - set(sc.objs))
+    from tools.validate.run import VANILLA_MESHES
+    missing = sorted(wanted - set(sc.objs) - VANILLA_MESHES)
     unused = sorted(set(sc.objs) - wanted)
     for n in unused:
         ob, _ = sc.objs.pop(n)

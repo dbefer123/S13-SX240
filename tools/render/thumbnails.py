@@ -18,10 +18,12 @@ from tools.render.assemble import assemble
 
 
 def paint_for(info_path, paints):
+    """[paint1, paint2, paint3] dicts from the config's info file."""
     try:
         with open(info_path) as f:
-            name = json.load(f).get("defaultPaintName1")
-        return paints.get(name)
+            info = json.load(f)
+        out = [paints.get(info.get(f"defaultPaintName{k}")) for k in (1, 2, 3)]
+        return [p for p in out if p] or None
     except Exception:  # noqa: BLE001
         return None
 

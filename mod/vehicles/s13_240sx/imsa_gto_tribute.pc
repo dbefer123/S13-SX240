@@ -15,6 +15,7 @@
     "s13_electronics": "s13_electronics_track",
     "s13_fueltank": "s13_fueltank_racecell",
     "s13_hood": "s13_hood_vented",
+    "paint_design": "s13_skin_imsa",
     "s13_splitter": "s13_splitter_race",
     "s13_canards": "",
     "s13_wing": "s13_wing_gt",

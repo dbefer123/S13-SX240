@@ -10,6 +10,8 @@
     "s13_flywheel": "s13_flywheel_light",
     "s13_sr20det_induction": "s13_sr20det_induction_t25_stock",
     "s13_steering_wheel": "s13_steering_wheel_deepdish",
+    "paint_design": "s13_skin_drift",
+    "s13_handbrake": "s13_handbrake_hydro",
     "s13_spring_F": "s13_spring_F_drift",
     "s13_spring_R": "s13_spring_R_drift",
     "s13_swaybar_F": "s13_swaybar_F_race",

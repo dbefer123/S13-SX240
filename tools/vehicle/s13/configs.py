@@ -73,7 +73,8 @@ BASE_INFO = OrderedDict([
 
 
 def hatch_configs():
-    se = merge(engine("ka24de"), chassis(diff="viscous"), wheels("oem15_se", "205_60_15_allseason"))
+    se = merge(engine("ka24de"), chassis(diff="viscous"), wheels("oem15_se", "205_60_15_allseason"),
+               {f"{P}_spoiler": f"{P}_spoiler_oem"})
     out = [
         Cfg("base_1989", "Base (M)", "Factory", (1989, 1990),
             "The entry-level fastback: 140 hp KA24E SOHC, five-speed, open differential and 14\" steel wheels with hubcaps.",
@@ -81,8 +82,9 @@ def hatch_configs():
             population=3),
         Cfg("xe_auto_1989", "XE (A)", "Factory", (1989, 1990),
             "Better equipped XE with the four-speed automatic and 15\" seven-spoke alloys.",
-            merge(engine("ka24e", trans="4a"), {f"{P}_shifter": f"{P}_shifter_auto"}, chassis(),
-                  wheels("oem15_le", "195_60_15_allseason")), paint="Crystal White", value=14500, population=3),
+            merge(engine("ka24e", trans="4a"), {f"{P}_shifter": f"{P}_shifter_auto", "paint_design": f"{P}_skin_twotone"},
+                  chassis(), wheels("oem15_le", "195_60_15_allseason")), paint="Champagne Gold Metallic",
+            paint2="Dark Gray Metallic", value=14500, population=3),
         Cfg("se_1991", "SE (M)", "Factory", (1991, 1994),
             "155 hp twin-cam KA24DE, five-speed manual and a viscous limited-slip differential.",
             dict(se), paint="Super Red", value=15900, population=4),
@@ -93,7 +95,9 @@ def hatch_configs():
         Cfg("se_sport_1992", "SE Sport Package", "Factory", (1992, 1993),
             "SE with the Sport Package: firmer springs and dampers, thicker sway bars, ABS and summer tires.",
             merge(se, chassis(springs="sport", bars=("sport", "sport"), brakes="abs", diff="viscous"),
-                  wheels("oem15_se", "205_55_15_sport")), paint="Dark Green Pearl", value=17400, population=2),
+                  wheels("oem15_se", "205_55_15_sport"),
+                  {f"{P}_bumper_F": f"{P}_bumper_F_aero", f"{P}_bumper_R": f"{P}_bumper_R_aero",
+                   f"{P}_sideskirts": f"{P}_sideskirts_aero"}), paint="Dark Green Pearl", value=17400, population=2),
         Cfg("street_tuned", "Street Tuned", "Custom", (1991, 1994),
             "Tasteful street build: intake and header, street coilovers, Z32 brakes, 16\" forged wheels and a 1.5-way LSD.",
             merge(engine("ka24de", intake="cai", induction="header", flywheel="light"),
@@ -116,7 +120,8 @@ def hatch_configs():
         Cfg("drift_missile", "Drift Missile", "Custom", (1991, 1994),
             "Grassroots drift car: SR20DET, welded diff, angle kit, drift coilovers and mismatched wheels.",
             merge(engine("sr20det", intake="cai", induction="t25_stock", trans="5m_sr", flywheel="light"),
-                  {f"{P}_steering_wheel": f"{P}_steering_wheel_deepdish"},
+                  {f"{P}_steering_wheel": f"{P}_steering_wheel_deepdish", "paint_design": f"{P}_skin_drift",
+                   f"{P}_handbrake": f"{P}_handbrake_hydro"},
                   chassis(springs="drift", bars=("race", "sport"), brakes="z32", pads="sport", diff="welded",
                           steering="anglekit"),
                   wheels("split18", "235_40_18_drift", "deepdish17", "255_40_17_drift")),
@@ -196,13 +201,14 @@ def race_configs():
         merge(eng, WIDE, POPUP_DELETE, aero(splitter=False, canards=False, wing="wing_gt", diffuser=False),
               {f"{P}_rollcage": f"{P}_rollcage_full", f"{P}_hood": f"{P}_hood_vented",
                f"{P}_interior": f"{P}_interior_stripped", f"{P}_electronics": f"{P}_electronics_track",
-               f"{P}_steering_wheel": f"{P}_steering_wheel_race", f"{P}_fueltank": f"{P}_fueltank_racecell"},
+               f"{P}_steering_wheel": f"{P}_steering_wheel_race", f"{P}_fueltank": f"{P}_fueltank_racecell",
+               "paint_design": f"{P}_skin_stripes", f"{P}_handbrake": f"{P}_handbrake_hydro"},
               chassis(springs="drift", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd2",
                       steering="anglekit"),
               wheels("split18", "235_40_18_drift", "split18", "265_35_18_drift")),
         vars={**v, "$wing_angle": 6, "$trackoffset_F": 0.035, "$trackoffset_R": 0.045, "$camber_F": 0.975,
               "$tirepressure_R": 38, "$springheight_F": -0.05, "$springheight_R": -0.05},
-        paint="Racing Orange", value=85000))
+        paint="Racing Orange", paint2="Super Black", value=85000))
     eng, v = race_engine(29)
     out.append(Cfg(
         "k20_track_spec", "K20 Track Spec (Tube Chassis, High Downforce)", "Race", (1994, 1994),
@@ -210,14 +216,15 @@ def race_configs():
         "slicks, full carbon aero with splitter, dive planes, flat floor diffuser and an adjustable swan-neck wing. "
         "About 1000 kg.",
         merge(eng, {f"{P}_body": f"{P}_body_tube", f"{P}_electronics": f"{P}_electronics_track",
-                    f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_canards": f"{P}_canards_race"},
+                    f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_canards": f"{P}_canards_race",
+                    "paint_design": f"{P}_skin_track"},
               chassis(springs="track", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd15",
                       steering="quick"),
               wheels("race18", "265_35_18_slick", "race18", "285_35_18_slick")),
         vars={**v, "$wing_angle": 12, "$trackoffset_F": 0.040, "$trackoffset_R": 0.050, "$springheight_F": -0.065,
               "$springheight_R": -0.06, "$camber_F": 0.972, "$camber_R": 0.975, "$brakebias": 0.62,
               "$tirepressure_F": 27, "$tirepressure_R": 27, "$finaldrive_R": 4.1},
-        paint="Grand Prix Blue", paint2="Racing Yellow", value=165000))
+        paint="Grand Prix Blue", paint2="Racing Yellow", paint3="Super Black", value=165000))
     eng, v = race_engine(29, trans="4s_drag")
     out.append(Cfg(
         "k20_drag_spec", "K20 Drag Spec (Tube Chassis, Low Downforce)", "Race", (1994, 1994),
@@ -267,7 +274,8 @@ def race_configs():
         "Homage to the early-90s IMSA GTO 240SX: tube chassis, huge flares, pop-up delete and a tall wing, with a "
         "modern turbo K20A instead of the original V6.",
         merge(eng, {f"{P}_body": f"{P}_body_tube", f"{P}_electronics": f"{P}_electronics_track",
-                    f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_hood": f"{P}_hood_vented"},
+                    f"{P}_fueltank": f"{P}_fueltank_racecell", f"{P}_hood": f"{P}_hood_vented",
+                    "paint_design": f"{P}_skin_imsa"},
               aero(canards=False),
               chassis(springs="track", bars=("race", "race"), brakes="bbk", pads="full-race", diff="lsd15",
                       steering="quick"),

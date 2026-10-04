@@ -221,7 +221,7 @@ def brake_part(prefix, b: BrakeDef, axle: str, hub_group: str):
         {"brakeTorque": torque},
         {"brakeInputSplit": 1},
         {"brakeSplitCoef": 1},
-        {"parkingTorque": 0 if front else b.park},
+        {"parkingTorque": 0 if front else f"$={b.park:.0f}*$handbrake_mult"},
         {"brakeSpring": 125},
         {"enableBrakeThermals": True},
         {"brakeDiameter": b.disc_F if front else b.disc_R},

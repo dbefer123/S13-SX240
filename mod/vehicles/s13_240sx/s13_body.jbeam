@@ -48,6 +48,7 @@
         ["s13_wing", "", "Rear Wing / Spoiler"],
         ["s13_diffuser", "", "Rear Diffuser"],
         ["s13_overfenders_R", "", "Rear Over-Fenders"],
+        ["s13_sideskirts", "", "Side Skirts"],
         ["s13_wheeliebar", "", "Wheelie Bar"],
         ["s13_parachute", "", "Parachute"],
     ],

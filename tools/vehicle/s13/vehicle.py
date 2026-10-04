@@ -31,6 +31,7 @@ def main_part():
     p.slot(f"{PFX}_exhaust", f"{PFX}_exhaust_stock", "Exhaust")
     p.slot(f"{PFX}_radiator", f"{PFX}_radiator_stock", "Radiator")
     p.slot(f"{PFX}_electronics", f"{PFX}_electronics_none", "Race Electronics")
+    p.slot(f"{PFX}_handbrake", f"{PFX}_handbrake_stock", "Handbrake", coreSlot=True)
     p.slot("paint_design", "", "Paint Design")
     p.slot("licenseplate_design_2_1", "", "License Plate Design")
     p.slot(f"{PFX}_mod", "", "Additional Modification")
@@ -73,6 +74,9 @@ def main_part():
                          "materialEmissiveScaling": {"on_max": 0.49}},
         "s13_gaugeface": {"simpleFunction": {"lowhighbeam": 0.6}, "off": "s13_gauges", "on": "s13_gauges_on"},
         "s13_needle": {"simpleFunction": {"lowhighbeam": 0.6}, "off": "s13_needle_off", "on": "s13_needle_on"},
+        "s13_sidemarker_F": {"simpleFunction": {"tail_filament": 0.49}, **lm("s13_lights_amber")},
+        "s13_chmsl": {"simpleFunction": {"brake_filament": 1}, **lm("s13_lights_red")},
+        "s13_sidemarker_R": {"simpleFunction": {"tail_filament": 0.49}, **lm("s13_lights_red")},
     })
     return p
 
@@ -291,8 +295,33 @@ RACE_TACH = (D.STEER_CENTER[0], -0.560, 1.030)   # race tach pod face centre
 SHIFT_LED_MATS = ["s13_led_green", "s13_led_green", "s13_led_amber", "s13_led_amber", "s13_led_red"]
 
 
+def skins():
+    from tools.textures.liveries import LIVERIES
+    out = []
+    for key, (title, fn, number) in LIVERIES.items():
+        p = Part(f"{PFX}_skin_{key}", title, "paint_design", value=900)
+        p.set("globalSkin", key)
+        out.append(p)
+    return out
+
+
+def licenseplates():
+    """US-format plates using BeamNG's shared 'licenseplate' mesh (vehicles/common/empty.dae)."""
+    from tools.model.s13_details import R_PLATE, PLATE_F
+    out = []
+    p = Part(f"{PFX}_licenseplate_F", "Front License Plate", f"{PFX}_licenseplate_F", value=0)
+    p.flexbody("licenseplate", [f"{PFX}_bumper_F"], pos={"x": PLATE_F["x"], "y": -2.262, "z": PLATE_F["z"]},
+               rot={"x": 0, "y": 0, "z": 0}, scale={"x": 1, "y": 1, "z": 1})
+    out.append(p)
+    p = Part(f"{PFX}_licenseplate_R", "Rear License Plate", f"{PFX}_licenseplate_R", value=0)
+    p.flexbody("licenseplate", [f"{PFX}_bumper_R"], pos={"x": 0.0, "y": R_PLATE["wall_y"] + 0.006, "z": R_PLATE["cz"]},
+               rot={"x": 0, "y": 0, "z": 180}, scale={"x": 1, "y": 1, "z": 1})
+    out.append(p)
+    return out
+
+
 def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats="s13_seats_cloth", mass_bias=1.0,
-                   kind="stock", wheel=None):
+                   kind="stock", wheel=None, rear="s13_rearseat"):
     """Dash, seats, trim.  kind: stock | stripped (stock dash, buckets, no trim) | race (carbon dash, race tach,
     single race seat, extinguisher).  Props use the 'left/down' node frame convention:
     idX = node displaced +x (left) of idRef, idY = node displaced -z (down) -> baseRotation 0 = modelled pose."""
@@ -311,12 +340,16 @@ def interior_stock(key="stock", title="Stock Interior (Cloth)", value=800, seats
         p.flexbody(f"{PFX}_console", [f"{PFX}_body"])
         p.flexbody(seats, [f"{PFX}_body"])
         p.flexbody(f"{PFX}_pedals_static", [f"{PFX}_body"])
+        p.flexbody(f"{PFX}_mirror_int", [f"{PFX}_body"])
+        p.set("mirrors", [["mesh", "idRef:", "id1:", "id2:"],
+                          [f"{PFX}_mirror_int", "rf1", "rf1l", "fp3", {"refBaseTranslation": {"x": 0.0, "y": -0.02, "z": -0.10}}]])
+        p.flexbody(f"{PFX}_cabin_trim", [f"{PFX}_body"])
         if kind == "stock":
             p.flexbody(f"{PFX}_carpet", [f"{PFX}_body"])
             p.flexbody(f"{PFX}_headliner", [f"{PFX}_body"])
             p.flexbody(f"{PFX}_doorcard_L", [f"{PFX}_door_L"])
             p.flexbody(f"{PFX}_doorcard_R", [f"{PFX}_door_R"])
-            p.flexbody(f"{PFX}_rearseat", [f"{PFX}_body"])
+            p.flexbody(rear, [f"{PFX}_body"])
     seat_scale = {"stock": 1.0, "stripped": 0.45, "race": 0.0}[kind]
     # dash nodes
     cx, cy, cz = D.STEER_CENTER
@@ -433,6 +466,21 @@ def steering_wheels():
     return out
 
 
+def handbrakes():
+    """Handbrake slot: the hydraulic lever multiplies the rear parking-brake torque (see brake parts)."""
+    out = []
+    p = Part(f"{PFX}_handbrake_stock", "Stock Handbrake", f"{PFX}_handbrake", value=0)
+    p.variable("$handbrake_mult", "x", "Brakes", 1.0, 0.8, 1.2, "Handbrake Strength", "Rear parking-brake torque multiplier",
+               stepDis=0.05)
+    out.append(p)
+    p = Part(f"{PFX}_handbrake_hydro", "Hydraulic Drift Handbrake", f"{PFX}_handbrake", value=450)
+    p.flexbody(f"{PFX}_handbrake_hydro", [f"{PFX}_body"])
+    p.variable("$handbrake_mult", "x", "Brakes", 2.6, 1.0, 4.0, "Hydraulic Handbrake Strength",
+               "Rear parking-brake torque multiplier", stepDis=0.1)
+    out.append(p)
+    return out
+
+
 def shifters():
     out = []
     for key, title, mesh, func in (("stock", "Stock Shifter", "s13_shifter_stock", "nop"),
@@ -457,17 +505,21 @@ def all_files():
                                     PJ.door("L"), PJ.door("R"), PJ.hatch(), PJ.bumper_front(), PJ.bumper_rear(),
                                     taillights()]
     files[f"{PFX}_interior.jbeam"] = ([interior_stock(),
+                                       interior_stock("leather", "Leather Interior (LE)", 1600, seats=f"{PFX}_seats_leather",
+                                                      rear=f"{PFX}_rearseat_leather"),
                                        interior_stock("stripped", "Stripped Interior (Bucket Seats)", 400,
                                                       seats=f"{PFX}_seats_bucket", kind="stripped", wheel=f"{PFX}_steering_wheel_deepdish"),
                                        interior_stock("race", "Race Interior (Carbon Dash, Single Seat)", 2600, kind="race")]
-                                      + steering_wheels() + shifters())
+                                      + steering_wheels() + shifters() + handbrakes())
     files[f"{PFX}_suspension.jbeam"] = C.suspension_parts()
     files[f"{PFX}_wheels.jbeam"] = C.wheel_parts()
     files[f"{PFX}_powertrain.jbeam"] = C.powertrain_parts()
-    files[f"{PFX}_misc.jbeam"] = [fueltank(), exhaust(),
+    files[f"{PFX}_misc.jbeam"] = licenseplates() + [fueltank(), exhaust(),
                                   exhaust("race", "Race Exhaust (3\" Straight Through)", 1400, muffling=0.12, gain=3,
                                           afterfire=1.0, mesh=f"{PFX}_exhaust_race"),
                                   radiator(), radiator("race", "Race Aluminium Radiator", 900, mesh=f"{PFX}_radiator")]
+    files[f"{PFX}_panels.jbeam"] += PJ.mirrors() + [PJ.spoiler_oem()]
+    files[f"{PFX}_skins.jbeam"] = skins()
     files[f"{PFX}_race.jbeam"] = RACE.race_parts(body_common)
     return files
 

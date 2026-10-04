@@ -212,6 +212,16 @@ def race_tach(out_dir, prefix="s13", n=1024):
     save(im, os.path.join(out_dir, f"{prefix}_racetach_b.color.png"))
 
 
+def ivtec_plaque(out_dir, W=1024, H=512):
+    im = Image.new("RGB", (W, H), (150, 150, 152))
+    d = ImageDraw.Draw(im)
+    d.rectangle([6, 6, W - 6, H - 6], outline=(70, 70, 72), width=10)
+    d.rectangle([30, 30, W - 30, H - 30], fill=(190, 190, 192))
+    d.text((W / 2 - 130, H / 2), "i-", font=font("free_bold_obl", 230), fill=(170, 10, 15), anchor="mm")
+    d.text((W / 2 + 90, H / 2), "VTEC", font=font("free_bold_obl", 230), fill=(170, 10, 15), anchor="mm")
+    save(im, os.path.join(out_dir, "s1x_ivtec_b.color.png"))
+
+
 def brushed_normal(out_dir, n=512):
     rng = np.random.default_rng(51)
     rows = rng.random((n, 1)) * 0.6 + tileable_noise(n, 2, 2, seed=52)[:, :1] * 0.4
@@ -466,6 +476,9 @@ GENERATORS = {
     "hvac_s13": lambda m: hvac(os.path.join(m, "vehicles/s13_240sx/textures"), "s13"),
     "racetach_s13": lambda m: race_tach(os.path.join(m, "vehicles/s13_240sx/textures"), "s13"),
     "brushed": lambda m: brushed_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
+    "ivtec": lambda m: ivtec_plaque(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
+    "liveries_s13": lambda m: __import__("tools.textures.liveries", fromlist=["generate"]).generate(
+        os.path.join(m, "vehicles/s13_240sx/textures")),
     "cast": lambda m: cast_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "crinkle": lambda m: crinkle_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),
     "rotor": lambda m: rotor_normal(os.path.join(m, "vehicles/common/s1x_240sx/textures")),

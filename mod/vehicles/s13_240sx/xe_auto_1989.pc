@@ -9,6 +9,7 @@
     "s13_transmission": "s13_transmission_4a",
     "s13_flywheel": "s13_flywheel_stock",
     "s13_shifter": "s13_shifter_auto",
+    "paint_design": "s13_skin_twotone",
     "s13_spring_F": "s13_spring_F_stock",
     "s13_spring_R": "s13_spring_R_stock",
     "s13_swaybar_F": "s13_swaybar_F_stock",

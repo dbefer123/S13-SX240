@@ -369,11 +369,13 @@ def seats(name="s13_seats_cloth", cloth=M_CLOTH):
     return mb
 
 
-def rearseat():
-    mb = MeshBuilder("s13_rearseat")
-    mb.rbox((0.0, 0.86, 0.36), (1.10, 0.38, 0.12), 0.04, M_CLOTH)
+def rearseat(name="s13_rearseat", cloth=M_CLOTH):
+    mb = MeshBuilder(name)
+    mb.rbox((0.0, 0.86, 0.36), (1.10, 0.38, 0.12), 0.04, cloth)
     rot = Matrix.Rotation(math.radians(-30), 3, "X")
-    mb.rbox((0.0, 1.05, 0.62), (1.10, 0.10, 0.48), 0.04, M_CLOTH, rot=rot)
+    mb.rbox((0.0, 1.05, 0.62), (1.10, 0.10, 0.48), 0.04, cloth, rot=rot)
+    for s in (1, -1):                                   # seat bolsters
+        mb.rbox((s * 0.40, 0.86, 0.40), (0.22, 0.36, 0.10), 0.04, cloth)
     return mb
 
 
@@ -419,6 +421,19 @@ def shifters():
     return out
 
 
+def handbrakes():
+    out = []
+    mb = MeshBuilder("s13_handbrake_hydro")
+    base = Vector((0.115, 0.02, 0.45))
+    mb.rbox(tuple(base), (0.05, 0.08, 0.06), 0.01, "s1x_aluminium")
+    mb.tube([tuple(base + Vector((0, 0, 0.02))), tuple(base + Vector((0, -0.06, 0.28)))], 0.010, "s1x_aluminium_polished", segs=10)
+    mb.rbox(tuple(base + Vector((0, -0.065, 0.30))), (0.035, 0.035, 0.07), 0.012, "s1x_fire_red")
+    mb.cylinder(tuple(base + Vector((-0.03, 0.03, 0.0))), tuple(base + Vector((-0.03, 0.03, 0.05))), 0.012, "s1x_metal_black", segs=10)
+    out.append(mb)
+    return out
+
+
 def interior_all():
-    return [dash(), gauges(), console(), carpet(), headliner(), seats(), rearseat(), *doorcards(), *needles(), *pedals(),
-            *shifters()]
+    return [dash(), gauges(), console(), carpet(), headliner(), seats(), seats("s13_seats_leather", "s13_seat_leather"),
+            rearseat(), rearseat("s13_rearseat_leather", "s13_seat_leather"), *doorcards(), *needles(), *pedals(),
+            *shifters(), *handbrakes()]

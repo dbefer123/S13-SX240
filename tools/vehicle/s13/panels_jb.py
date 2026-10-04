@@ -308,6 +308,7 @@ def door(side="L", mesh="s13_door", glass="s13_doorglass", title="Stock Door", v
     s = 1 if side == "L" else -1
     sl = side.lower()
     p = Part(name or f"s13_door_{side}", f"{title} ({'Left' if s > 0 else 'Right'})", f"s13_door_{side}", value=value)
+    p.slot(f"s13_mirror_{side}", f"s13_mirror_{side}", "Side Mirror")
     grp = f"s13_door_{side}"
     p.flexbody(f"{mesh}_{side}", [grp])
     p.flex_props(deformGroup=f"doorglass_{side}_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
@@ -379,6 +380,7 @@ def door(side="L", mesh="s13_door", glass="s13_doorglass", title="Stock Door", v
 # --------------------------------------------------------------------------
 def hatch(name="s13_hatch", mesh="s13_hatch", glass="s13_hatchglass", title="Stock Hatch", value=480, mass=21.0):
     p = Part(name, title, "s13_hatch", value=value)
+    p.slot("s13_spoiler", "", "Hatch Spoiler")
     grp = "s13_hatch"
     p.flexbody(mesh, [grp])
     p.flex_props(deformGroup="hatchglass_break", deformMaterialBase="s13_glass", deformMaterialDamaged="s13_glass_dmg")
@@ -454,6 +456,7 @@ def hatch(name="s13_hatch", mesh="s13_hatch", glass="s13_hatchglass", title="Sto
 # --------------------------------------------------------------------------
 def bumper_front(name="s13_bumper_F", mesh="s13_bumper_F", title="Stock Front Bumper", value=320, mass=10.0):
     p = Part(name, title, "s13_bumper_F", value=value)
+    p.slot("s13_licenseplate_F", "", "Front License Plate")
     grp = "s13_bumper_F"
     p.flexbody(mesh, [grp])
     p.nodes_props(group=grp, **PANEL_NODE)
@@ -502,6 +505,7 @@ def bumper_front(name="s13_bumper_F", mesh="s13_bumper_F", title="Stock Front Bu
 
 def bumper_rear(name="s13_bumper_R", mesh="s13_bumper_R", title="Stock Rear Bumper", value=280, mass=8.5):
     p = Part(name, title, "s13_bumper_R", value=value)
+    p.slot("s13_licenseplate_R", "s13_licenseplate_R", "Rear License Plate")
     grp = "s13_bumper_R"
     p.flexbody(mesh, [grp])
     p.nodes_props(group=grp, **PANEL_NODE)
@@ -545,4 +549,60 @@ def bumper_rear(name="s13_bumper_R", mesh="s13_bumper_R", title="Stock Rear Bump
     p.tris_props(dragCoef=12, groundModel="plastic", triangleType="NORMALTYPE")
     for i in range(len(top) - 1):
         p.quad(top[i + 1], top[i], bot[i], bot[i + 1])
+    return p
+
+
+# --------------------------------------------------------------------------
+# side mirrors (door mounted, breakable, working mirror cameras)
+# --------------------------------------------------------------------------
+MIRROR = dict(base=(-0.585, 0.885), head=(-0.540, 0.950), out=0.105)   # (y, z) and outward reach (m)
+
+
+def mirror(side="L", kind="oem"):
+    s = 1 if side == "L" else -1
+    sl = side.lower()
+    title = {"oem": "Stock Side Mirror", "aero": "Aero Racing Mirror"}[kind]
+    p = Part(f"s13_mirror_{side}" if kind == "oem" else f"s13_mirror_{kind}_{side}",
+             f"{title} ({'Left' if s > 0 else 'Right'})", f"s13_mirror_{side}", value=60 if kind == "oem" else 240)
+    mesh = f"s13_mirror_{side}" if kind == "oem" else f"s13_mirror_{kind}_{side}"
+    p.flexbody(mesh, [f"s13_mirror_{side}"])
+    yb, zb = MIRROR["base"]
+    yh, zh = MIRROR["head"]
+    xb = side_x(SPEC, yb, zb) - 0.01
+    p.nodes_props(group=f"s13_mirror_{side}", selfCollision=False, collision=True, nodeMaterial="|NM_PLASTIC",
+                  frictionCoef=0.5)
+    p.node("mi1" + sl, s * xb, yb, zb, nodeWeight=0.35)
+    p.node("mi2" + sl, s * xb, yb + 0.06, zb - 0.02, nodeWeight=0.35)
+    p.node("mi3" + sl, s * (xb + 0.03), yh, zh, nodeWeight=0.35)
+    p.node("mi4" + sl, s * (xb + MIRROR["out"]), yh, zh, nodeWeight=0.35)
+    p.nodes_props(group="")
+    n = lambda k: k + sl  # noqa: E731
+    _std_beams(p, 301000, 20, 4000)
+    for a, b in (("mi1", "mi2"), ("mi1", "mi3"), ("mi2", "mi3"), ("mi3", "mi4"), ("mi1", "mi4"), ("mi2", "mi4")):
+        p.beam(n(a), n(b))
+    p.beams_props(beamSpring=401000, beamDamp=25, beamDeform=3000, beamStrength=3500, breakGroup=f"mirror_{side}")
+    for a, bs in (("mi1", ("dr3", "dr2", "dr10")), ("mi2", ("dr3", "dr2", "dr5")), ("mi3", ("dr3", "dr10"))):
+        for b in bs:
+            p.beam(n(a), n(b))
+    p.beams_props(breakGroup="")
+    _reset_beams(p)
+    p.set("mirrors", [["mesh", "idRef:", "id1:", "id2:"],
+                      [mesh, n("mi4"), n("mi3"), n("mi1"),
+                       {"refBaseTranslation": {"x": s * -0.05, "y": 0.02, "z": 0.0},
+                        "baseRotationGlobal": {"x": 0, "y": 0, "z": -10 * s}}]])
+    return p
+
+
+def mirrors():
+    return [mirror(sd, k) for k in ("oem", "aero") for sd in ("L", "R")]
+
+
+def spoiler_oem():
+    p = Part("s13_spoiler_oem", "OEM Rear Spoiler with Brake Light", "s13_spoiler", value=320)
+    p.flexbody("s13_spoiler_oem", ["s13_hatch"])
+    p.props_props(lightInnerAngle=40, lightOuterAngle=100, lightColor={"r": 255, "g": 20, "b": 10, "a": 255},
+                  flareName="vehicleBrakeLightFlare", lightCastShadows=False)
+    p.prop("brakelights", "POINTLIGHT", "ht4", "ht4l", "ht3", {"x": 0, "y": 0, "z": 0}, {"x": 0, "y": 0, "z": 0},
+           {"x": 0, "y": 0, "z": 0}, 0, 0, 0, 1, baseTranslationGlobal={"x": 0.0, "y": 2.24, "z": 0.995},
+           lightRange=4, lightIntensityLm=180, flareScale=0.02)
     return p

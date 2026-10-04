@@ -21,7 +21,8 @@
     "s13_wheel_F": "s13_wheel_F_oem15_se",
     "s13_tire_F_15": "s13_tire_F_205_60_15_allseason",
     "s13_wheel_R": "s13_wheel_R_oem15_se",
-    "s13_tire_R_15": "s13_tire_R_205_60_15_allseason"
+    "s13_tire_R_15": "s13_tire_R_205_60_15_allseason",
+    "s13_spoiler": "s13_spoiler_oem"
   },
   "vars": {},
   "mainPartName": "s13_240sx"

@@ -682,6 +682,141 @@
     "materialTag1": "vehicle",
     "version": 1.5
   },
+  "s1x_engine_cover_black": {
+    "name": "s1x_engine_cover_black",
+    "mapTo": "s1x_engine_cover_black",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.02,
+          0.02,
+          0.022,
+          1
+        ],
+        "roughnessFactor": 0.6,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 0.1,
+        "clearCoatRoughnessFactor": 0.03,
+        "detailNormalMap": "/vehicles/common/s1x_240sx/textures/s1x_crinkle_nm.normal.png",
+        "detailNormalMapStrength": 1.0,
+        "detailScale": [
+          40,
+          40
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s1x_k20_coilcover": {
+    "name": "s1x_k20_coilcover",
+    "mapTo": "s1x_k20_coilcover",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.62,
+          0.62,
+          0.63,
+          1
+        ],
+        "roughnessFactor": 0.38,
+        "metallicFactor": 1.0,
+        "clearCoatFactor": 0.3,
+        "clearCoatRoughnessFactor": 0.03,
+        "detailNormalMap": "/vehicles/common/s1x_240sx/textures/s1x_cast_nm.normal.png",
+        "detailNormalMapStrength": 0.25,
+        "detailScale": [
+          16,
+          16
+        ],
+        "normalDetailMapUseUV": 1
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s1x_k20_plaque": {
+    "name": "s1x_k20_plaque",
+    "mapTo": "s1x_k20_plaque",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorMap": "/vehicles/common/s1x_240sx/textures/s1x_ivtec_b.color.png",
+        "roughnessFactor": 0.25,
+        "metallicFactor": 0.6
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s1x_oilfilter": {
+    "name": "s1x_oilfilter",
+    "mapTo": "s1x_oilfilter",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.03,
+          0.05,
+          0.25,
+          1
+        ],
+        "roughnessFactor": 0.4,
+        "metallicFactor": 0.0,
+        "clearCoatFactor": 0.6,
+        "clearCoatRoughnessFactor": 0.03
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
+  "s1x_injector_blue": {
+    "name": "s1x_injector_blue",
+    "mapTo": "s1x_injector_blue",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [
+          0.05,
+          0.15,
+          0.55,
+          1
+        ],
+        "roughnessFactor": 0.4,
+        "metallicFactor": 0.0
+      },
+      {},
+      {},
+      {}
+    ],
+    "dynamicCubemap": true,
+    "materialTag0": "beamng",
+    "materialTag1": "vehicle",
+    "version": 1.5
+  },
   "s1x_k20_manifold": {
     "name": "s1x_k20_manifold",
     "mapTo": "s1x_k20_manifold",

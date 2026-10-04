@@ -18,7 +18,8 @@ Y_FRONT = -2.250
 Y_REAR = 2.255
 
 # plan-view maximum half width (normalised top view)
-W_MAX = [(-2.250, 0.40), (-2.235, 0.52), (-2.20, 0.600), (-2.15, 0.640), (-2.11, 0.662), (-2.023, 0.698),
+W_MAX = [(-2.250, 0.10), (-2.2485, 0.20), (-2.245, 0.30), (-2.237, 0.40), (-2.218, 0.50), (-2.188, 0.565), (-2.15, 0.615),
+         (-2.11, 0.650), (-2.065, 0.676), (-2.023, 0.698),
          (-1.935, 0.730), (-1.848, 0.759), (-1.76, 0.786), (-1.673, 0.812), (-1.585, 0.828), (-1.498, 0.838),
          (-1.41, 0.844), (-1.2, 0.845), (1.0, 0.845), (1.30, 0.839), (1.476, 0.832), (1.651, 0.822),
          (1.826, 0.808), (2.001, 0.786), (2.088, 0.772), (2.176, 0.730), (2.225, 0.665), (2.255, 0.58)]
@@ -72,4 +73,4 @@ def hatch_spec() -> BodySpec:
     g = {k: Guide(v) for k, v in dict(
         w_max=W_MAX, z_top=Z_TOP, z_bot=Z_BOT, z_sill=Z_SILL, w_sill_k=W_SILL_K, z_sh=Z_SH,
         z_belt=Z_BELT, w_belt=W_BELT, z_rail=Z_RAIL, w_rail=W_RAIL, lean=LEAN, r_top=R_TOP).items()}
-    return BodySpec("s13_hatch", Y_FRONT, Y_REAR, g, GH_START, GH_END)
+    return BodySpec("s13_hatch", Y_FRONT, Y_REAR, g, GH_START, GH_END, cap_front=0.004)

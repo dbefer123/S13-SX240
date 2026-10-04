@@ -34,6 +34,8 @@ from .dae import DaeIndex
 COMMON = "vehicles/common/s1x_240sx"
 OMEGA_DT_LIMIT = 1.80
 COVER_DIST = 0.35
+VANILLA_MESHES = {"licenseplate", "licenseplate-52-11", "licenseplate-52-11-r2", "licenseplate-52-11-r1"}
+VANILLA_MATERIALS = {"mirror", "invis"}
 
 
 def node_groups(n):
@@ -192,6 +194,8 @@ def check_config(mod, veh, cfg_name, cfg, dae, mats, physics=True, verbose=False
             m = r.get(k)
             if m and r.get("deformGroup") and m not in mats:
                 rep.err(f"{r['__part']}: flexbody {mesh} {k} {m!r} not defined")
+        if mesh in VANILLA_MESHES:
+            continue
         if mesh not in dae.meshes:
             rep.err(f"{r['__part']}: flexbody mesh {mesh!r} not found in any DAE")
             continue
@@ -223,7 +227,7 @@ def check_config(mod, veh, cfg_name, cfg, dae, mats, physics=True, verbose=False
         if not info:
             continue
         for m in info["materials"]:
-            if m in glow_keys:
+            if m in glow_keys or m in VANILLA_MATERIALS:
                 continue
             if m not in mats:
                 rep.err(f"mesh {mesh}: material {m!r} not defined (and not a glowMap key)")

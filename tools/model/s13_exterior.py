@@ -115,10 +115,15 @@ def build_hatch_exterior(solid=True):
     skin.data.name = "s13_body_hatch"
     out["s13_body_hatch"] = skin
 
+    from . import s13_details as DET
+    DET.pre_solidify(out)
     for name, ob in out.items():
         P.remove_small_islands(ob, 3)
         if solid:
             thick = 0.004 if "glass" in name or "windshield" in name else 0.0022
             P.solidify(ob, thick)
         P.shade(ob, 40)
+    if solid:
+        DET.post_solidify(out)
+        DET.interior_faces(out)
     return out

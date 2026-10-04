@@ -52,6 +52,14 @@ def assemble(mod, veh, config, blend, paint=None, hide_props=False):
     shown = []
 
     def place(name, M=None, loc=None):
+        if name == "licenseplate" and name not in lib:      # vanilla mesh: preview stand-in (30 x 15 cm plate)
+            me = bpy.data.meshes.new("licenseplate")
+            me.from_pydata([(-0.152, 0, -0.076), (0.152, 0, -0.076), (0.152, 0, 0.076), (-0.152, 0, 0.076)], [], [(0, 1, 2, 3)])
+            ob = bpy.data.objects.new("licenseplate", me)
+            m = bpy.data.materials.new("__plate"); m.use_nodes = True
+            m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.85, 0.85, 0.8, 1)
+            me.materials.append(m)
+            lib[name] = ob
         src = lib.get(name)
         if src is None:
             print("assemble: missing mesh", name)
@@ -97,10 +105,17 @@ def assemble(mod, veh, config, blend, paint=None, hide_props=False):
             M = Matrix.Translation(loc) @ (F @ B).to_4x4()
             place(mesh, M)
 
-    # paint
-    paints = config.get("paints") or ([paint] if paint else None)
+    # paint (+ palette livery preview: paint slots mixed by the palette's RGB channels on UV1)
+    skin = res.dicts.get("__globals", {}).get("globalSkin")
+    if isinstance(paint, list):
+        paints = paint
+    else:
+        paints = config.get("paints") or ([paint] if paint else None)
+    if skin and paints:
+        _livery_preview(skin, paints, mod)
+        return res, shown
     if paints:
-        p = paints[0]
+        p = paints[0] if isinstance(paints, list) else paints
         rgba = p.get("baseColor", [0.5, 0.05, 0.05, 1]) if isinstance(p, dict) else p
         for mname in ("s13_paint", "s13_enginebay_paint", "s14_paint", "s14_enginebay_paint"):
             m = bpy.data.materials.get(mname)
@@ -111,3 +126,42 @@ def assemble(mod, veh, config, blend, paint=None, hide_props=False):
                     b.inputs["Metallic"].default_value = float(p.get("metallic", 0.2))
                     b.inputs["Roughness"].default_value = float(p.get("roughness", 0.25))
     return res, shown
+
+
+def _livery_preview(skin, paints, mod):
+    """Replace the s13 paint preview with palette * paint colours (UV1)."""
+    path = os.path.join(mod, "vehicles", "s13_240sx", "textures", f"s13_livery_{skin}.color.png")
+    m = bpy.data.materials.get("s13_paint")
+    if m is None or not os.path.exists(path):
+        return
+    cols = []
+    for k in range(3):
+        p = paints[min(k, len(paints) - 1)]
+        c = p.get("baseColor", [0.5, 0.5, 0.5]) if isinstance(p, dict) else p
+        cols.append((*c[:3], 1.0))
+    nt = m.node_tree
+    bsdf = nt.nodes.get("Principled BSDF")
+    uv = nt.nodes.new("ShaderNodeUVMap"); uv.uv_map = "UVMap1"
+    img = nt.nodes.new("ShaderNodeTexImage"); img.image = bpy.data.images.load(path, check_existing=True)
+    img.image.colorspace_settings.name = "Non-Color"
+    nt.links.new(uv.outputs["UV"], img.inputs["Vector"])
+    sep = nt.nodes.new("ShaderNodeSeparateColor")
+    nt.links.new(img.outputs["Color"], sep.inputs["Color"])
+    acc = None
+    for k, ch in enumerate(("Red", "Green", "Blue")):
+        mul = nt.nodes.new("ShaderNodeMix"); mul.data_type = "RGBA"; mul.blend_type = "MULTIPLY"
+        mul.inputs["Factor"].default_value = 1.0
+        mul.inputs[6].default_value = (1, 1, 1, 1)
+        mul.inputs[7].default_value = cols[k]
+        val = nt.nodes.new("ShaderNodeCombineColor")
+        for c in ("Red", "Green", "Blue"):
+            nt.links.new(sep.outputs[ch], val.inputs[c])
+        nt.links.new(val.outputs["Color"], mul.inputs[6])
+        if acc is None:
+            acc = mul
+        else:
+            add = nt.nodes.new("ShaderNodeMix"); add.data_type = "RGBA"; add.blend_type = "ADD"
+            add.inputs["Factor"].default_value = 1.0
+            nt.links.new(acc.outputs[2], add.inputs[6]); nt.links.new(mul.outputs[2], add.inputs[7])
+            acc = add
+    nt.links.new(acc.outputs[2], bsdf.inputs["Base Color"])

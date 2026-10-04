@@ -26,6 +26,8 @@
     "s13_electronics": "s13_electronics_track",
     "s13_steering_wheel": "s13_steering_wheel_race",
     "s13_fueltank": "s13_fueltank_racecell",
+    "paint_design": "s13_skin_stripes",
+    "s13_handbrake": "s13_handbrake_hydro",
     "s13_spring_F": "s13_spring_F_drift",
     "s13_spring_R": "s13_spring_R_drift",
     "s13_swaybar_F": "s13_swaybar_F_race",

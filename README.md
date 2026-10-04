@@ -24,7 +24,7 @@ JBeam generator and an offline validator).
 | 0–1 | Toolchain, JBeam library, validator, S13 hatch body shape | done |
 | 2 | Drivable S13 hatch: unibody, MacPherson/multilink suspension, steering, KA24E/KA24DE/SR20DET/K20A, 4AT/5MT/6MT/sequential, LSD options, wheels/tires/brakes, pop-up lights, gauges, interior, 15 configs | **done (first release)** |
 | 3 | K20 race builds: tube chassis, roll cages, high- and low-downforce aero, drag gear (wheelie bar, parachute, transbrake, two-step, line lock), race interior, 6 race configs | **done** |
-| 4 | Full S13 catalogue: body kits, aero bumpers, detailed exterior/interior, liveries | next |
+| 4 | Full S13 catalogue: exterior detail (lamps, grilles, rub strips, badges, mirrors, wipers, plates), body kits, liveries, engine detail, interior trim, leather, hydraulic handbrake | **done** |
 | 5 | S13 coupe and convertible | planned |
 | 6 | S14 zenki / kouki | planned |
 | 7 | Final polish, thumbnails, stats | planned |
@@ -100,6 +100,14 @@ an aluminium floor and tubs, and the visible tube-frame mesh is generated from t
   - Vented FRP or carbon hood, carbon hatch with polycarbonate window, FRP doors with polycarbonate windows.
   - Wide-body front fenders (+50 mm), rear over-fenders, lightweight bumpers.
   - Pop-up delete with LED projectors.
+- **Body kits:**
+  - Front bumpers: stock, aero (lip spoiler), Type-X style drift (big intake, carbon lip), smooth drag, race (big intercooler opening).
+  - Rear bumpers: stock, aero valance, race diffuser cut-out.
+  - Also: side skirts, OEM hatch spoiler with a working third brake light, stock or aero side mirrors (working mirror cameras).
+- **Liveries (Paint Design):** Factory Two-Tone, Twin Racing Stripes, IMSA GTO Tribute, Tractive Racing track livery, Drift Two-Tone.
+  All are fully colourable: paint slots 1–3 recolour the livery colours.
+- **Interior:** cloth (stock) or leather (LE) seats. **Handbrake:** stock, or a hydraulic drift handbrake with a strength slider.
+- **License plates:** game-generated US plates (rear plate in a bumper recess; a front plate slot on the bumper).
 - **Fuel:** stock 60 L tank, 40 L race cell, 10 L drag cell. **Exhaust:** stock or 3" race straight-through. **Radiator:** stock or race aluminium.
 
 ## In-game checklist (please report results)

@@ -14,7 +14,7 @@
   "defaultPaintName1": "Crystal White",
   "defaultPaintName2": "Super Red",
   "defaultPaintName3": "Grand Prix Blue",
-  "Weight": 954,
+  "Weight": 957,
   "Power": 638,
   "Torque": 556,
   "PowerPeakRPM": "8800",
@@ -25,6 +25,6 @@
   "0-60 mph": 4.4,
   "0-100 km/h": 4.6,
   "0-100 mph": 7.1,
-  "0-200 km/h": 8.9,
+  "0-200 km/h": 9.0,
   "Transmission": "Sequential"
 }

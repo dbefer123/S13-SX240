@@ -15,6 +15,7 @@
     "s13_electronics": "s13_electronics_track",
     "s13_fueltank": "s13_fueltank_racecell",
     "s13_canards": "s13_canards_race",
+    "paint_design": "s13_skin_track",
     "s13_spring_F": "s13_spring_F_track",
     "s13_spring_R": "s13_spring_R_track",
     "s13_swaybar_F": "s13_swaybar_F_race",
